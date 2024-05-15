@@ -1,0 +1,85 @@
+# In file: /usr/local/apache2/conf/httpd.conf
+#   1:
+ServerName myserver.mydomain.com
+#  33:
+CoreDumpDirectory "/tmp"
+#  34:
+User nobody
+#  35:
+Group bertrandvano
+#  56:
+ServerName Coodeviis
+#  57:
+Listen 80
+#  58:
+<VirtualHost _default_:80>
+# In file: /usr/local/apache2/conf/testing/macros.conf
+#  22:
+<VirtualHost *:80>
+  #  23:
+  ServerName vm
+# In file: macro 'orderaddenvm2' (defined on line 14 of "/usr/local/apache2/conf/testing/macros.conf") used on line 24 of "/usr/local/apache2/conf/testing/macros.conf"
+  #   1:
+  <Location />
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 1 of "macro 'orderaddenvm1' (defined on line 11 of "/usr/local/apache2/conf/testing/macros.conf") used on line 2 of "macro 'orderaddenvm2' (defined on line 14 of "/usr/local/apache2/conf/testing/macros.conf") used on line 24 of "/usr/local/apache2/conf/testing/macros.conf"""
+    #   1:
+    SetEnv vhost-loc
+# In file: macro 'orderaddenvm2' (defined on line 14 of "/usr/local/apache2/conf/testing/macros.conf") used on line 24 of "/usr/local/apache2/conf/testing/macros.conf"
+  </Location>
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 1 of "macro 'orderaddenvm1' (defined on line 11 of "/usr/local/apache2/conf/testing/macros.conf") used on line 4 of "macro 'orderaddenvm2' (defined on line 14 of "/usr/local/apache2/conf/testing/macros.conf") used on line 24 of "/usr/local/apache2/conf/testing/macros.conf"""
+  #   1:
+  SetEnv vhost
+# In file: /usr/local/apache2/conf/testing/macros.conf
+</VirtualHost>
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 1 of "macro 'orderaddenvm1' (defined on line 11 of "/usr/local/apache2/conf/testing/macros.conf") used on line 26 of "/usr/local/apache2/conf/testing/macros.conf""
+#   1:
+SetEnv global
+# In file: /usr/local/apache2/conf/testing/order1.conf
+#   8:
+<VirtualHost *:80>
+  #   9:
+  ServerName v1
+  #  10:
+  <Location />
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 11 of "/usr/local/apache2/conf/testing/order1.conf"
+    #   1:
+    SetEnv vhost-loc1
+# In file: /usr/local/apache2/conf/testing/order1.conf
+  </Location>
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 13 of "/usr/local/apache2/conf/testing/order1.conf"
+  #   1:
+  SetEnv vhost-1
+# In file: /usr/local/apache2/conf/testing/order1.conf
+  #  14:
+  <Location />
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 15 of "/usr/local/apache2/conf/testing/order1.conf"
+    #   1:
+    SetEnv vhost-loc2
+# In file: /usr/local/apache2/conf/testing/order1.conf
+  </Location>
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 17 of "/usr/local/apache2/conf/testing/order1.conf"
+  #   1:
+  SetEnv vhost-2
+# In file: /usr/local/apache2/conf/testing/order1.conf
+</VirtualHost>
+#  20:
+<Location />
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 21 of "/usr/local/apache2/conf/testing/order1.conf"
+  #   1:
+  SetEnv loc1
+# In file: /usr/local/apache2/conf/testing/order1.conf
+</Location>
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 23 of "/usr/local/apache2/conf/testing/order1.conf"
+#   1:
+SetEnv global-1
+# In file: /usr/local/apache2/conf/testing/order1.conf
+#  24:
+<Location />
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 25 of "/usr/local/apache2/conf/testing/order1.conf"
+  #   1:
+  SetEnv loc2
+# In file: /usr/local/apache2/conf/testing/order1.conf
+</Location>
+# In file: macro 'orderaddenv' (defined on line 8 of "/usr/local/apache2/conf/testing/macros.conf") used on line 27 of "/usr/local/apache2/conf/testing/order1.conf"
+#   1:
+SetEnv global-2
