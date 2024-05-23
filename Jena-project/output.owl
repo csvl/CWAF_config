@@ -1,0 +1,24 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://visualdataweb.org/ontCWAF/"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <j.0:Configuration>
+    <j.0:containsFiles>
+      <rdf:Bag>
+        <rdf:li>
+          <j.0:File>
+            <j.0:filepath>file1.txt</j.0:filepath>
+          </j.0:File>
+        </rdf:li>
+        <rdf:li>
+          <j.0:File>
+            <j.0:filepath>file2.txt</j.0:filepath>
+          </j.0:File>
+        </rdf:li>
+      </rdf:Bag>
+    </j.0:containsFiles>
+    <j.0:configName>first conf</j.0:configName>
+  </j.0:Configuration>
+</rdf:RDF>

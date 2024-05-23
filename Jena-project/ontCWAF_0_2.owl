@@ -1,0 +1,301 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
+    xmlns="http://visualdataweb.org/ontCWAF/"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:wot="http://xmlns.com/wot/0.1/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Ontology rdf:about="http://visualdataweb.org/ontCWAF/">
+    <owl:versionInfo xml:lang="en">0.2</owl:versionInfo>
+    <dc:description xml:lang="en">New ontology description</dc:description>
+    <dc:title xml:lang="en">ontCWAF</dc:title>
+  </owl:Ontology>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Macro">
+    <rdfs:label xml:lang="en">Macro</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Macro</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Directive"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/secondOperand">
+    <rdfs:label xml:lang="en">secondOperand</rdfs:label>
+    <rdfs:label xml:lang="iri-based">secondOperand</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Rule">
+    <rdfs:label xml:lang="en">Rule</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Rule</rdfs:label>
+    <owl:disjointWith rdf:resource="http://visualdataweb.org/ontCWAF/Macro"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Directive"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/File">
+    <rdfs:label xml:lang="en">File</rdfs:label>
+    <rdfs:label xml:lang="iri-based">File</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Location">
+    <rdfs:label xml:lang="en">Location</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Location</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/IfDefined">
+    <rdfs:label xml:lang="en">IfDefined</rdfs:label>
+    <rdfs:label xml:lang="iri-based">IfDefined</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Configuration">
+    <rdfs:label xml:lang="en">Configuration</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Configuration</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/greatherOperator">
+    <rdfs:label xml:lang="en">greatherOperator</rdfs:label>
+    <rdfs:label xml:lang="iri-based">greatherOperator</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Operator"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Condition">
+    <rdfs:label xml:lang="en">Condition</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Condition</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Define">
+    <rdfs:label xml:lang="en">Definition</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Define</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Directive"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Scope">
+    <rdfs:label xml:lang="en">Scope</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Scope</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/equals">
+    <rdfs:label xml:lang="en">equalsOperator</rdfs:label>
+    <rdfs:label xml:lang="iri-based">equals</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Operator"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Operator">
+    <rdfs:label xml:lang="en">Operator</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Operator</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/MetaData">
+    <rdfs:label xml:lang="en">RuleMetaData</rdfs:label>
+    <rdfs:label xml:lang="iri-based">MetaData</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Server">
+    <rdfs:label xml:lang="en">Server</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Server</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/VirtualHost">
+    <rdfs:label xml:lang="en">VirtualHost</rdfs:label>
+    <rdfs:label xml:lang="iri-based">VirtualHost</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Class44">
+    <rdfs:label xml:lang="en">Define</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Class44</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://visualdataweb.org/ontCWAF/Define"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/lessThanOperator">
+    <rdfs:label xml:lang="en">lessOperator</rdfs:label>
+    <rdfs:label xml:lang="iri-based">lessThanOperator</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://visualdataweb.org/ontCWAF/Operator"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/Directive">
+    <rdfs:label xml:lang="en">Directive</rdfs:label>
+    <rdfs:label xml:lang="iri-based">Directive</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/firstOperand">
+    <rdfs:label xml:lang="en">firstOperand</rdfs:label>
+    <rdfs:label xml:lang="iri-based">firstOperand</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://visualdataweb.org/ontCWAF/DefineStr">
+    <rdfs:label xml:lang="en">DefineStr</rdfs:label>
+    <rdfs:label xml:lang="iri-based">DefineStr</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://visualdataweb.org/ontCWAF/Define"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/first">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Condition"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/firstOperand"/>
+    <rdfs:label xml:lang="en">first</rdfs:label>
+    <rdfs:label xml:lang="iri-based">first</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/hasScope">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Directive"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Scope"/>
+    <rdfs:label xml:lang="en">hasScope</rdfs:label>
+    <rdfs:label xml:lang="iri-based">hasScope</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/hasVirtualHost">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Scope"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/VirtualHost"/>
+    <rdfs:label xml:lang="en">hasVirtualHost</rdfs:label>
+    <rdfs:label xml:lang="iri-based">hasVirtualHost</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/tbd">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Directive"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/IfDefined"/>
+    <rdfs:label xml:lang="en">tbd</rdfs:label>
+    <rdfs:label xml:lang="iri-based">tbd</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/hasServer">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Scope"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Server"/>
+    <rdfs:label xml:lang="en">hasServer</rdfs:label>
+    <rdfs:label xml:lang="iri-based">hasServer</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/containesDirectives">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Directive"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/File"/>
+    <rdfs:label xml:lang="en">containesDirectives</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/second">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Condition"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/secondOperand"/>
+    <rdfs:label xml:lang="en">second</rdfs:label>
+    <rdfs:label xml:lang="iri-based">second</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/hasMetadata">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Rule"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">hasMetadata</rdfs:label>
+    <rdfs:label xml:lang="iri-based">hasMetadata</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/containsFiles">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/File"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Configuration"/>
+    <rdfs:label xml:lang="en">containsFiles</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/has_globals">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Directive"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Define"/>
+    <rdfs:label xml:lang="en">hasGlobals</rdfs:label>
+    <rdfs:label xml:lang="iri-based">has_globals</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/hasCondition">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Scope"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Condition"/>
+    <rdfs:label xml:lang="en">hasCondition</rdfs:label>
+    <rdfs:label xml:lang="iri-based">hasCondition</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/operator">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Condition"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Operator"/>
+    <rdfs:label xml:lang="en">operator</rdfs:label>
+    <rdfs:label xml:lang="iri-based">operator</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/containsDirective">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Directive"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Macro"/>
+    <rdfs:label xml:lang="en">containsDirective</rdfs:label>
+    <rdfs:label xml:lang="iri-based">containsDirective</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://visualdataweb.org/ontCWAF/hasLocation">
+    <rdfs:range rdf:resource="http://visualdataweb.org/ontCWAF/Scope"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Location"/>
+    <rdfs:label xml:lang="en">hasLocation</rdfs:label>
+    <rdfs:label xml:lang="iri-based">hasLocation</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/metaDataId">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">metaDataId</rdfs:label>
+    <rdfs:label xml:lang="iri-based">metaDataId</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/phse">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">phase</rdfs:label>
+    <rdfs:label xml:lang="iri-based">phse</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/defineStrValue">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/DefineStr"/>
+    <rdfs:label xml:lang="en">defineStrValue</rdfs:label>
+    <rdfs:label xml:lang="iri-based">defineStrValue</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/ruleId">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">ruleId</rdfs:label>
+    <rdfs:label xml:lang="iri-based">ruleId</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/tag">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">tag</rdfs:label>
+    <rdfs:label xml:lang="iri-based">tag</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/lineNum">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Directive"/>
+    <rdfs:label xml:lang="en">lineNum</rdfs:label>
+    <rdfs:label xml:lang="iri-based">lineNum</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/listen">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Server"/>
+    <rdfs:label xml:lang="en">listen</rdfs:label>
+    <rdfs:label xml:lang="iri-based">listen</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/locationPath">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Location"/>
+    <rdfs:label xml:lang="en">locationPath</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/virtualHostPort">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/VirtualHost"/>
+    <rdfs:label xml:lang="en">virtualHostPort</rdfs:label>
+    <rdfs:label xml:lang="iri-based">virtualHostPort</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/macroName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Macro"/>
+    <rdfs:label xml:lang="en">macroName</rdfs:label>
+    <rdfs:label xml:lang="iri-based">macroName</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/defLineNUm">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Macro"/>
+    <rdfs:label xml:lang="en">defLineNum</rdfs:label>
+    <rdfs:label xml:lang="iri-based">defLineNUm</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/revisionNumber">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">revisionNumber</rdfs:label>
+    <rdfs:label xml:lang="iri-based">revisionNumber</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/configName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Configuration"/>
+    <rdfs:label xml:lang="en">configName</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/virtualHostName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/VirtualHost"/>
+    <rdfs:label xml:lang="en">virtualHostName</rdfs:label>
+    <rdfs:label xml:lang="iri-based">virtualHostName</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/message">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/MetaData"/>
+    <rdfs:label xml:lang="en">message</rdfs:label>
+    <rdfs:label xml:lang="iri-based">message</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/filepath">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/File"/>
+    <rdfs:label xml:lang="en">filepath</rdfs:label>
+    <rdfs:label xml:lang="iri-based">location</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://visualdataweb.org/ontCWAF/serverName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://visualdataweb.org/ontCWAF/Server"/>
+    <rdfs:label xml:lang="en">serverName</rdfs:label>
+    <rdfs:label xml:lang="iri-based">serverName</rdfs:label>
+  </owl:DatatypeProperty>
+</rdf:RDF>

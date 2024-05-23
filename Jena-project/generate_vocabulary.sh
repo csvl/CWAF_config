@@ -1,0 +1,1 @@
+schemagen -i $1 -o $2 --ontology --uppercase

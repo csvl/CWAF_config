@@ -1,0 +1,300 @@
+#################################################################
+###  Generated with the experimental alpha version of the TTL exporter of WebVOWL (version 1.1.7)  http://visualdataweb.de/webvowl/   ###
+#################################################################
+
+@prefix : 		<http://visualdataweb.org/ontCWAF/> .
+@prefix rdf: 		<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: 		<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: 		<http://www.w3.org/2002/07/owl#> .
+@prefix xsd: 		<http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: 		<http://purl.org/dc/elements/1.1/> .
+@prefix xml: 		<http://www.w3.org/XML/1998/namespace> .
+@prefix wot: 		<http://xmlns.com/wot/0.1/> .
+@prefix vs: 		<http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix foaf: 		<http://xmlns.com/foaf/0.1/> .
+@prefix : 		<http://visualdataweb.org/ontCWAF/> .
+@base 			<http://visualdataweb.org/ontCWAF/> .
+
+<http://visualdataweb.org/ontCWAF/> rdf:type owl:Ontology ;
+                                    dc:title "ontCWAF"@en; 
+                                    dc:description "New ontology description"@en; 
+                                    owl:versionInfo "0.2"@en . 
+#################################################################
+
+###  Property Definitions (Number of Property) 31 ###
+#  --------------------------- Property 0------------------------- 
+:configName rdf:type owl:DatatypeProperty ;
+            rdfs:label "configName"@en; 
+            rdfs:domain :Configuration;
+            rdfs:range xsd:string . 
+#  --------------------------- Property 1------------------------- 
+:defineStrValue rdf:type owl:DatatypeProperty ;
+                rdfs:label "defineStrValue"@IRI-based; 
+                rdfs:label "defineStrValue"@en; 
+                rdfs:domain :DefineStr;
+                rdfs:range xsd:string . 
+#  --------------------------- Property 2------------------------- 
+:hasLocation rdf:type owl:ObjectProperty ;
+             rdfs:label "hasLocation"@IRI-based; 
+             rdfs:label "hasLocation"@en; 
+             rdfs:domain :Location;
+             rdfs:range :Scope . 
+#  --------------------------- Property 3------------------------- 
+:serverName rdf:type owl:DatatypeProperty ;
+            rdfs:label "serverName"@IRI-based; 
+            rdfs:label "serverName"@en; 
+            rdfs:domain :Server;
+            rdfs:range xsd:string . 
+#  --------------------------- Property 4------------------------- 
+:filepath rdf:type owl:DatatypeProperty ;
+          rdfs:label "location"@IRI-based; 
+          rdfs:label "filepath"@en; 
+          rdfs:domain :File;
+          rdfs:range xsd:string . 
+#  --------------------------- Property 5------------------------- 
+:lineNum rdf:type owl:DatatypeProperty ;
+         rdfs:label "lineNum"@IRI-based; 
+         rdfs:label "lineNum"@en; 
+         rdfs:domain :Directive;
+         rdfs:range xsd:integer . 
+#  --------------------------- Property 6------------------------- 
+:containsDirective rdf:type owl:ObjectProperty ;
+                   rdfs:label "containsDirective"@IRI-based; 
+                   rdfs:label "containsDirective"@en; 
+                   rdfs:domain :Macro;
+                   rdfs:range :Directive . 
+#  --------------------------- Property 7------------------------- 
+:first rdf:type owl:ObjectProperty ;
+       rdfs:label "first"@IRI-based; 
+       rdfs:label "first"@en; 
+       rdfs:domain :firstOperand;
+       rdfs:range :Condition . 
+#  --------------------------- Property 8------------------------- 
+:virtualHostPort rdf:type owl:DatatypeProperty ;
+                 rdfs:label "virtualHostPort"@IRI-based; 
+                 rdfs:label "virtualHostPort"@en; 
+                 rdfs:domain :VirtualHost;
+                 rdfs:range xsd:integer . 
+#  --------------------------- Property 9------------------------- 
+:has_globals rdf:type owl:ObjectProperty ;
+             rdfs:label "has_globals"@IRI-based; 
+             rdfs:label "hasGlobals"@en; 
+             rdfs:domain :Define;
+             rdfs:range :Directive . 
+#  --------------------------- Property 10------------------------- 
+:operator rdf:type owl:ObjectProperty ;
+          rdfs:label "operator"@IRI-based; 
+          rdfs:label "operator"@en; 
+          rdfs:domain :Operator;
+          rdfs:range :Condition . 
+#  --------------------------- Property 11------------------------- 
+:second rdf:type owl:ObjectProperty ;
+        rdfs:label "second"@IRI-based; 
+        rdfs:label "second"@en; 
+        rdfs:domain :secondOperand;
+        rdfs:range :Condition . 
+#  --------------------------- Property 12------------------------- 
+:hasMetadata rdf:type owl:ObjectProperty ;
+             rdfs:label "hasMetadata"@IRI-based; 
+             rdfs:label "hasMetadata"@en; 
+             rdfs:domain :MetaData;
+             rdfs:range :Rule . 
+#  --------------------------- Property 13------------------------- 
+:hasServer rdf:type owl:ObjectProperty ;
+           rdfs:label "hasServer"@IRI-based; 
+           rdfs:label "hasServer"@en; 
+           rdfs:domain :Server;
+           rdfs:range :Scope . 
+#  --------------------------- Property 14------------------------- 
+:metaDataId rdf:type owl:DatatypeProperty ;
+            rdfs:label "metaDataId"@IRI-based; 
+            rdfs:label "metaDataId"@en; 
+            rdfs:domain :MetaData;
+            rdfs:range xsd:integer . 
+#  --------------------------- Property 15------------------------- 
+:ruleId rdf:type owl:DatatypeProperty ;
+        rdfs:label "ruleId"@IRI-based; 
+        rdfs:label "ruleId"@en; 
+        rdfs:domain :MetaData;
+        rdfs:range xsd:integer . 
+#  --------------------------- Property 16------------------------- 
+:tag rdf:type owl:DatatypeProperty ;
+     rdfs:label "tag"@IRI-based; 
+     rdfs:label "tag"@en; 
+     rdfs:domain :MetaData;
+     rdfs:range xsd:string . 
+#  --------------------------- Property 17------------------------- 
+:phse rdf:type owl:DatatypeProperty ;
+      rdfs:label "phse"@IRI-based; 
+      rdfs:label "phase"@en; 
+      rdfs:domain :MetaData;
+      rdfs:range xsd:string . 
+#  --------------------------- Property 18------------------------- 
+:message rdf:type owl:DatatypeProperty ;
+         rdfs:label "message"@IRI-based; 
+         rdfs:label "message"@en; 
+         rdfs:domain :MetaData;
+         rdfs:range xsd:string . 
+#  --------------------------- Property 19------------------------- 
+:defLineNUm rdf:type owl:DatatypeProperty ;
+            rdfs:label "defLineNUm"@IRI-based; 
+            rdfs:label "defLineNum"@en; 
+            rdfs:domain :Macro;
+            rdfs:range xsd:integer . 
+#  --------------------------- Property 20------------------------- 
+:listen rdf:type owl:DatatypeProperty ;
+        rdfs:label "listen"@IRI-based; 
+        rdfs:label "listen"@en; 
+        rdfs:domain :Server;
+        rdfs:range xsd:integer . 
+#  --------------------------- Property 21------------------------- 
+:hasScope rdf:type owl:ObjectProperty ;
+          rdfs:label "hasScope"@IRI-based; 
+          rdfs:label "hasScope"@en; 
+          rdfs:domain :Scope;
+          rdfs:range :Directive . 
+#  --------------------------- Property 22------------------------- 
+:revisionNumber rdf:type owl:DatatypeProperty ;
+                rdfs:label "revisionNumber"@IRI-based; 
+                rdfs:label "revisionNumber"@en; 
+                rdfs:domain :MetaData;
+                rdfs:range xsd:integer . 
+#  --------------------------- Property 23------------------------- 
+:tbd rdf:type owl:ObjectProperty ;
+     rdfs:label "tbd"@IRI-based; 
+     rdfs:label "tbd"@en; 
+     rdfs:domain :IfDefined;
+     rdfs:range :Directive . 
+#  --------------------------- Property 24------------------------- 
+:hasCondition rdf:type owl:ObjectProperty ;
+              rdfs:label "hasCondition"@IRI-based; 
+              rdfs:label "hasCondition"@en; 
+              rdfs:domain :Condition;
+              rdfs:range :Scope . 
+#  --------------------------- Property 25------------------------- 
+:macroName rdf:type owl:DatatypeProperty ;
+           rdfs:label "macroName"@IRI-based; 
+           rdfs:label "macroName"@en; 
+           rdfs:domain :Macro;
+           rdfs:range xsd:string . 
+#  --------------------------- Property 26------------------------- 
+:virtualHostName rdf:type owl:DatatypeProperty ;
+                 rdfs:label "virtualHostName"@IRI-based; 
+                 rdfs:label "virtualHostName"@en; 
+                 rdfs:domain :VirtualHost;
+                 rdfs:range xsd:string . 
+#  --------------------------- Property 27------------------------- 
+:hasVirtualHost rdf:type owl:ObjectProperty ;
+                rdfs:label "hasVirtualHost"@IRI-based; 
+                rdfs:label "hasVirtualHost"@en; 
+                rdfs:domain :VirtualHost;
+                rdfs:range :Scope . 
+#  --------------------------- Property 28------------------------- 
+:locationPath rdf:type owl:DatatypeProperty ;
+              rdfs:label "locationPath"@en; 
+              rdfs:domain :Location;
+              rdfs:range xsd:string . 
+#  --------------------------- Property 29------------------------- 
+:containsFiles rdf:type owl:ObjectProperty ;
+               rdfs:label "containsFiles"@en; 
+               rdfs:domain :Configuration;
+               rdfs:range :File . 
+#  --------------------------- Property 30------------------------- 
+:containesDirectives rdf:type owl:ObjectProperty ;
+                     rdfs:label "containesDirectives"@en; 
+                     rdfs:domain :File;
+                     rdfs:range :Directive . 
+###  Class Definitions (Number of Classes) 21 ###
+#  --------------------------- Class  0------------------------- 
+:Condition rdf:type owl:Class; 
+           rdfs:label "Condition"@IRI-based; 
+           rdfs:label "Condition"@en . 
+#  --------------------------- Class  1------------------------- 
+:Operator rdf:type owl:Class; 
+          rdfs:label "Operator"@IRI-based; 
+          rdfs:label "Operator"@en . 
+#  --------------------------- Class  2------------------------- 
+:Scope rdf:type owl:Class; 
+       rdfs:label "Scope"@IRI-based; 
+       rdfs:label "Scope"@en . 
+#  --------------------------- Class  3------------------------- 
+:VirtualHost rdf:type owl:Class; 
+             rdfs:label "VirtualHost"@IRI-based; 
+             rdfs:label "VirtualHost"@en . 
+#  --------------------------- Class  4------------------------- 
+:Class44 rdf:type owl:Class; 
+         rdfs:subClassOf :Define ;
+         rdfs:label "Class44"@IRI-based; 
+         rdfs:label "Define"@en . 
+#  --------------------------- Class  5------------------------- 
+:firstOperand rdf:type owl:Class; 
+              rdfs:label "firstOperand"@IRI-based; 
+              rdfs:label "firstOperand"@en . 
+#  --------------------------- Class  6------------------------- 
+:MetaData rdf:type owl:Class; 
+          rdfs:label "MetaData"@IRI-based; 
+          rdfs:label "RuleMetaData"@en . 
+#  --------------------------- Class  7------------------------- 
+:lessThanOperator rdf:type owl:Class; 
+                  rdfs:subClassOf :Operator ;
+                  rdfs:label "lessThanOperator"@IRI-based; 
+                  rdfs:label "lessOperator"@en . 
+#  --------------------------- Class  8------------------------- 
+:Define rdf:type owl:Class; 
+        rdfs:subClassOf :Directive ;
+        rdfs:label "Define"@IRI-based; 
+        rdfs:label "Definition"@en . 
+#  --------------------------- Class  9------------------------- 
+:Location rdf:type owl:Class; 
+          rdfs:label "Location"@IRI-based; 
+          rdfs:label "Location"@en . 
+#  --------------------------- Class  10------------------------- 
+:DefineStr rdf:type owl:Class; 
+           rdfs:subClassOf :Define ;
+           rdfs:label "DefineStr"@IRI-based; 
+           rdfs:label "DefineStr"@en . 
+#  --------------------------- Class  11------------------------- 
+:Server rdf:type owl:Class; 
+        rdfs:label "Server"@IRI-based; 
+        rdfs:label "Server"@en . 
+#  --------------------------- Class  12------------------------- 
+:Directive rdf:type owl:Class; 
+           rdfs:label "Directive"@IRI-based; 
+           rdfs:label "Directive"@en . 
+#  --------------------------- Class  13------------------------- 
+:equals rdf:type owl:Class; 
+        rdfs:subClassOf :Operator ;
+        rdfs:label "equals"@IRI-based; 
+        rdfs:label "equalsOperator"@en . 
+#  --------------------------- Class  14------------------------- 
+:Rule rdf:type owl:Class; 
+      rdfs:subClassOf :Directive ;
+      owl:disjointWith :Macro ;
+      rdfs:label "Rule"@IRI-based; 
+      rdfs:label "Rule"@en . 
+#  --------------------------- Class  15------------------------- 
+:File rdf:type owl:Class; 
+      rdfs:label "File"@IRI-based; 
+      rdfs:label "File"@en . 
+#  --------------------------- Class  16------------------------- 
+:secondOperand rdf:type owl:Class; 
+               rdfs:label "secondOperand"@IRI-based; 
+               rdfs:label "secondOperand"@en . 
+#  --------------------------- Class  17------------------------- 
+:Macro rdf:type owl:Class; 
+       rdfs:subClassOf :Directive ;
+       rdfs:label "Macro"@IRI-based; 
+       rdfs:label "Macro"@en . 
+#  --------------------------- Class  18------------------------- 
+:IfDefined rdf:type owl:Class; 
+           rdfs:label "IfDefined"@IRI-based; 
+           rdfs:label "IfDefined"@en . 
+#  --------------------------- Class  19------------------------- 
+:greatherOperator rdf:type owl:Class; 
+                  rdfs:subClassOf :Operator ;
+                  rdfs:label "greatherOperator"@IRI-based; 
+                  rdfs:label "greatherOperator"@en . 
+#  --------------------------- Class  20------------------------- 
+:Configuration rdf:type owl:Class; 
+               rdfs:label "Configuration"@IRI-based; 
+               rdfs:label "Configuration"@en . 

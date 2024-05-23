@@ -1,0 +1,40 @@
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+[ rdf:type  <http://visualdataweb.org/ontCWAF/Configuration>;
+  <http://visualdataweb.org/ontCWAF/configName>
+          "first conf";
+  <http://visualdataweb.org/ontCWAF/containsFiles>
+          [ rdf:type  rdf:Bag;
+            rdf:_1    [ rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+                        <http://visualdataweb.org/ontCWAF/containsDirective>
+                                [ rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+                                  <http://visualdataweb.org/ontCWAF/hasScope>
+                                          [ rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+                                            <http://visualdataweb.org/ontCWAF/hasLocation>
+                                                    [ rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+                                                      <http://visualdataweb.org/ontCWAF/locationPath>
+                                                              "/"
+                                                    ];
+                                            <http://visualdataweb.org/ontCWAF/hasServer>
+                                                    [ rdf:type  <http://visualdataweb.org/ontCWAF/Server>;
+                                                      <http://visualdataweb.org/ontCWAF/listen>
+                                                              "80";
+                                                      <http://visualdataweb.org/ontCWAF/serverName>
+                                                              "localhost"
+                                                    ]
+                                          ];
+                                  <http://visualdataweb.org/ontCWAF/lineNum>
+                                          "1"^^xsd:long
+                                ];
+                        <http://visualdataweb.org/ontCWAF/filepath>
+                                "file1.txt"
+                      ];
+            rdf:_2    [ rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+                        <http://visualdataweb.org/ontCWAF/filepath>
+                                "file2.txt"
+                      ]
+          ]
+] .
