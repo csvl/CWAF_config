@@ -7,7 +7,7 @@ mvn compile
 ```
  then run the desired class with
  ```
- java -cp target/class <your class name>
+ java -cp target/classes <your class name>
  ```
 
  ---
