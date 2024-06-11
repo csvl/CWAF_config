@@ -33,6 +33,8 @@ FROM rockylinux:9 as base
 #
 # RUN systemctl enable httpd
 
+# ====================================================
+
 RUN dnf install -y sudo
 
 COPY waf_inst /opt/waf_inst

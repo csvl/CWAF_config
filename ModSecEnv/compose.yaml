@@ -1,15 +1,4 @@
 services:
-  tty:
-    image: owasp/modsecurity-crs:apache-alpine
-    environment:
-      - PARANOIA=4
-    volumes:
-      - ./modsec_rules:/opt/owasp-crs/rules:ro
-      - ./httpd_rules:/usr/local/apache2/conf
-    ports:
-      - 8080:8080
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
   dev:
     build: .
     privileged: true
