@@ -18,4 +18,6 @@ services:
       - ./httpd_rules:/etc/httpd/conf
     ports:
       - 8080:80
+    working_dir: /etc/httpd/conf
+    # entrypoint: tail -f /dev/null
     entrypoint: /sbin/init
