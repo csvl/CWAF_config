@@ -4,7 +4,7 @@ services:
     privileged: true
     volumes:
       - .:/shared
-      - ./httpd_rules:/etc/httpd/conf
+      - ./httpd_rules/:/etc/httpd/conf/
     ports:
       - 8080:80
     working_dir: /etc/httpd/conf
