@@ -1,0 +1,657 @@
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+<AcceptFilter-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <AcceptFilter-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <AcceptFilter-scope-vhost> .
+
+<AddType-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <AddType-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <AddType-scope-vhost> .
+
+<ModSecEnv/httpd_rules/common/macros/rules_ip.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/rules_ip.conf" .
+
+<SSITimeFormat-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/rules_cookies.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/rules_cookies.conf" .
+
+<DefineStr-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<SecHashKey>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <SecHashKey-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "83"^^xsd:long .
+
+<CustomLog-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/remappath.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/remappath.conf" .
+
+<SetEnv>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <SetEnv-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "387"^^xsd:long .
+
+<RewriteRule-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <RewriteRule-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <RewriteRule-scope-vhost> .
+
+<conf/common/ignored_parts.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/ignored_parts.conf" .
+
+<Define>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <Define-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "364"^^xsd:long , "362"^^xsd:long , "366"^^xsd:long , "21"^^xsd:long , "4"^^xsd:long , "363"^^xsd:long , "365"^^xsd:long , "17"^^xsd:long , "2"^^xsd:long , "9"^^xsd:long , "5"^^xsd:long , "367"^^xsd:long , "1"^^xsd:long , "8"^^xsd:long .
+
+<ModSecEnv/httpd_rules/common/macros/url.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/url.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/rules_excep.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/rules_excep.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/debug.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/debug.conf" .
+
+<DefineStr-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<SetEnv-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <SetEnv-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <SetEnv-scope-vhost> .
+
+<conf/macros.conf>  rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/macros.conf" .
+
+<SecHashKey-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <SecHashKey-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <SecHashKey-scope-vhost> .
+
+<AcceptFilter-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<conf/common/os/redhat8.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <LoadModule>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/os/redhat8.conf" .
+
+<conf/common/local.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <Options>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/local.conf" .
+
+<config>  rdf:type  <http://visualdataweb.org/ontCWAF/Configuration>;
+        <http://visualdataweb.org/ontCWAF/configName>
+                "first conf" .
+
+<ModSecEnv/httpd_rules/common/macros/auth.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/auth.conf" .
+
+<SetEnv-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<conf/common/macros.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/macros.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/func.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/func.conf" .
+
+<FilterTrace-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/payment.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/payment.conf" .
+
+<conf/common/os/redhat9.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <Define> , <LoadModule>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/os/redhat9.conf" .
+
+<conf/common/os/linux.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr> , <LoadModule> , <Define>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/os/linux.conf" .
+
+<Options>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <Options-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "87"^^xsd:long , "13"^^xsd:long .
+
+<file_bag>  rdf:type  rdf:Bag;
+        rdf:_1    <conf/httpd.conf>;
+        rdf:_10   <conf/common/macros.conf>;
+        rdf:_11   <ModSecEnv/httpd_rules/common/macros/aaa-misc.conf>;
+        rdf:_12   <ModSecEnv/httpd_rules/common/macros/aaa-security.conf>;
+        rdf:_13   <ModSecEnv/httpd_rules/common/macros/attack_counter.conf>;
+        rdf:_14   <ModSecEnv/httpd_rules/common/macros/auth.conf>;
+        rdf:_15   <ModSecEnv/httpd_rules/common/macros/collections.conf>;
+        rdf:_16   <ModSecEnv/httpd_rules/common/macros/compress.conf>;
+        rdf:_17   <ModSecEnv/httpd_rules/common/macros/csp.conf>;
+        rdf:_18   <ModSecEnv/httpd_rules/common/macros/debug.conf>;
+        rdf:_19   <ModSecEnv/httpd_rules/common/macros/errordoc.conf>;
+        rdf:_2    <conf/common/os/windows.conf>;
+        rdf:_20   <ModSecEnv/httpd_rules/common/macros/func.conf>;
+        rdf:_21   <ModSecEnv/httpd_rules/common/macros/letsencrypt.conf>;
+        rdf:_22   <ModSecEnv/httpd_rules/common/macros/misc.conf>;
+        rdf:_23   <ModSecEnv/httpd_rules/common/macros/numbered.conf>;
+        rdf:_24   <ModSecEnv/httpd_rules/common/macros/oauth.conf>;
+        rdf:_25   <ModSecEnv/httpd_rules/common/macros/openid.conf>;
+        rdf:_26   <ModSecEnv/httpd_rules/common/macros/payment.conf>;
+        rdf:_27   <ModSecEnv/httpd_rules/common/macros/proxy.conf>;
+        rdf:_28   <ModSecEnv/httpd_rules/common/macros/remapbh.conf>;
+        rdf:_29   <ModSecEnv/httpd_rules/common/macros/remapheaders.conf>;
+        rdf:_3    <conf/common/os/redhat.conf>;
+        rdf:_30   <ModSecEnv/httpd_rules/common/macros/remappath.conf>;
+        rdf:_31   <ModSecEnv/httpd_rules/common/macros/rules.conf>;
+        rdf:_32   <ModSecEnv/httpd_rules/common/macros/rules_block.conf>;
+        rdf:_33   <ModSecEnv/httpd_rules/common/macros/rules_cookies.conf>;
+        rdf:_34   <ModSecEnv/httpd_rules/common/macros/rules_excep.conf>;
+        rdf:_35   <ModSecEnv/httpd_rules/common/macros/rules_ip.conf>;
+        rdf:_36   <ModSecEnv/httpd_rules/common/macros/rules_limits.conf>;
+        rdf:_37   <ModSecEnv/httpd_rules/common/macros/security.conf>;
+        rdf:_38   <ModSecEnv/httpd_rules/common/macros/updown.conf>;
+        rdf:_39   <ModSecEnv/httpd_rules/common/macros/url.conf>;
+        rdf:_4    <conf/common/os/linux.conf>;
+        rdf:_40   <ModSecEnv/httpd_rules/common/macros/vhost.conf>;
+        rdf:_41   <conf/common/local.conf>;
+        rdf:_42   <conf/common/sslv.conf>;
+        rdf:_43   <conf/common/final.conf>;
+        rdf:_44   <conf/common/security/final5v.conf>;
+        rdf:_45   <conf/site/defaultvhost.conf>;
+        rdf:_46   <ModSecEnv/httpd_rules/common/macros/web2.0.conf>;
+        rdf:_47   <ModSecEnv/httpd_rules/common/macros/remapbody.conf>;
+        rdf:_48   <conf/macros.conf>;
+        rdf:_49   <conf/secrules.conf>;
+        rdf:_5    <conf/common/os/redhat9.conf>;
+        rdf:_6    <conf/common/os/redhat8.conf>;
+        rdf:_7    <conf/common/defines.conf>;
+        rdf:_8    <conf/common/ignored_parts.conf>;
+        rdf:_9    <conf/common/defines2.conf> .
+
+<ModSecEnv/httpd_rules/common/macros/web2.0.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/web2.0.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/oauth.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/oauth.conf" .
+
+<DefineStr>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <DefineStr-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "38"^^xsd:long , "394"^^xsd:long , "121"^^xsd:long , "296"^^xsd:long , "374"^^xsd:long , "24"^^xsd:long , "371"^^xsd:long , "70"^^xsd:long , "271"^^xsd:long , "182"^^xsd:long , "315"^^xsd:long , "114"^^xsd:long , "5"^^xsd:long , "326"^^xsd:long , "278"^^xsd:long , "111"^^xsd:long , "53"^^xsd:long , "98"^^xsd:long , "22"^^xsd:long , "407"^^xsd:long , "29"^^xsd:long , "95"^^xsd:long , "294"^^xsd:long , "14"^^xsd:long , "46"^^xsd:long , "228"^^xsd:long , "341"^^xsd:long , "178"^^xsd:long , "92"^^xsd:long , "457"^^xsd:long , "517"^^xsd:long , "291"^^xsd:long , "136"^^xsd:long , "348"^^xsd:long , "133"^^xsd:long , "434"^^xsd:long , "211"^^xsd:long , "334"^^xsd:long , "355"^^xsd:long , "64"^^xsd:long , "331"^^xsd:long , "44"^^xsd:long , "176"^^xsd:long , "90"^^xsd:long , "429"^^xsd:long , "41"^^xsd:long , "240"^^xsd:long , "37"^^xsd:long , "384"^^xsd:long , "448"^^xsd:long , "169"^^xsd:long , "83"^^xsd:long , "34"^^xsd:long , "166"^^xsd:long , "233"^^xsd:long , "397"^^xsd:long , "4"^^xsd:long , "377"^^xsd:long , "229"^^xsd:long , "522"^^xsd:long , "549"^^xsd:long , "411"^^xsd:long , "185"^^xsd:long , "438"^^xsd:long , "32"^^xsd:long , "164"^^xsd:long , "251"^^xsd:long , "79"^^xsd:long , "105"^^xsd:long , "59"^^xsd:long , "395"^^xsd:long , "459"^^xsd:long , "150"^^xsd:long , "293"^^xsd:long , "56"^^xsd:long , "440"^^xsd:long , "238"^^xsd:long , "303"^^xsd:long , "25"^^xsd:long , "157"^^xsd:long , "436"^^xsd:long , "536"^^xsd:long , "224"^^xsd:long , "453"^^xsd:long , "207"^^xsd:long , "77"^^xsd:long , "430"^^xsd:long , "54"^^xsd:long , "173"^^xsd:long , "273"^^xsd:long , "526"^^xsd:long , "116"^^xsd:long , "40"^^xsd:long , "369"^^xsd:long , "67"^^xsd:long , "170"^^xsd:long , "6"^^xsd:long , "47"^^xsd:long , "314"^^xsd:long , "109"^^xsd:long , "266"^^xsd:long , "246"^^xsd:long , "292"^^xsd:long , "409"^^xsd:long , "19"^^xsd:long , "243"^^xsd:long , "524"^^xsd:long , "86"^^xsd:long , "16"^^xsd:long , "65"^^xsd:long , "421"^^xsd:long , "195"^^xsd:long , "521"^^xsd:long , "519"^^xsd:long , "138"^^xsd:long , "60"^^xsd:long , "350"^^xsd:long , "261"^^xsd:long , "89"^^xsd:long , "192"^^xsd:long , "241"^^xsd:long , "305"^^xsd:long , "299"^^xsd:long , "188"^^xsd:long , "288"^^xsd:long , "257"^^xsd:long , "101"^^xsd:long , "254"^^xsd:long , "555"^^xsd:long , "401"^^xsd:long , "466"^^xsd:long , "318"^^xsd:long , "443"^^xsd:long , "39"^^xsd:long , "74"^^xsd:long , "297"^^xsd:long , "186"^^xsd:long , "539"^^xsd:long , "372"^^xsd:long , "71"^^xsd:long , "172"^^xsd:long , "252"^^xsd:long , "183"^^xsd:long , "50"^^xsd:long , "316"^^xsd:long , "106"^^xsd:long , "279"^^xsd:long , "180"^^xsd:long , "112"^^xsd:long , "324"^^xsd:long , "99"^^xsd:long , "310"^^xsd:long , "408"^^xsd:long , "96"^^xsd:long , "9"^^xsd:long , "20"^^xsd:long , "152"^^xsd:long , "405"^^xsd:long , "295"^^xsd:long , "141"^^xsd:long , "15"^^xsd:long , "110"^^xsd:long , "93"^^xsd:long , "62"^^xsd:long , "27"^^xsd:long , "12"^^xsd:long , "159"^^xsd:long , "148"^^xsd:long , "274"^^xsd:long , "518"^^xsd:long , "226"^^xsd:long , "338"^^xsd:long , "349"^^xsd:long , "360"^^xsd:long , "515"^^xsd:long , "134"^^xsd:long , "435"^^xsd:long , "260"^^xsd:long , "346"^^xsd:long , "7"^^xsd:long , "387"^^xsd:long , "403"^^xsd:long , "356"^^xsd:long , "267"^^xsd:long , "353"^^xsd:long , "91"^^xsd:long , "10"^^xsd:long , "328"^^xsd:long , "42"^^xsd:long , "554"^^xsd:long , "87"^^xsd:long , "427"^^xsd:long , "543"^^xsd:long , "513"^^xsd:long , "551"^^xsd:long , "132"^^xsd:long , "49"^^xsd:long , "73"^^xsd:long , "385"^^xsd:long , "84"^^xsd:long , "35"^^xsd:long , "382"^^xsd:long , "330"^^xsd:long , "167"^^xsd:long , "81"^^xsd:long , "61"^^xsd:long , "351"^^xsd:long , "193"^^xsd:long , "214"^^xsd:long , "125"^^xsd:long , "337"^^xsd:long , "289"^^xsd:long , "122"^^xsd:long , "423"^^xsd:long , "2"^^xsd:long , "102"^^xsd:long , "375"^^xsd:long , "323"^^xsd:long , "33"^^xsd:long , "300"^^xsd:long , "418"^^xsd:long , "30"^^xsd:long , "396"^^xsd:long , "259"^^xsd:long , "57"^^xsd:long , "120"^^xsd:long , "393"^^xsd:long , "189"^^xsd:long , "26"^^xsd:long , "373"^^xsd:long , "468"^^xsd:long , "437"^^xsd:long , "158"^^xsd:long , "72"^^xsd:long , "147"^^xsd:long , "23"^^xsd:long , "445"^^xsd:long , "270"^^xsd:long , "222"^^xsd:long , "113"^^xsd:long , "345"^^xsd:long , "218"^^xsd:long , "431"^^xsd:long , "342"^^xsd:long , "55"^^xsd:long , "174"^^xsd:long , "311"^^xsd:long , "527"^^xsd:long , "1"^^xsd:long , "52"^^xsd:long , "21"^^xsd:long , "153"^^xsd:long , "68"^^xsd:long , "206"^^xsd:long , "220"^^xsd:long , "48"^^xsd:long , "94"^^xsd:long , "45"^^xsd:long , "381"^^xsd:long , "244"^^xsd:long , "425"^^xsd:long , "456"^^xsd:long , "525"^^xsd:long , "135"^^xsd:long , "17"^^xsd:long , "533"^^xsd:long , "210"^^xsd:long , "66"^^xsd:long , "422"^^xsd:long , "196"^^xsd:long , "449"^^xsd:long , "63"^^xsd:long , "43"^^xsd:long , "162"^^xsd:long , "242"^^xsd:long , "358"^^xsd:long , "269"^^xsd:long , "249"^^xsd:long , "36"^^xsd:long , "392"^^xsd:long , "255"^^xsd:long , "556"^^xsd:long , "235"^^xsd:long , "281"^^xsd:long , "232"^^xsd:long , "3"^^xsd:long , "548"^^xsd:long , "410"^^xsd:long , "184"^^xsd:long , "284"^^xsd:long , "537"^^xsd:long , "253"^^xsd:long , "51"^^xsd:long , "107"^^xsd:long , "250"^^xsd:long , "78"^^xsd:long , "181"^^xsd:long , "462"^^xsd:long , "104"^^xsd:long , "230"^^xsd:long , "58"^^xsd:long , "325"^^xsd:long , "413"^^xsd:long , "469"^^xsd:long , "302"^^xsd:long , "546"^^xsd:long , "97"^^xsd:long , "209"^^xsd:long , "223"^^xsd:long , "76"^^xsd:long , "28"^^xsd:long , "13"^^xsd:long , "175"^^xsd:long , "275"^^xsd:long , "118"^^xsd:long , "361"^^xsd:long , "516"^^xsd:long , "115"^^xsd:long , "8"^^xsd:long , "199"^^xsd:long , "268"^^xsd:long , "450"^^xsd:long , "313"^^xsd:long , "354"^^xsd:long , "108"^^xsd:long , "11"^^xsd:long , "412"^^xsd:long , "245"^^xsd:long , "88"^^xsd:long , "18"^^xsd:long , "514"^^xsd:long , "85"^^xsd:long , "308"^^xsd:long , "541"^^xsd:long , "511"^^xsd:long , "130"^^xsd:long , "383"^^xsd:long , "520"^^xsd:long , "82"^^xsd:long , "352"^^xsd:long , "137"^^xsd:long , "215"^^xsd:long , "327"^^xsd:long , "426"^^xsd:long , "123"^^xsd:long , "424"^^xsd:long , "335"^^xsd:long , "304"^^xsd:long , "103"^^xsd:long , "376"^^xsd:long , "298"^^xsd:long , "550"^^xsd:long , "119"^^xsd:long , "100"^^xsd:long , "256"^^xsd:long , "321"^^xsd:long , "301"^^xsd:long , "80"^^xsd:long , "465"^^xsd:long , "31"^^xsd:long , "163"^^xsd:long , "416"^^xsd:long .
+
+<conf/common/security/final5v.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/security/final5v.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/compress.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/compress.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/vhost.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/vhost.conf" .
+
+<FilterTrace-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<Setenv-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <Setenv-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <Setenv-scope-vhost> .
+
+<LoadModule-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <LoadModule-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <LoadModule-scope-vhost> .
+
+<RewriteRule-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "~{PublishUrl}" .
+
+<SetEnv-scope-vhost>  rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/security.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/security.conf" .
+
+<AcceptFilter>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <AcceptFilter-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "8"^^xsd:long , "7"^^xsd:long .
+
+<conf/common/os/redhat.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr> , <LoadModule> , <Define>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/os/redhat.conf" .
+
+<Options-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<SecHashKey-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<conf/common/final.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <RewriteRule> , <SSITimeFormat> , <FilterTrace> , <AddType> , <CustomLog>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/final.conf" .
+
+<CustomLog-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/aaa-misc.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/aaa-misc.conf" .
+
+<SSITimeFormat-scope>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <SSITimeFormat-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <SSITimeFormat-scope-vhost> .
+
+<SSLOptions-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <SSLOptions-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <SSLOptions-scope-vhost> .
+
+<FilterTrace>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <FilterTrace-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "43"^^xsd:long .
+
+<conf/common/os/windows.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr> , <LoadModule> , <Define> , <AcceptFilter>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/os/windows.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/attack_counter.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/attack_counter.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/collections.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/collections.conf" .
+
+<Setenv-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<LoadModule-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<DefineStr-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <DefineStr-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <DefineStr-scope-vhost> .
+
+<Define-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <Define-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <Define-scope-vhost> .
+
+<ModSecEnv/httpd_rules/common/macros/remapheaders.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/remapheaders.conf" .
+
+<SSITimeFormat-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<Define-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/proxy.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/proxy.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/updown.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/updown.conf" .
+
+<Setenv>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <Setenv-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "388"^^xsd:long .
+
+<ModSecEnv/httpd_rules/common/macros/csp.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/csp.conf" .
+
+<SSLOptions>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <SSLOptions-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "37"^^xsd:long , "34"^^xsd:long .
+
+<ModSecEnv/httpd_rules/common/macros/misc.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/misc.conf" .
+
+<LoadModule>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <LoadModule-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "21"^^xsd:long , "24"^^xsd:long , "9"^^xsd:long , "19"^^xsd:long , "13"^^xsd:long , "26"^^xsd:long , "40"^^xsd:long , "16"^^xsd:long , "20"^^xsd:long , "37"^^xsd:long , "23"^^xsd:long , "18"^^xsd:long , "22"^^xsd:long , "7"^^xsd:long , "15"^^xsd:long , "43"^^xsd:long , "11"^^xsd:long , "27"^^xsd:long , "17"^^xsd:long , "36"^^xsd:long , "31"^^xsd:long .
+
+<LoadModule-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<conf/httpd.conf>  rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <Options> , <SecHashKey> , <DefineStr> , <LoadModule> , <Define>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/httpd.conf" .
+
+<SSITimeFormat>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <SSITimeFormat-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "46"^^xsd:long .
+
+<Define-scope-vhost>  rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<FilterTrace-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <FilterTrace-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <FilterTrace-scope-vhost> .
+
+<CustomLog>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <CustomLog-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "22"^^xsd:long .
+
+<AddType-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/aaa-security.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/aaa-security.conf" .
+
+<AcceptFilter-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/remapbody.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/remapbody.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/errordoc.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/errordoc.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/rules_block.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/rules_block.conf" .
+
+<CustomLog-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <CustomLog-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <CustomLog-scope-vhost> .
+
+<AddType-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<conf/secrules.conf>  rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/secrules.conf" .
+
+<Setenv-scope-vhost>  rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<Options-scope>  rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
+        <http://visualdataweb.org/ontCWAF/hasLocation>
+                <Options-scope-location>;
+        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
+                <Options-scope-vhost> .
+
+<ModSecEnv/httpd_rules/common/macros/openid.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/openid.conf" .
+
+<Options-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/rules_limits.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/rules_limits.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/letsencrypt.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/letsencrypt.conf" .
+
+<conf/site/defaultvhost.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/site/defaultvhost.conf" .
+
+<AddType>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <AddType-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "37"^^xsd:long .
+
+<RewriteRule>  rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/hasScope>
+                <RewriteRule-scope>;
+        <http://visualdataweb.org/ontCWAF/lineNum>
+                "55"^^xsd:long .
+
+<SSLOptions-scope-location>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "" .
+
+<SecHashKey-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<conf/common/defines2.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/defines2.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/numbered.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/numbered.conf" .
+
+<conf/common/sslv.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <SSLOptions>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/sslv.conf" .
+
+<SSLOptions-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .
+
+<ModSecEnv/httpd_rules/common/macros/remapbh.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/remapbh.conf" .
+
+<ModSecEnv/httpd_rules/common/macros/rules.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "ModSecEnv/httpd_rules/common/macros/rules.conf" .
+
+<conf/common/defines.conf>
+        rdf:type  <http://visualdataweb.org/ontCWAF/File>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <Setenv> , <SetEnv> , <Define> , <DefineStr>;
+        <http://visualdataweb.org/ontCWAF/filepath>
+                "conf/common/defines.conf" .
+
+<RewriteRule-scope-vhost>
+        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
+        <http://visualdataweb.org/ontCWAF/virtualHostName>
+                "" .

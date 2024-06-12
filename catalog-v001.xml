@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://visualdataweb.org/ontCWAF/" uri="Jena-project/cwaf-ontology/src/main/resources/data/ontCWAF_0.1.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://visualdataweb.org/ontCWAF/" uri="Jena-project/ontCWAF_0.1.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://visualdataweb.org/ontCWAF/" uri="Jena-project/ontCWAF_0.2.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://visualdataweb.org/ontCWAF/" uri="file:/home/wiauxb/Documents/CWAF/Ontology/NewOntology.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://visualdataweb.org/ontCWAF/" uri="file:/home/wiauxb/Documents/CWAF/Ontology/ontCWAF_0.1.ttl"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base=""/>
+</catalog>

@@ -92,4 +92,12 @@ public class Parser {
         System.err.println(directives);
         return directives;
     }
+    
+    public static void main(String[] args) {
+        try {
+            parseCompiledConfig(args[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
