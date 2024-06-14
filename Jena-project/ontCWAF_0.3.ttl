@@ -1,0 +1,189 @@
+#################################################################
+###  Generated with the experimental alpha version of the TTL exporter of WebVOWL (version 1.1.7)  http://visualdataweb.de/webvowl/   ###
+#################################################################
+
+@prefix : 		<http://visualdataweb.org/ontCWAF/> .
+@prefix rdf: 		<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: 		<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: 		<http://www.w3.org/2002/07/owl#> .
+@prefix xsd: 		<http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: 		<http://purl.org/dc/elements/1.1/> .
+@prefix xml: 		<http://www.w3.org/XML/1998/namespace> .
+@prefix wot: 		<http://xmlns.com/wot/0.1/> .
+@prefix vs: 		<http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix foaf: 		<http://xmlns.com/foaf/0.1/> .
+@prefix : 		<http://visualdataweb.org/ontCWAF/> .
+@base 			<http://visualdataweb.org/ontCWAF/> .
+
+<http://visualdataweb.org/ontCWAF/> rdf:type owl:Ontology ;
+                                    dc:title "OntCWAF"@en;
+                                    dc:description "CWAF config ontology"@en;
+                                    owl:versionInfo "0.3"@en;
+                                    dc:creator "Bastien Wiaux" . 
+#################################################################
+
+###  Property Definitions (Number of Property) 20 ###
+#  --------------------------- Property 0------------------------- 
+:containsFile rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+              rdfs:label "containsFile"@en; 
+              rdfs:domain :File;
+              rdfs:range :Configuration . 
+#  --------------------------- Property 1------------------------- 
+:containsDirective rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+                   rdfs:label "containsDirective"@en; 
+                   rdfs:domain :Directive;
+                   rdfs:range :File . 
+#  --------------------------- Property 2------------------------- 
+:hasScope rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+          rdfs:label "hasScope"@en; 
+          rdfs:domain :Scope;
+          rdfs:range :Directive . 
+#  --------------------------- Property 3------------------------- 
+:hasServer rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+           rdfs:label "hasServer"@en; 
+           rdfs:domain :Server;
+           rdfs:range :Scope . 
+#  --------------------------- Property 4------------------------- 
+:hasVirtualHost rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+                rdfs:label "hasVirtualHost"@en; 
+                rdfs:domain :VirtualHost;
+                rdfs:range :Scope . 
+#  --------------------------- Property 5------------------------- 
+:hasLocation rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+             rdfs:label "hasLocation"@en; 
+             rdfs:domain :Location;
+             rdfs:range :Scope . 
+#  --------------------------- Property 6------------------------- 
+:includeFile rdf:type owl:ObjectProperty ;
+             rdfs:label "includeFile"@en; 
+             rdfs:domain :File;
+             rdfs:range :Include . 
+#  --------------------------- Property 7------------------------- 
+:useMacro rdf:type owl:ObjectProperty ;
+          rdfs:label "useMacro"@en; 
+          rdfs:domain :Macro;
+          rdfs:range :Use . 
+#  --------------------------- Property 8------------------------- 
+:serverName rdf:type owl:DatatypeProperty ;
+            rdfs:label "serverName"@en; 
+            rdfs:domain :Server;
+            rdfs:range xsd:string . 
+#  --------------------------- Property 9------------------------- 
+:serverPort rdf:type owl:DatatypeProperty ;
+            rdfs:label "serverPort"@en; 
+            rdfs:domain :Server;
+            rdfs:range xsd:integer . 
+#  --------------------------- Property 10------------------------- 
+:vHostName rdf:type owl:DatatypeProperty ;
+           rdfs:label "vHostName"@en; 
+           rdfs:domain :VirtualHost;
+           rdfs:range xsd:string . 
+#  --------------------------- Property 11------------------------- 
+:locationPath rdf:type owl:DatatypeProperty ;
+              rdfs:label "locationPath"@en; 
+              rdfs:domain :Location;
+              rdfs:range xsd:string . 
+#  --------------------------- Property 12------------------------- 
+:condition rdf:type owl:DatatypeProperty ;
+           rdfs:label "condition"@en; 
+           rdfs:domain :If;
+           rdfs:range xsd:string . 
+#  --------------------------- Property 13------------------------- 
+:embedDirective rdf:type owl:ObjectProperty, owl:TransitiveProperty ;
+                rdfs:label "embedDirective"@en; 
+                rdfs:domain :Beacon;
+                rdfs:range :Directive . 
+#  --------------------------- Property 14------------------------- 
+:filePath rdf:type owl:DatatypeProperty ;
+          rdfs:label "filePath"@en; 
+          rdfs:domain :File;
+          rdfs:range xsd:string . 
+#  --------------------------- Property 15------------------------- 
+:dirLineNum rdf:type owl:DatatypeProperty ;
+            rdfs:label "dirLineNum"@en; 
+            rdfs:domain :Directive;
+            rdfs:range xsd:integer . 
+#  --------------------------- Property 16------------------------- 
+:configName rdf:type owl:DatatypeProperty ;
+            rdfs:label "configName"@en; 
+            rdfs:domain :Configuration;
+            rdfs:range xsd:string . 
+#  --------------------------- Property 17------------------------- 
+:phase rdf:type owl:DatatypeProperty ;
+       rdfs:label "phase"@en; 
+       rdfs:domain :ModSecRule;
+       rdfs:range xsd:integer . 
+#  --------------------------- Property 18------------------------- 
+:arguments rdf:type owl:DatatypeProperty ;
+           rdfs:label "arguments"@en; 
+           rdfs:domain :Rule;
+           rdfs:range xsd:string . 
+#  --------------------------- Property 19------------------------- 
+:macroName rdf:type owl:DatatypeProperty ;
+           rdfs:label "macroName"@en; 
+           rdfs:domain :Macro;
+           rdfs:range xsd:string . 
+###  Class Definitions (Number of Classes) 16 ###
+#  --------------------------- Class  0------------------------- 
+:Configuration rdf:type owl:Class; 
+               rdfs:label "Configuration"@en . 
+#  --------------------------- Class  1------------------------- 
+:File rdf:type owl:Class; 
+      rdfs:label "File"@en . 
+#  --------------------------- Class  2------------------------- 
+:Directive rdf:type owl:Class; 
+           rdfs:label "Directive"@en . 
+#  --------------------------- Class  3------------------------- 
+:Rule rdf:type owl:Class; 
+      rdfs:subClassOf :Directive ;
+      owl:disjointWith :Beacon ;
+      rdfs:label "Rule"@en . 
+#  --------------------------- Class  4------------------------- 
+:Beacon rdf:type owl:Class; 
+        rdfs:subClassOf :Directive ;
+        rdfs:label "Beacon"@en . 
+#  --------------------------- Class  5------------------------- 
+:Macro rdf:type owl:Class; 
+       rdfs:subClassOf :Beacon ;
+       owl:disjointWith :If ;
+       rdfs:label "Macro"@en . 
+#  --------------------------- Class  6------------------------- 
+:If rdf:type owl:Class; 
+    rdfs:subClassOf :Beacon ;
+    rdfs:label "If"@en . 
+#  --------------------------- Class  7------------------------- 
+:Include rdf:type owl:Class; 
+         rdfs:subClassOf :Rule ;
+         rdfs:label "Include"@en . 
+#  --------------------------- Class  8------------------------- 
+:Use rdf:type owl:Class; 
+     rdfs:subClassOf :Rule ;
+     owl:disjointWith :Include ;
+     rdfs:label "Use"@en . 
+#  --------------------------- Class  9------------------------- 
+:Scope rdf:type owl:Class; 
+       rdfs:label "Scope"@en . 
+#  --------------------------- Class  10------------------------- 
+:Server rdf:type owl:Class; 
+        rdfs:label "Server"@en . 
+#  --------------------------- Class  11------------------------- 
+:VirtualHost rdf:type owl:Class; 
+             rdfs:label "VirtualHost"@en . 
+#  --------------------------- Class  12------------------------- 
+:Location rdf:type owl:Class; 
+          rdfs:label "Location"@en . 
+#  --------------------------- Class  13------------------------- 
+:SecAction rdf:type owl:Class; 
+           rdfs:subClassOf :ModSecRule ;
+           rdfs:label "SecAction"@en . 
+#  --------------------------- Class  14------------------------- 
+:SecRule rdf:type owl:Class; 
+         owl:disjointWith :SecAction ;
+         rdfs:subClassOf :ModSecRule ;
+         rdfs:label "SecRule"@en . 
+#  --------------------------- Class  15------------------------- 
+:ModSecRule rdf:type owl:Class; 
+            rdfs:subClassOf :Rule ;
+            owl:disjointWith :Include ;
+            owl:disjointWith :Use ;
+            rdfs:label "ModSecRule"@en . 
