@@ -99,7 +99,7 @@ public class OntUtils {
     public static void attachDirectiveToOnt(OntModel model, Context context, Individual directive, Resource file) {
         if (context.beaconStack.size() > 0){
            Resource beacon = model.getResource(context.beaconStack.peek()); 
-           beacon.addProperty(OntCWAF.EMBED_DIRECTIVE, directive);
+           beacon.addProperty(OntCWAF.CONTAINS_DIRECTIVE, directive);
         } else {
             file.addProperty(OntCWAF.CONTAINS_DIRECTIVE, directive);
         }
