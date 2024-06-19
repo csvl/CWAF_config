@@ -18,6 +18,7 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
 import org.apache.jena.util.PrintUtil;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 
 import be.uclouvain.vocabulary.OntCWAF;
@@ -113,7 +114,7 @@ public class Main extends Object {
         // ========================================
         OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
 
-        model.read("config.ttl", "TTL");
+        model.read("config_save.ttl", "TTL");
         // // print_all_statements(model);
         // Individual directive = model.getIndividual("file:///home/wiauxb/Documents/CWAF/CWAF_config/AddType_b57da7c4-709c-4553-967e-f8d6308858a2");
         // System.out.println(directive);
@@ -140,18 +141,31 @@ public class Main extends Object {
         //merge model and schema
         model.add(schema);
 
+        Resource test = model.getResource("http://visualdataweb.org/ontCWAF/Use_15162356-5b4e-3a8a-84c0-01d45cfdfd75");
+        // model.listStatements(null, null, test, null).forEach( stmt -> {
+        //     System.out.println(stmt.getSubject().getLocalName());
+        // });
+        model.listStatements(null, null, test).forEach( stmt -> {
+            if (!stmt.getPredicate().equals(OWL.differentFrom) && !stmt.getPredicate().equals(OWL.sameAs)) {
+                System.out.println(stmt.getSubject().getLocalName() + " - " + stmt.getPredicate().getLocalName());
+            }
+        });
+
+        model.listStatements(test, OntCWAF.USE_MACRO, (RDFNode)null).forEach( stmt -> {
+            System.out.println(stmt.getObject().asLiteral().getString());
+        });
 
         //create an inference model
-        InfModel inf = ModelFactory.createInfModel(reasoner, model);
+        // InfModel inf = ModelFactory.createInfModel(reasoner, model);
         // InfModel inf = ModelFactory.createRDFSModel(schema, model);
 
         // Resource test = inf.getResource("http://visualdataweb.org/ontCWAF/SecAction_36f3be18-4060-3312-ac92-9e58b6e2696a");
         // System.out.println("test has types:");
         // printStatements(inf, test, RDF.type, null);
 
-        Resource use = inf.getResource("http://visualdataweb.org/ontCWAF/Use_15162356-5b4e-3a8a-84c0-01d45cfdfd75");
-        System.out.println("use contained in:");
-        printStatements(inf, null, OntCWAF.CONTAINS_DIRECTIVE, use);
+        // Resource use = inf.getResource("http://visualdataweb.org/ontCWAF/Use_15162356-5b4e-3a8a-84c0-01d45cfdfd75");
+        // System.out.println("use contained in:");
+        // printStatements(inf, null, OntCWAF.CONTAINS_DIRECTIVE, use);
 
         // Resource file = inf.getResource("http://visualdataweb.org/ontCWAF/ModSecEnv/httpd_rules/common/macros/aaa-misc.conf");
         // System.out.println("http.conf contains:");
