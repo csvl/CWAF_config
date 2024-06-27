@@ -1,13 +1,11 @@
 package be.uclouvain;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.*;
 
+import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.query.*;
-import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -18,8 +16,7 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
 import org.apache.jena.util.PrintUtil;
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.RDF;
+
 
 import be.uclouvain.vocabulary.OntCWAF;
 
@@ -72,6 +69,34 @@ public class Main extends Object {
         System.out.println(" - " + PrintUtil.print(stmt));
     }
 }
+
+    public static List<Stack<Individual>> getNodeContext(OntModel m, String URI) {
+        List<Stack<Individual>> context = new ArrayList<>();
+        Stack<Individual> stack = new Stack<Individual>();
+        Individual current = m.getIndividual(URI);
+        stack.push(current);
+
+        if (current.hasOntClass(OntCWAF.MACRO)) {
+            m.listStatements(null, OntCWAF.USE_MACRO, current).forEach( stmt -> {
+                getNodeContext(m, stmt.getSubject().as(Individual.class).getURI()).forEach( s -> {
+                    Stack<Individual> branch = new Stack<Individual>();
+                    branch.addAll(stack);
+                    branch.addAll(s);
+                    context.add(branch);
+                });
+            });
+        } else {
+            m.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, current).forEach( stmt -> {
+                stack.push(stmt.getSubject().as(Individual.class));
+            });
+            if (stack.peek().hasOntClass(OntCWAF.FILE)) {
+                context.add(stack);
+            } else {
+                context.addAll(getNodeContext(m, stack.peek().getURI()));
+            }
+        }
+        return context;
+    }
 
     public static void main (String args[]) {
     
@@ -133,6 +158,7 @@ public class Main extends Object {
         //load and bind the schema model
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
         schema.read("Jena-project/ontCWAF_0.4.ttl", "TTL");
+        model.add(schema);
 
         //bind the schema to the reasoner
         // reasoner.bind(model.getGraph());
@@ -141,18 +167,22 @@ public class Main extends Object {
         //merge model and schema
         model.add(schema);
 
-        Resource test = model.getResource("http://visualdataweb.org/ontCWAF/Use_15162356-5b4e-3a8a-84c0-01d45cfdfd75");
-        // model.listStatements(null, null, test, null).forEach( stmt -> {
-        //     System.out.println(stmt.getSubject().getLocalName());
-        // });
-        model.listStatements(null, null, test).forEach( stmt -> {
-            if (!stmt.getPredicate().equals(OWL.differentFrom) && !stmt.getPredicate().equals(OWL.sameAs)) {
-                System.out.println(stmt.getSubject().getLocalName() + " - " + stmt.getPredicate().getLocalName());
-            }
+        // Resource useNode = model.getResource("http://visualdataweb.org/ontCWAF/Use_15162356-5b4e-3a8a-84c0-01d45cfdfd75");
+        Resource useNode = model.getResource("http://visualdataweb.org/ontCWAF/Use_02864e3b-e96c-384a-be6b-4e414caf1d40");
+        
+        getNodeContext(model, "http://visualdataweb.org/ontCWAF/Use_02864e3b-e96c-384a-be6b-4e414caf1d40").forEach( stack -> {
+            System.out.println("Context:");
+            stack.forEach( node -> {
+                System.out.println("\t- " + node.getLocalName());
+            });
         });
 
-        model.listStatements(test, OntCWAF.USE_MACRO, (RDFNode)null).forEach( stmt -> {
-            System.out.println(stmt.getObject().asLiteral().getString());
+        model.listStatements(useNode, OntCWAF.USE_MACRO, (RDFNode)null).forEach( stmt -> {
+            String macroURI = stmt.getObject().asLiteral().getString();
+            System.out.println("Use the macro: " + macroURI);
+            model.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, model.getResource(macroURI)).forEach( contained -> {
+                System.out.println("Macro in " + contained.getSubject().getLocalName());
+            });
         });
 
         //create an inference model

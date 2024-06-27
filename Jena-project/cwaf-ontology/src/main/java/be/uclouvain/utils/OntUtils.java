@@ -9,7 +9,7 @@ import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.*;
 
-import be.uclouvain.service.Context;
+import be.uclouvain.service.DirectiveContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
 public class OntUtils {
@@ -96,8 +96,17 @@ public class OntUtils {
         return directives;
     }
 
-    public static void attachDirectiveToOnt(OntModel model, Context context, Individual directive, Resource file) {
-        if (context.beaconStack.size() > 0){
+    public static void attachDirectiveToOnt(OntModel model, DirectiveContext context, Individual directive, Resource file) {
+        if (directive.hasOntClass(OntCWAF.ELSE_IF) || directive.hasOntClass(OntCWAF.ELSE)) {
+            if (context.lastIf == "") {
+                System.err.println("Error: ELSE or ELSE_IF directive without IF, ignoring directive at line " +
+                                directive.getPropertyValue(OntCWAF.DIR_LINE_NUM).asLiteral().getInt() + " in file " + file.getLocalName());
+                return;
+            }
+            Resource lastIf = model.getResource(context.lastIf);
+            lastIf.addProperty(OntCWAF.IF_CHAIN, directive);
+        }
+        else if (context.beaconStack.size() > 0){
            Resource beacon = model.getResource(context.beaconStack.peek()); 
            beacon.addProperty(OntCWAF.CONTAINS_DIRECTIVE, directive);
         } else {

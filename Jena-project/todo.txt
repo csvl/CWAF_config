@@ -1,0 +1,17 @@
+
+ - [ ] Ajouter des préfixs propres
+
+# Parser
+
+ - [ ] SecDefaultAction set la phase par défaut
+ - [ ] Gérer les:
+    - [ ] define
+    - [ ] DefineStr
+    - [ ] UndefMacro
+
+
+# Compilation
+
+ - [x] gérer les variables locales + les paramètres
+ - [ ] évaluer les conditions pour de vrai
+ - [ ] placer le modele dans le context ?

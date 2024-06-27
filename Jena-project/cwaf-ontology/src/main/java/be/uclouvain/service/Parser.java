@@ -15,14 +15,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.sparql.pfunction.library.alt;
 
 import be.uclouvain.utils.Directive;
 import be.uclouvain.utils.OntUtils;
 
-import static be.uclouvain.utils.OntUtils.*;
 import be.uclouvain.vocabulary.OntCWAF;
+import static be.uclouvain.utils.OntUtils.*;
 import static be.uclouvain.utils.DirectiveFactory.*;
+import static be.uclouvain.service.Constants.Parser.*;
 
 public class Parser {
 
@@ -45,8 +45,6 @@ public class Parser {
 
     private static Individual parseConfigFile(String filePath, OntModel model, Bag file_bag) throws IOException{
         //TODO handle "\" for multiline directives
-        Pattern beaconPattern = Pattern.compile("^[ \\t]*<(.*?)>");
-        Pattern commentPattern = Pattern.compile("^[ \\t]*#");
 
         // System.out.println("Including file: " + filePath);
 
@@ -66,7 +64,7 @@ public class Parser {
 
         List<String> lines = Files.readAllLines(Paths.get(pathAdapter(filePath)));
 
-        Context context = new Context();
+        DirectiveContext context = new DirectiveContext();
 
         for (int line_num = 1; line_num < lines.size()+1; line_num++){
             String line = lines.get(line_num-1);
@@ -88,36 +86,32 @@ public class Parser {
         return file;
     }
 
-    public static void parseBeacon(OntModel model, Context context, String line, int line_num, Individual file) {
-        Pattern virtualHostPattern = Pattern.compile("<VirtualHost\\s+(.*?)>");
-        Pattern virtualHostEndPattern = Pattern.compile("</VirtualHost>");
-        Pattern locationPattern = Pattern.compile("[ \\t]*<Location\\s+(.*?)>");
-        Pattern locationEndPattern = Pattern.compile("[ \\t]*</Location>");
-        Pattern ifPattern = Pattern.compile("[ \\t]*<If\\s+(.*?)>");
-        Pattern ifPatternEnd = Pattern.compile("[ \\t]*</If>");
-        Pattern macroPattern = Pattern.compile("[ \\t]*<Macro\\s+(\\S+?)(?:\\s+.*)?>");
-        Pattern macroEndPattern = Pattern.compile("[ \\t]*</Macro>");
+    public static void parseBeacon(OntModel model, DirectiveContext context, String line, int line_num, Individual file) {
 
         Matcher virtualHostMatcher = virtualHostPattern.matcher(line);
         if (virtualHostMatcher.find()) {
+            context.lastIf = "";
             String virtualHost = virtualHostMatcher.group(1);
             context.currentVirtualhost = virtualHost;
-            // System.out.println("VirtualHost: " + virtualHost);
+            return;
         }
 
         Matcher virtualHostEndMatcher = virtualHostEndPattern.matcher(line);
         if (virtualHostEndMatcher.find()) {
+            context.lastIf = "";
             context.currentVirtualhost = "";
-            // System.out.println("End VirtualHost");
+            return;
         }
 
         Matcher macroMatcher = macroPattern.matcher(line);
         if (macroMatcher.find()) {
+            context.lastIf = "";
             String macroName = macroMatcher.group(1);
-            Individual macro = createMacro(model, context, line_num, macroName);
+            String macroParams = macroMatcher.group(2);
+            Individual macro = createMacro(model, context, line_num, macroName, macroParams == null ? "" : macroParams);
             attachDirectiveToOnt(model, context, macro, file);
             context.beaconStack.push(macro.getURI());
-            // System.out.println("Macro: " + macroName);
+            return;
         }
 
         Matcher macroEndMatcher = macroEndPattern.matcher(line);
@@ -127,48 +121,96 @@ public class Parser {
             } catch (EmptyStackException e) {
                 System.err.println("Error: ending a macro without opening it.");
             }
-            // System.out.println("End Macro");
+            return;
         }
 
         Matcher ifMatcher = ifPattern.matcher(line);
         if (ifMatcher.find()) {
+            context.lastIf = "";
             String condition = ifMatcher.group(1);
             Individual ifInd = createIf(model, context, line_num, condition);
-        attachDirectiveToOnt(model, context, ifInd, file);
+            attachDirectiveToOnt(model, context, ifInd, file);
             context.beaconStack.push(ifInd.getURI());
-            // System.out.println("If");
+            return;
         }
 
         Matcher ifEndMatcher = ifPatternEnd.matcher(line);
         if (ifEndMatcher.find()) {
+            context.lastIf = context.beaconStack.pop();
+            return;
+        }
+
+        Matcher elseIfMatcher = elseIfPattern.matcher(line);
+        if (elseIfMatcher.find()) {
+            String condition = elseIfMatcher.group(1);
+            Individual elseIfInd = createElseIf(model, context, line_num, condition);
+            attachDirectiveToOnt(model, context, elseIfInd, file);
+            context.beaconStack.push(elseIfInd.getURI());
+            return;
+        }
+
+        Matcher elseIfEndMatcher = elseIfEndPattern.matcher(line);
+        if (elseIfEndMatcher.find()) {
+            context.lastIf = context.beaconStack.pop();
+            return;
+        }
+
+        Matcher elseMatcher = elsePattern.matcher(line);
+        if (elseMatcher.find()) {
+            Individual elseInd = createElse(model, context, line_num);
+            attachDirectiveToOnt(model, context, elseInd, file);
+            context.beaconStack.push(elseInd.getURI());
+            return;
+        }
+
+        Matcher elseEndMatcher = elseEndPattern.matcher(line);
+        if (elseEndMatcher.find()) {
+            context.lastIf = "";
             context.beaconStack.pop();
-            // System.out.println("End If");
+            return;
         }
 
         Matcher locationMatcher = locationPattern.matcher(line);
         if (locationMatcher.find()) {
             String location = locationMatcher.group(1);
             context.currentLocation = location;
-            // System.out.println("Location: " + location);
+            return;
         }
 
         Matcher locationEndMatcher = locationEndPattern.matcher(line);
         if (locationEndMatcher.find()) {
             context.currentLocation = "";
-            // System.out.println("End Location");
+            return;
         }
+
+        Matcher genericMatcher = genericPattern.matcher(line);
+        if (genericMatcher.find()) {
+            String name = genericMatcher.group(1);
+            String args = genericMatcher.group(2);
+            Individual beacon = createBeacon(model, context, line_num, name);
+            attachDirectiveToOnt(model, context, beacon, file);
+            context.beaconStack.push(beacon.getURI());
+            return;
+        }
+
+        Matcher genericEndMatcher = genericEndPattern.matcher(line);
+        if (genericEndMatcher.find()) {
+            String beacon = genericEndMatcher.group(1);
+            try {
+                context.beaconStack.pop();
+            } catch (EmptyStackException e) {
+                System.err.println("Error: ending a beacon " + beacon + " without opening it.");
+            }
+            return;
+        }
+
+        System.err.println("Error: unknown beacon: " + line + " at line " + line_num + " in file " + file.getURI());
     }
 
-    public static void parseDirective(OntModel model, Context context, String line, int line_num, Individual file) throws IOException {
+    public static void parseDirective(OntModel model, DirectiveContext context, String line, int line_num, Individual file) throws IOException {
 
-        // Pattern genericRulePattern = Pattern.compile("^[ \\t]*(\\S+|\".*\")\\s+(\\S+|\".*\")\\s+(\\S+|\".*\")$"); //TODO is it enough ?
-        Pattern genericRulePattern = Pattern.compile("^[ \\t]*(\\S+)\\s+(.*)$");
-        Pattern includePattern = Pattern.compile("^[ \\t]*Include\\s+(\\S+)");
-        Pattern usePattern = Pattern.compile("^[ \\t]*Use\\s+(\\S+)(?:\\s+(.*))?");
-        Pattern servernamePattern = Pattern.compile("^[ \\t]*ServerName\\s+(\\S+)");
-        Pattern listenPattern = Pattern.compile("^[ \\t]*Listen\\s+(\\S+)");
-        Pattern modSecRulePattern = Pattern.compile("^[ \\t]*(SecRule|SecAction)\\s+(.*)$");
-        Pattern phasePattern = Pattern.compile("phase:(\\d+)");
+        // else and if cannot be separated by a directive
+        context.lastIf = "";
 
         Matcher includeMatcher = includePattern.matcher(line);
         if (includeMatcher.find()) {
@@ -178,7 +220,7 @@ public class Parser {
                 // System.out.println("Expanded: " + expanded.toString() + " from " + includedFile);
                 expanded.forEach(path -> {
                     try {
-                        Individual parsedFile = parseConfigFile(path.toString(), model, model.getBag(Constants.FILE_BAG_NAME));
+                        Individual parsedFile = parseConfigFile(path.toString(), model, model.getBag(OntCWAF.NS + Constants.FILE_BAG_NAME));
                         Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                         attachDirectiveToOnt(model, context, include, file);
                     } catch (NoSuchFileException e) {
@@ -188,7 +230,7 @@ public class Parser {
                     }
                 });
             } else {
-                Individual parsedFile = parseConfigFile(includedFile, model, model.getBag(Constants.FILE_BAG_NAME));
+                Individual parsedFile = parseConfigFile(includedFile, model, model.getBag(OntCWAF.NS + Constants.FILE_BAG_NAME));
                 Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                 attachDirectiveToOnt(model, context, include, file);
             }
@@ -244,12 +286,15 @@ public class Parser {
             String ruleKeyword = generalRuleMatcher.group(1);
             String args = generalRuleMatcher.group(2);
             // System.out.println("Rule: " + ruleKeyword + " with args: " + args);
-            Individual directiveInd = createGeneralDirective(model, context, ruleKeyword, line_num);
+            Individual directiveInd = createRule(model, context, line_num, ruleKeyword, args);//createGeneralDirective(model, context, ruleKeyword, line_num);
             // System.out.println("Adding directive: " + ruleKeyword + " at line " + line_num + " in file " + file.getURI());
             if (directiveInd != null) 
                 attachDirectiveToOnt(model, context, directiveInd, file);
             return;
         }
+
+        if (!line.isBlank())
+            System.err.println("Error: unknown directive: " + line + " at line " + line_num + " in file " + file.getURI());
 
     }
 
