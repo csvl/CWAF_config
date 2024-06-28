@@ -6,6 +6,7 @@ import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.Statement;
 
 import be.uclouvain.service.CompileContext;
+import be.uclouvain.service.Constants;
 import be.uclouvain.vocabulary.OntCWAF;
 
 public class Directive implements Comparable<Directive> {
@@ -15,7 +16,7 @@ public class Directive implements Comparable<Directive> {
     private String location = "global";
     private String virtualHost;
     private int ifLevel = 0;
-    private int phase = 2; //Default phase from ModSecurity
+    private int phase = Constants.DEFAULT_PHASE; 
 
     public Directive(CompileContext ctx, Individual resource) {
         this.lineNum = resource.getPropertyValue(OntCWAF.DIR_LINE_NUM).asLiteral().getInt();
@@ -44,6 +45,18 @@ public class Directive implements Comparable<Directive> {
             }
         });
         this.resource = resource;
+    }
+
+    public String[] getScope() {
+        return new String[] {location, virtualHost};
+    }
+
+    public void setScope(String[] scope) {
+        if (scope.length != 2) {
+            throw new IllegalArgumentException("Scope must have 2 elements");
+        }
+        this.location = scope[0];
+        this.virtualHost = scope[1];
     }
 
     public boolean isBeacon() {

@@ -271,13 +271,13 @@ public class Parser {
             String name = modSecRuleMatcher.group(1);
             String args = modSecRuleMatcher.group(2);
             Matcher phaseMatcher = phasePattern.matcher(args);
+            int phase = Constants.DEFAULT_PHASE;
             if (phaseMatcher.find()) {
-                String phase = phaseMatcher.group(1);
-                Individual modSecRule = createModSecRule(model, context, line_num, name, args, Integer.parseInt(phase));
-                attachDirectiveToOnt(model, context, modSecRule, file);
-                // System.out.println("Found phase: " + Integer.parseInt(phase) + " for: " + name + " " + args);
-                return;
+                phase = Integer.parseInt(phaseMatcher.group(1));
             }
+            Individual modSecRule = createModSecRule(model, context, line_num, name, args, phase);
+            attachDirectiveToOnt(model, context, modSecRule, file);
+            return;
         }
 
         Matcher generalRuleMatcher = genericRulePattern.matcher(line);

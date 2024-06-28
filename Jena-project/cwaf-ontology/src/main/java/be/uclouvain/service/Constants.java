@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 public class Constants {
     public static final String FILE_BAG_NAME = "file_bag";
+    public static final int DEFAULT_PHASE = 2; //Default phase from ModSecurity
 
     public class Parser {
         public static Pattern beaconPattern = Pattern.compile("^[ \\t]*<(.*?)>");

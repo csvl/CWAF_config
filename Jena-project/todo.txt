@@ -1,6 +1,11 @@
 
  - [ ] Ajouter des préfixs propres
 
+# Bugs
+
+ - [x] phase en argument passe pas
+ - [x] VirtualHost des macros doit être lié aux Uses, pas à la définition
+
 # Parser
 
  - [ ] SecDefaultAction set la phase par défaut
@@ -13,5 +18,10 @@
 # Compilation
 
  - [x] gérer les variables locales + les paramètres
+ - [ ] gérer les:
+    - [ ] IfDefine
+    - [ ] IfModule
  - [ ] évaluer les conditions pour de vrai
+
+ --------------------------------
  - [ ] placer le modele dans le context ?

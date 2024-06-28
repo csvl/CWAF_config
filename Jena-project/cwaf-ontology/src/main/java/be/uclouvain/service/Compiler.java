@@ -5,6 +5,8 @@ import org.apache.jena.rdf.model.*;
 import be.uclouvain.model.Directive;
 import be.uclouvain.vocabulary.OntCWAF;
 
+import static be.uclouvain.service.Constants.Parser.phasePattern;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,11 +87,12 @@ public class Compiler {
             System.err.println("Used in directive: " + use.getIndividual().getURI());
             return Stream.empty();
         }
+
         Seq args = use.getIndividual().getProperty(OntCWAF.USE_PARAMS).getSeq(); //TODO change property
-        return compileMacro(ontFS, ctx, macro, args);
+        return compileMacro(ontFS, ctx, macro, args, use.getScope());
     }
 
-    private static Stream<Directive> compileMacro(OntModel ontFS, CompileContext ctx, Individual macro, Seq args) {
+    private static Stream<Directive> compileMacro(OntModel ontFS, CompileContext ctx, Individual macro, Seq args, String[] use_scope) {
         NodeIterator paramsIt = macro.getProperty(OntCWAF.MACRO_ARGS).getSeq().iterator();
         for (NodeIterator argsIt = args.iterator(); argsIt.hasNext();) {
             if (!paramsIt.hasNext()) {
@@ -99,7 +102,10 @@ public class Compiler {
             String arg = argsIt.next().toString();
             ctx.addVar(param, arg, macro.getURI());
         }
-        Stream<Directive> res = compileContainer(ontFS, ctx, macro);
+        Stream<Directive> res = compileContainer(ontFS, ctx, macro).map(d -> {
+            d.setScope(use_scope);
+            return d;
+        });
         ctx.removeTaggedVar(macro.getURI());
         return res;
     }
@@ -133,11 +139,9 @@ public class Compiler {
             }
             String content = args.asLiteral().getString();
             for (String var : ctx.getLocalVars().keySet()) {
-                try {
-                    content = content.replaceAll(Matcher.quoteReplacement(var), ctx.getLocalVars().get(var));
-                } catch (Exception e) {
-                    System.err.println("Error replacing " + var + " in " + content);
-                }
+                String regex = Matcher.quoteReplacement(var);
+                String localVal = Matcher.quoteReplacement(ctx.getLocalVars().get(var));
+                content = content.replaceAll(regex, localVal);
             }
             directiveInd.removeAll(OntCWAF.ARGUMENTS);
             directiveInd.addLiteral(OntCWAF.ARGUMENTS, content);
@@ -165,7 +169,7 @@ public class Compiler {
         if (directiveInd.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
             String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
 
-            Matcher phaseMatcher = Pattern.compile("phase:(\\d+)").matcher(args);
+            Matcher phaseMatcher = phasePattern.matcher(args);
             if (phaseMatcher.find()) {
                 int phase = Integer.parseInt(phaseMatcher.group(1));
                 directiveInd.addLiteral(OntCWAF.PHASE, phase);
