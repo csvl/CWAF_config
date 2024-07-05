@@ -4,11 +4,14 @@ import java.util.*;
 
 import org.apache.jena.ontology.Individual;
 
-public class CompileContext implements Cloneable{
+import be.uclouvain.model.Condition;
+
+public class CompileContext{
 
     private Stack<Individual> trace = new Stack<>();
     private Map<String, String> localVars = new HashMap<>();
     private Map<String, List<String>> varTag = new HashMap<>();
+    private Stack<Condition> existance_conditions = new Stack<>();
     
 
     public CompileContext(){}
@@ -20,6 +23,7 @@ public class CompileContext implements Cloneable{
             List<String> copy = new ArrayList<>(entry.getValue());
             varTag.put(entry.getKey(), copy);
         }
+        existance_conditions.addAll(other.existance_conditions);
     }
 
     public void push(Individual directive) {
@@ -46,6 +50,22 @@ public class CompileContext implements Cloneable{
         for (String var : taggedVars) {
             localVars.remove(var);
         }
+    }
+
+    public void addEC(String condition) {
+        existance_conditions.push(new Condition(condition));
+    }
+
+    public void addEC(Condition condition) {
+        existance_conditions.push(condition);
+    }
+
+    public Condition popEC() {
+        return existance_conditions.pop();
+    }
+
+    public Condition getEC() {
+        return existance_conditions.stream().reduce((C1, C2) -> C1.and(C2)).orElse(new Condition("true"));
     }
 
     public Map<String, String> getLocalVars() {

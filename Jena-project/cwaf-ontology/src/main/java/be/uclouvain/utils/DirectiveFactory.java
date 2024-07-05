@@ -18,19 +18,28 @@ public class DirectiveFactory {
         }
     }
 
-    private static Seq parseArguments(String macroArgs, Individual use) {
-        String[] args = macroArgs.split(" +(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-        Seq argsInd = use.getModel().createSeq(use.getURI()+"_argsSeq"); //TODO change URI
-        for (String arg : args) {
-            argsInd.add(arg);
+    public static String[] parseArguments(String macroArgs, Individual use) {
+        String[] args = macroArgs.split(" +(?:(?=(?:[^\"\']*(?:(\"[^\"]*\")|(\'[^\']*\')))*[^\"\']*$))");
+        for (int i = 0; i < args.length; i++) {
+            // if (!args[i].contains(" ")) {
+                args[i] = args[i].replaceAll("^[\"\']|[\"\']$", "");
+                // if (args[i].contains(" ") || args[i].length() == 0) {
+                //     args[i] = "'" + args[i] + "'";
+                // }
+            // }
         }
-        return argsInd;
+        // Seq argsInd = use.getModel().createSeq(use.getURI()+"_argsSeq"); //TODO change URI
+        // for (String arg : args) {
+        //     argsInd.add(arg);
+        // }
+        // return argsInd;
+        return args;
     }
 
     public static Individual createUse(OntModel model, DirectiveContext context, int line_num, String args,String macroURI) {
-        Individual use = createRule(model, context, line_num, "Use", "", OntCWAF.USE);
-        Seq argsInd = parseArguments(args, use);
-        use.addProperty(OntCWAF.USE_PARAMS, argsInd);
+        Individual use = createRule(model, context, line_num, "Use", args, OntCWAF.USE);
+        // Seq argsInd = parseArguments(args, use);
+        // use.addProperty(OntCWAF.USE_PARAMS, argsInd);
         use.addLiteral(OntCWAF.USE_MACRO, macroURI);
         return use;
     }
@@ -106,8 +115,8 @@ public class DirectiveFactory {
         Individual macro = model.createIndividual(URI, OntCWAF.MACRO);
         initDirective(model, context, line_num, URI, macro);
         macro.addLiteral(OntCWAF.MACRO_NAME, name);
-        Seq params = parseArguments(paramsString, macro);
-        macro.addProperty(OntCWAF.MACRO_ARGS, params);
+        // Seq params = parseArguments(paramsString, macro);
+        macro.addLiteral(OntCWAF.MACRO_ARGS, paramsString);
         return macro;
     }
 

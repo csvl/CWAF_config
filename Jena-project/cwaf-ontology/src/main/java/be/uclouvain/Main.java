@@ -152,7 +152,7 @@ public class Main extends Object {
         // ========================================
 
         //init a reasonner
-        Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+        // Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
         // reasoner.getReasonerCapabilities().write(System.out);
 
         //load and bind the schema model
@@ -162,28 +162,32 @@ public class Main extends Object {
 
         //bind the schema to the reasoner
         // reasoner.bind(model.getGraph());
-        reasoner.bindSchema(schema);
+        // reasoner.bindSchema(schema);
 
         //merge model and schema
-        model.add(schema);
+        // model.add(schema);
 
         // Resource useNode = model.getResource("http://visualdataweb.org/ontCWAF/Use_15162356-5b4e-3a8a-84c0-01d45cfdfd75");
         Resource useNode = model.getResource("http://visualdataweb.org/ontCWAF/Use_02864e3b-e96c-384a-be6b-4e414caf1d40");
         
-        getNodeContext(model, "http://visualdataweb.org/ontCWAF/Use_02864e3b-e96c-384a-be6b-4e414caf1d40").forEach( stack -> {
-            System.out.println("Context:");
-            stack.forEach( node -> {
-                System.out.println("\t- " + node.getLocalName());
-            });
+        // getNodeContext(model, "http://visualdataweb.org/ontCWAF/Use_02864e3b-e96c-384a-be6b-4e414caf1d40").forEach( stack -> {
+        //     System.out.println("Context:");
+        //     stack.forEach( node -> {
+        //         System.out.println("\t- " + node.getLocalName());
+        //     });
+        // });
+
+        model.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, useNode).forEach( stmt -> {
+            System.out.println(stmt.getSubject().as(Individual.class).getLocalName());
         });
 
-        model.listStatements(useNode, OntCWAF.USE_MACRO, (RDFNode)null).forEach( stmt -> {
-            String macroURI = stmt.getObject().asLiteral().getString();
-            System.out.println("Use the macro: " + macroURI);
-            model.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, model.getResource(macroURI)).forEach( contained -> {
-                System.out.println("Macro in " + contained.getSubject().getLocalName());
-            });
-        });
+        // model.listStatements(useNode, OntCWAF.USE_MACRO, (RDFNode)null).forEach( stmt -> {
+        //     String macroURI = stmt.getObject().asLiteral().getString();
+        //     System.out.println("Use the macro: " + macroURI);
+        //     model.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, model.getResource(macroURI)).forEach( contained -> {
+        //         System.out.println("Macro in " + contained.getSubject().getLocalName());
+        //     });
+        // });
 
         //create an inference model
         // InfModel inf = ModelFactory.createInfModel(reasoner, model);

@@ -30,7 +30,7 @@ RewriteEngine on
 RewriteOptions InheritDownBefore
 
 <Macro dummy $first $second>
- dummyRule $first $second
+ SecRule $first $second
 </Macro>
 
 
@@ -52,7 +52,13 @@ RewriteRule ^ /robots.txt [L]
       SecRule ENV:var "^/$p1/(.*-ph$p2)/|^.*-ph$p1/(.*-ph$p2)(?:$|/)"  "phase:4,capture,nolog,auditlog,msg:'%{tx.1}%{tx.2}'"
    </If>
   </If>
+   <ElseIf "1 == 0">
+      Use dummy nope hello
+   </ElseIf>
  </If>
+ <Else>
+   Use dummy nope phase:1
+ </Else>
 </If>
 
 
@@ -62,6 +68,10 @@ DefineStr AccessLog       "~{LogRoot}/access.log"
 DefineStr RewriteLog      "~{LogRoot}/rewrite.debug"
  </If>
 </If>
+
+<Location /home>
+   Use dummy fizz phase:3
+</Location>
 
 SecRequestBodyAccess      on
 SecStreamInBodyInspection off

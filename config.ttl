@@ -3,27 +3,21 @@ PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 
-<http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945-scope-vhost>
-        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
-        <http://visualdataweb.org/ontCWAF/vHostName>
-                "test:80" .
-
-<http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945-scope>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
-        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
-                <http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945-scope-vhost> .
-
 <http://visualdataweb.org/ontCWAF/test.conf>
         rdf:type  <http://visualdataweb.org/ontCWAF/File>;
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d> , <http://visualdataweb.org/ontCWAF/Macro_dummy>;
+                <http://visualdataweb.org/ontCWAF/Use_2fb981ba-7647-3352-abef-1f02d24ef27f> , <http://visualdataweb.org/ontCWAF/Macro_dummy> , <http://visualdataweb.org/ontCWAF/Macro_dummy2>;
         <http://visualdataweb.org/ontCWAF/filePath>
                 "test.conf" .
 
-<http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d-scope-vhost>
-        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
-        <http://visualdataweb.org/ontCWAF/vHostName>
-                "otehrone:8900" .
+<http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945>
+        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "@first @second";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "2"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/phase>
+                "2"^^xsd:long .
 
 <http://visualdataweb.org/ontCWAF/config>
         rdf:type  <http://visualdataweb.org/ontCWAF/Configuration>;
@@ -32,66 +26,46 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/containsFile>
                 <http://visualdataweb.org/ontCWAF/file_bag> .
 
-<http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945>
-        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
-        <http://visualdataweb.org/ontCWAF/arguments>
-                "$first $second";
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "4"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/hasScope>
-                <http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945-scope>;
-        <http://visualdataweb.org/ontCWAF/phase>
-                "2"^^xsd:long .
-
 <http://visualdataweb.org/ontCWAF/file_bag>
         rdf:type  rdf:Bag;
         rdf:_1    <http://visualdataweb.org/ontCWAF/test.conf> .
 
-<http://visualdataweb.org/ontCWAF/Macro_dummy_argsSeq>
-        rdf:type  rdf:Seq;
-        rdf:_1    "$first";
-        rdf:_2    "$second" .
-
-<http://visualdataweb.org/ontCWAF/Macro_dummy-scope>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
-        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
-                <http://visualdataweb.org/ontCWAF/Macro_dummy-scope-vhost> .
-
-<http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d-scope>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Scope>;
-        <http://visualdataweb.org/ontCWAF/hasVirtualHost>
-                <http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d-scope-vhost> .
-
 <http://visualdataweb.org/ontCWAF/Macro_dummy>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Macro>;
+        <http://visualdataweb.org/ontCWAF/containsDirective>
+                <http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d>;
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "5"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/macroArgs>
+                "$first $second";
+        <http://visualdataweb.org/ontCWAF/macroName>
+                "dummy" .
+
+<http://visualdataweb.org/ontCWAF/Macro_dummy2>
         rdf:type  <http://visualdataweb.org/ontCWAF/Macro>;
         <http://visualdataweb.org/ontCWAF/containsDirective>
                 <http://visualdataweb.org/ontCWAF/SecRule_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "3"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/hasScope>
-                <http://visualdataweb.org/ontCWAF/Macro_dummy-scope>;
+                "1"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/macroArgs>
-                <http://visualdataweb.org/ontCWAF/Macro_dummy_argsSeq>;
+                "@first @second";
         <http://visualdataweb.org/ontCWAF/macroName>
-                "dummy" .
-
-<http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d_argsSeq>
-        rdf:type  rdf:Seq;
-        rdf:_1    "yay";
-        rdf:_2    "phase:5" .
+                "dummy2" .
 
 <http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "$second $first";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "6"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/useMacro>
+                "http://visualdataweb.org/ontCWAF/Macro_dummy2" .
+
+<http://visualdataweb.org/ontCWAF/Use_2fb981ba-7647-3352-abef-1f02d24ef27f>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "yay phase:5";
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "9"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/hasScope>
-                <http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d-scope>;
         <http://visualdataweb.org/ontCWAF/useMacro>
-                "http://visualdataweb.org/ontCWAF/Macro_dummy";
-        <http://visualdataweb.org/ontCWAF/useParams>
-                <http://visualdataweb.org/ontCWAF/Use_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d_argsSeq> .
-
-<http://visualdataweb.org/ontCWAF/Macro_dummy-scope-vhost>
-        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
-        <http://visualdataweb.org/ontCWAF/vHostName>
-                "test:80" .
+                "http://visualdataweb.org/ontCWAF/Macro_dummy" .

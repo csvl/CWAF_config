@@ -2,10 +2,12 @@ package be.uclouvain.service;
 
 import org.apache.jena.rdf.model.*;
 
+import be.uclouvain.model.Condition;
 import be.uclouvain.model.Directive;
 import be.uclouvain.vocabulary.OntCWAF;
 
 import static be.uclouvain.service.Constants.Parser.phasePattern;
+import static be.uclouvain.utils.DirectiveFactory.parseArguments;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -15,30 +17,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.apache.jena.graph.Node;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 
 public class Compiler {
 
-    public static void printStreamDump(Model ontFS, Stream<Directive> dump) {
+    public static void printStreamDump(OntModel ontFS, Stream<Directive> dump) {
         dump.forEach( dir -> {
             System.out.print(dir);
             StmtIterator stmts = ontFS.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, dir.getIndividual());
             // stmts.forEach(System.out::println);
             stmts.forEach( stmt -> {
-                if (stmt.getSubject().as(Individual.class).hasOntClass(OntCWAF.FILE)) {
-                    try {
-                        System.out.println(" in " + stmt.getSubject().as(Individual.class).getPropertyValue(OntCWAF.FILE_PATH).asLiteral().getString() + ":" + dir.getLineNum());
-                    } catch (Exception e) {
-                        System.out.println(";");
-                    }
-                    // System.out.println(" in " + stmt.getSubject().as(Individual.class).getPropertyValue(OntCWAF.FILE_PATH).asLiteral().getString() + ":" + dir.getLineNum());
-                } else {
-                    System.out.println(":");
+                if (stmt.getSubject().as(Individual.class).hasProperty(OntCWAF.FILE_PATH)) {
+                    System.out.print(" in " + stmt.getSubject().as(Individual.class).getPropertyValue(OntCWAF.FILE_PATH).asLiteral().getString() + ":" + dir.getLineNum());
                 }
             });
+            System.out.println(".");
         });
     }
     
@@ -88,19 +83,22 @@ public class Compiler {
             return Stream.empty();
         }
 
-        Seq args = use.getIndividual().getProperty(OntCWAF.USE_PARAMS).getSeq(); //TODO change property
+        // Seq args = use.getIndividual().getProperty(OntCWAF.USE_PARAMS).getSeq(); //TODO change property
+        String[] args = use.getArgs();
+        System.err.println( use.getIndividual().getLocalName() + " args:" + Arrays.toString(args));
         return compileMacro(ontFS, ctx, macro, args, use.getScope());
     }
 
-    private static Stream<Directive> compileMacro(OntModel ontFS, CompileContext ctx, Individual macro, Seq args, String[] use_scope) {
-        NodeIterator paramsIt = macro.getProperty(OntCWAF.MACRO_ARGS).getSeq().iterator();
-        for (NodeIterator argsIt = args.iterator(); argsIt.hasNext();) {
-            if (!paramsIt.hasNext()) {
-                throw new InvalidParameterException("Number of arguments Mismatch for macro " + macro.getLocalName());
-            }
-            String param = paramsIt.next().toString();
-            String arg = argsIt.next().toString();
-            ctx.addVar(param, arg, macro.getURI());
+    private static Stream<Directive> compileMacro(OntModel ontFS, CompileContext ctx, Individual macro, String[] args, String[] use_scope) {
+        String paramsStr = macro.getPropertyValue(OntCWAF.MACRO_ARGS).asLiteral().getString();
+        String[] params = parseArguments(paramsStr, null);
+        if (params.length != args.length) {
+            throw new InvalidParameterException("Number of arguments Mismatch for macro " + macro.getLocalName()
+            + ": Expected " + params.length + ", got " + args.length + "\n (" + Arrays.toString(params) + " vs " + Arrays.toString(args) + ")");
+            
+        }
+        for (int i = 0; i < params.length; i++) {
+            ctx.addVar(params[i], args[i], macro.getURI());
         }
         Stream<Directive> res = compileContainer(ontFS, ctx, macro).map(d -> {
             d.setScope(use_scope);
@@ -110,49 +108,52 @@ public class Compiler {
         return res;
     }
 
-    private static boolean evaluateCondition(OntModel ontFS, CompileContext ctx, Individual ifInd) {
-        //TODO
-        return true;
+    private static Stream<Directive> compileIf(OntModel ontFS, CompileContext ctx, Individual ifInd) {
+        String conditionStr = ifInd.getPropertyValue(OntCWAF.CONDITION).asLiteral().getString();
+        Condition condition = new Condition(conditionStr);
+        ctx.addEC(condition);
+        Stream<Directive> res = compileContainer(ontFS, ctx, ifInd);
+        ctx.popEC();
+        if (ifInd.hasProperty(OntCWAF.IF_CHAIN)) {
+            Individual ifBlock = ifInd.getProperty(OntCWAF.IF_CHAIN).getObject().as(Individual.class);
+            ctx.addEC(condition.not());
+            if (ifBlock.hasProperty(OntCWAF.CONDITION)) { //= is ELSE_IF //TODO faute du graph ?
+                res = Stream.concat(res, compileIf(ontFS, ctx, ifBlock));
+            } else {
+                res = Stream.concat(res, compileContainer(ontFS, ctx, ifBlock));
+            }
+            ctx.popEC();
+        }
+        return res;
     }
 
-    private static Stream<Directive> evaluateIf(OntModel ontFS, CompileContext ctx, Individual ifInd) {
-        if (evaluateCondition(ontFS, ctx, ifInd)) {
-            return compileContainer(ontFS, ctx, ifInd);
-        } else if (ifInd.hasProperty(OntCWAF.IF_CHAIN)) {
-                Individual ifBlock = ifInd.getProperty(OntCWAF.IF_CHAIN).getObject().as(Individual.class);
-                if (ifBlock.hasOntClass(OntCWAF.ELSE_IF)) {
-                    return evaluateIf(ontFS, ctx, ifBlock);
-                } else {
-                    return compileContainer(ontFS, ctx, ifBlock);
-                }
-        } else {
-            return Stream.empty();
+    private static String[] replaceContentInArgs(CompileContext ctx, String[] content){
+        for (int i = 0; i < content.length; i++) {
+            content[i] = replaceContent(ctx, content[i]);
         }
+        return content;
+    }
+
+    private static String replaceContent(CompileContext ctx, String content){
+        for (String var : ctx.getLocalVars().keySet()) {
+            String regex = Matcher.quoteReplacement(var);
+            String localVal = Matcher.quoteReplacement(ctx.getLocalVars().get(var));
+            content = content.replaceAll(regex, localVal);
+        }
+        return content;
     }
 
     private static void expandVars(OntModel ontFS, CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
         if (directiveInd.hasOntClass(OntCWAF.RULE)) {
-            RDFNode args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS);
-            if (args == null) {
-                return;
-            }
-            String content = args.asLiteral().getString();
-            for (String var : ctx.getLocalVars().keySet()) {
-                String regex = Matcher.quoteReplacement(var);
-                String localVal = Matcher.quoteReplacement(ctx.getLocalVars().get(var));
-                content = content.replaceAll(regex, localVal);
-            }
-            directiveInd.removeAll(OntCWAF.ARGUMENTS);
-            directiveInd.addLiteral(OntCWAF.ARGUMENTS, content);
+            String[] content = replaceContentInArgs(ctx, directive.getArgs());
+            directive.setArgs(content);
             updateDirective(ontFS, ctx, directive);
         } else if (directiveInd.hasOntClass(OntCWAF.BEACON)) {
             if (directiveInd.hasOntClass(OntCWAF.IF) || directiveInd.hasOntClass(OntCWAF.ELSE_IF)) {
                 if (directiveInd.hasProperty(OntCWAF.CONDITION)) {
                     String condition = directiveInd.getPropertyValue(OntCWAF.CONDITION).asLiteral().getString();
-                    for (String var : ctx.getLocalVars().keySet()) {
-                        condition = condition.replaceAll(Pattern.quote(var), ctx.getLocalVars().get(var));
-                    }
+                    condition = replaceContent(ctx, condition);
                     directiveInd.removeAll(OntCWAF.CONDITION);
                     directiveInd.addLiteral(OntCWAF.CONDITION, condition);
                 } else {
@@ -167,13 +168,15 @@ public class Compiler {
     private static void updateDirective(OntModel ontFS, CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
         if (directiveInd.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
-            String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
-
-            Matcher phaseMatcher = phasePattern.matcher(args);
-            if (phaseMatcher.find()) {
-                int phase = Integer.parseInt(phaseMatcher.group(1));
-                directiveInd.addLiteral(OntCWAF.PHASE, phase);
-                directive.setPhase(phase);
+            String[] args = directive.getArgs();
+            for (String arg : args) {
+                Matcher phaseMatcher = phasePattern.matcher(arg);
+                if (phaseMatcher.find()) {
+                    int phase = Integer.parseInt(phaseMatcher.group(1));
+                    directiveInd.addLiteral(OntCWAF.PHASE, phase);
+                    directive.setPhase(phase);
+                    break;
+                }
             }
         }
     }
@@ -186,10 +189,14 @@ public class Compiler {
             return expandInclude(ontFS, ctx, directive);
         } else if (directiveInd.hasOntClass(OntCWAF.USE)) {
             return expandUse(ontFS, ctx, directive);
-        } else if (directiveInd.hasOntClass(OntCWAF.IF)) {
-            return evaluateIf(ontFS, ctx, directive.getIndividual());
-        } else if (directiveInd.hasOntClass(OntCWAF.MACRO)) {
-            return Stream.empty();
+        } else if (directiveInd.hasOntClass(OntCWAF.BEACON)) {
+            if (directiveInd.hasOntClass(OntCWAF.IF)) {
+                return compileIf(ontFS, ctx, directive.getIndividual());
+            } else if (directiveInd.hasOntClass(OntCWAF.MACRO)) {
+                return Stream.empty();
+            } else {
+                return compileContainer(ontFS, ctx, directiveInd);
+            }
         } else {
             return Stream.of(directive);
         }

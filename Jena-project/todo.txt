@@ -5,9 +5,11 @@
 
  - [x] phase en argument passe pas
  - [x] VirtualHost des macros doit être lié aux Uses, pas à la définition
+ - [ ] pas de VirtualHost ni de location pour la config globale
 
 # Parser
 
+ - [ ] Chemins propres en argument
  - [ ] SecDefaultAction set la phase par défaut
  - [ ] Gérer les:
     - [ ] define
@@ -18,10 +20,12 @@
 # Compilation
 
  - [x] gérer les variables locales + les paramètres
+ - [-] évaluer les conditions pour de vrai
  - [ ] gérer les:
     - [ ] IfDefine
     - [ ] IfModule
- - [ ] évaluer les conditions pour de vrai
+    - [ ] LocationMatch
 
  --------------------------------
  - [ ] placer le modele dans le context ?
+ - [ ] optimize by replacing regex with automn ?  

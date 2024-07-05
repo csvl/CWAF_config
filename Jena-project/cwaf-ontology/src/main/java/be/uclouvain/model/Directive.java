@@ -1,8 +1,11 @@
 package be.uclouvain.model;
 
+import static be.uclouvain.utils.DirectiveFactory.parseArguments;
+
 import java.util.Arrays;
 
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
 
 import be.uclouvain.service.CompileContext;
@@ -17,6 +20,8 @@ public class Directive implements Comparable<Directive> {
     private String virtualHost;
     private int ifLevel = 0;
     private int phase = Constants.DEFAULT_PHASE; 
+    private String[] args; //TODO: Implement better handling of arguments
+    private Condition existance_condition;
 
     public Directive(CompileContext ctx, Individual resource) {
         this.lineNum = resource.getPropertyValue(OntCWAF.DIR_LINE_NUM).asLiteral().getInt();
@@ -38,6 +43,12 @@ public class Directive implements Comparable<Directive> {
                 System.err.println("Cannot retrieve phase level for directive " + resource.getLocalName());
             }
         }
+
+        RDFNode argNode = resource.getPropertyValue(OntCWAF.ARGUMENTS);
+        String argsString = argNode != null ? argNode.asLiteral().getString() : "";
+        this.args = parseArguments(argsString, null);
+
+        this.existance_condition = ctx.getEC();
 
         ctx.getTrace().forEach( ancestor -> {
             if (ancestor.hasOntClass(OntCWAF.IF) || ancestor.hasOntClass(OntCWAF.ELSE_IF) || ancestor.hasOntClass(OntCWAF.ELSE)) {
@@ -61,6 +72,18 @@ public class Directive implements Comparable<Directive> {
 
     public boolean isBeacon() {
         return resource.hasOntClass(OntCWAF.BEACON);
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(String[] args) {
+        this.args = args;
+    }
+
+    public void setArgs(String arg, int i) {
+        this.args[i] = arg;
     }
 
     public int getLineNum() {
@@ -97,12 +120,13 @@ public class Directive implements Comparable<Directive> {
 
     @Override
     public String toString() {
-        return resource.getLocalName() + "{" +
+        return resource.getLocalName() + "(" + String.join(" ", args) + ")" + "{" +
                 "phase=" + phase +
                 ", ifLevel=" + ifLevel +
                 ", location='" + location + '\'' +
                 ", virtualHost='" + virtualHost + '\'' +
                 ", lineNum=" + lineNum +
+                ", EC=" + existance_condition.getCondition() +
                 "}";
     }
 
