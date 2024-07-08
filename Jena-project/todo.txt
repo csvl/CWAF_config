@@ -1,18 +1,20 @@
 
  - [ ] Ajouter des préfixs propres
+ - [ ] Gérer ServerName
+ - [ ] Ajouter un directiveType et enlever le ruleType ?
 
 # Bugs
 
  - [x] phase en argument passe pas
  - [x] VirtualHost des macros doit être lié aux Uses, pas à la définition
- - [ ] pas de VirtualHost ni de location pour la config globale
+ - [x] pas de VirtualHost ni de location pour la config globale
 
 # Parser
 
- - [ ] Chemins propres en argument
+ - [x] Chemins propres en argument
  - [ ] SecDefaultAction set la phase par défaut
  - [ ] Gérer les:
-    - [ ] define
+    - [x] define
     - [ ] DefineStr
     - [ ] UndefMacro
 
@@ -20,12 +22,13 @@
 # Compilation
 
  - [x] gérer les variables locales + les paramètres
- - [-] évaluer les conditions pour de vrai
  - [ ] gérer les:
     - [ ] IfDefine
     - [ ] IfModule
     - [ ] LocationMatch
+ - [-] évaluer les conditions pour de vrai
+ - que des conditions 1 == 0 ou 1 == 1 -> Normal ?
 
  --------------------------------
- - [ ] placer le modele dans le context ?
+ - [x] placer le modele dans le context ?
  - [ ] optimize by replacing regex with automn ?  

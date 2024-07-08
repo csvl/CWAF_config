@@ -69,24 +69,24 @@ public class DirectiveFactory {
 
     private static void initDirective(OntModel model, DirectiveContext context, int line_num, String URI, Individual directiveInd) {
         directiveInd.addLiteral(OntCWAF.DIR_LINE_NUM, line_num);
-        if (context.currentLocation != "" || context.currentVirtualhost != "" || context.serverName != "") {
-            Individual scope = model.createIndividual(URI+"-scope", OntCWAF.SCOPE);
-            if (context.currentLocation != "") {
-                scope.addProperty(OntCWAF.HAS_LOCATION, model.createIndividual(URI+"-scope-location", OntCWAF.LOCATION)
-                        .addLiteral(OntCWAF.LOCATION_PATH, context.currentLocation));
-            }
-            if (context.currentVirtualhost != "") {
-                scope.addProperty(OntCWAF.HAS_VIRTUAL_HOST,
-                    model.createIndividual(URI+"-scope-vhost", OntCWAF.VIRTUAL_HOST)
-                    .addLiteral(OntCWAF.V_HOST_NAME, context.currentVirtualhost));
-            }
-            if (context.serverName != "") {
-                scope.addProperty(OntCWAF.HAS_SERVER, model.createIndividual(URI+"-scope-server", OntCWAF.SERVER)
-                .addLiteral(OntCWAF.SERVER_NAME, context.serverName)
-                .addLiteral(OntCWAF.SERVER_PORT, context.serverPort));
-            }
-            directiveInd.addProperty(OntCWAF.HAS_SCOPE, scope);
-        }
+        // if (context.currentLocation != "" || context.currentVirtualhost != "" || context.serverName != "") {
+        //     Individual scope = model.createIndividual(URI+"-scope", OntCWAF.SCOPE);
+        //     if (context.currentLocation != "") {
+        //         scope.addProperty(OntCWAF.HAS_LOCATION, model.createIndividual(URI+"-scope-location", OntCWAF.LOCATION)
+        //                 .addLiteral(OntCWAF.LOCATION_PATH, context.currentLocation));
+        //     }
+        //     if (context.currentVirtualhost != "") {
+        //         scope.addProperty(OntCWAF.HAS_VIRTUAL_HOST,
+        //             model.createIndividual(URI+"-scope-vhost", OntCWAF.VIRTUAL_HOST)
+        //             .addLiteral(OntCWAF.V_HOST_NAME, context.currentVirtualhost));
+        //     }
+        //     if (context.serverName != "") {
+        //         scope.addProperty(OntCWAF.HAS_SERVER, model.createIndividual(URI+"-scope-server", OntCWAF.SERVER)
+        //         .addLiteral(OntCWAF.SERVER_NAME, context.serverName)
+        //         .addLiteral(OntCWAF.SERVER_PORT, context.serverPort));
+        //     }
+        //     directiveInd.addProperty(OntCWAF.HAS_SCOPE, scope);
+        // }
     }
 
 
@@ -96,7 +96,8 @@ public class DirectiveFactory {
 
     public static Individual createRule(OntModel model, DirectiveContext context, int line_num, String name, String args, OntClass type) {
         Individual ruleInd = createDirective(model, context, line_num, name, type);
-        // ruleInd.addLiteral(OntCWAF.RULE_NAME, name); //TODO ruleName or dirName ?
+        if (name != null && name != "")
+            ruleInd.addLiteral(OntCWAF.RULE_TYPE, name);
         if (args != null && args != "")
             ruleInd.addLiteral(OntCWAF.ARGUMENTS, args);
         return ruleInd;
@@ -110,13 +111,19 @@ public class DirectiveFactory {
         return createDirective(model, context, line_num, name, OntCWAF.BEACON);
     }
 
+    public static Individual createBeacon(OntModel model, DirectiveContext context, int line_num, String name, String args) {
+        Individual dir = createDirective(model, context, line_num, name, OntCWAF.BEACON);
+        dir.addLiteral(OntCWAF.ARGUMENTS, args);
+        return dir;
+    }
+
     public static Individual createMacro(OntModel model, DirectiveContext context, int line_num, String name, String paramsString) {
         String URI = OntUtils.getMacroURI(name);
         Individual macro = model.createIndividual(URI, OntCWAF.MACRO);
         initDirective(model, context, line_num, URI, macro);
         macro.addLiteral(OntCWAF.MACRO_NAME, name);
         // Seq params = parseArguments(paramsString, macro);
-        macro.addLiteral(OntCWAF.MACRO_ARGS, paramsString);
+        macro.addLiteral(OntCWAF.MACRO_PARAMS, paramsString);
         return macro;
     }
 
@@ -134,6 +141,31 @@ public class DirectiveFactory {
 
     public static Individual createElse(OntModel model, DirectiveContext context, int line_num) {
         return createBeacon(model, context, line_num, "Else", OntCWAF.ELSE);
+    }
+
+    public static Individual createVirtualHost(OntModel model, DirectiveContext context, int line_num, String name) {
+        Individual vhost = createDirective(model, context, line_num, "VirtualHost", OntCWAF.VIRTUAL_HOST);
+        vhost.addLiteral(OntCWAF.VIRTUAL_HOST_NAME, name);
+        return vhost;
+    }
+
+    public static Individual createEndVirtualHost(OntModel model, DirectiveContext context, int line_num, String vhost_URI) {
+        Individual vhost = createDirective(model, context, line_num, "EndVirtualHost", OntCWAF.END_VIRTUAL_HOST);
+        vhost.addProperty(OntCWAF.IS_ENDING_VIRTUAL_HOST, model.getIndividual(vhost_URI));
+        return vhost;
+    }
+
+    public static Individual createLocation(OntModel model, DirectiveContext context, int line_num, String path) {
+        Individual loc = createDirective(model, context, line_num, "Location", OntCWAF.LOCATION);
+        loc.addLiteral(OntCWAF.LOCATION_PATH, path);
+        return loc;
+
+    }
+
+    public static Individual createEndLocation(OntModel model, DirectiveContext context, int line_num, String loc_URI) {
+        Individual eloc = createDirective(model, context, line_num, "EndLocation", OntCWAF.END_LOCATION);
+        eloc.addProperty(OntCWAF.IS_ENDING_LOCATION, model.getIndividual(loc_URI));
+        return eloc;
     }
 
 }

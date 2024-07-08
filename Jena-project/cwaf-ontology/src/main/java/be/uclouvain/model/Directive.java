@@ -24,18 +24,22 @@ public class Directive implements Comparable<Directive> {
     private Condition existance_condition;
 
     public Directive(CompileContext ctx, Individual resource) {
+
         this.lineNum = resource.getPropertyValue(OntCWAF.DIR_LINE_NUM).asLiteral().getInt();
-        Statement scope = resource.getProperty(OntCWAF.HAS_SCOPE);
-        if (scope != null) {
-            Individual scopeInd = scope.getObject().as(Individual.class);
-            Statement location = scopeInd.getProperty(OntCWAF.HAS_LOCATION);
-            this.location = location != null ? location.getObject().as(Individual.class)
-                                    .getPropertyValue(OntCWAF.LOCATION_PATH).asLiteral().getString() : "global";
-            Statement virtualHost = scopeInd.getProperty(OntCWAF.HAS_VIRTUAL_HOST);
-            this.virtualHost = virtualHost != null ? virtualHost.getObject().as(Individual.class)
-                                    .getPropertyValue(OntCWAF.V_HOST_NAME).asLiteral().getString() : null;
-        }
-        
+        // Statement scope = resource.getProperty(OntCWAF.HAS_SCOPE);
+        // if (scope != null) {
+        //     Individual scopeInd = scope.getObject().as(Individual.class);
+        //     Statement location = scopeInd.getProperty(OntCWAF.HAS_LOCATION);
+        //     this.location = location != null ? location.getObject().as(Individual.class)
+        //                             .getPropertyValue(OntCWAF.LOCATION_PATH).asLiteral().getString() : "global";
+        //     Statement virtualHost = scopeInd.getProperty(OntCWAF.HAS_VIRTUAL_HOST);
+        //     this.virtualHost = virtualHost != null ? virtualHost.getObject().as(Individual.class)
+        //                             .getPropertyValue(OntCWAF.V_HOST_NAME).asLiteral().getString() : null;
+        // }
+
+        this.location = ctx.getCurrentLocation();
+        this.virtualHost = ctx.getCurrentVirtualHost();
+
         if (resource.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
             if (resource.hasProperty(OntCWAF.PHASE)) {
                 this.phase = resource.getPropertyValue(OntCWAF.PHASE).asLiteral().getInt();
@@ -58,17 +62,20 @@ public class Directive implements Comparable<Directive> {
         this.resource = resource;
     }
 
-    public String[] getScope() {
-        return new String[] {location, virtualHost};
-    }
+    // public String[] getScope() {
+    //     return new String[] {location, virtualHost};
+    // }
 
-    public void setScope(String[] scope) {
-        if (scope.length != 2) {
-            throw new IllegalArgumentException("Scope must have 2 elements");
-        }
-        this.location = scope[0];
-        this.virtualHost = scope[1];
-    }
+    // public void setScope(String[] scope) {
+    //     if (scope.length != 2) {
+    //         throw new IllegalArgumentException("Scope must have 2 elements");
+    //     }
+    //     this.location = scope[0];
+    //     this.virtualHost = scope[1];
+    //     // if (virtualHost != null || !location.equals("global")) {
+    //     //     System.err.println("Scope set to " + Arrays.toString(scope));
+    //     // }
+    // }
 
     public boolean isBeacon() {
         return resource.hasOntClass(OntCWAF.BEACON);
@@ -120,14 +127,14 @@ public class Directive implements Comparable<Directive> {
 
     @Override
     public String toString() {
-        return resource.getLocalName() + "(" + String.join(" ", args) + ")" + "{" +
+        return "{" +
                 "phase=" + phase +
                 ", ifLevel=" + ifLevel +
-                ", location='" + location + '\'' +
-                ", virtualHost='" + virtualHost + '\'' +
+                ", location='" + (location == null ? "global" : location) + '\'' +
+                ", virtualHost='" + (virtualHost== null ? "" : virtualHost) + '\'' +
                 ", lineNum=" + lineNum +
                 ", EC=" + existance_condition.getCondition() +
-                "}";
+                "}\t" + resource.getLocalName() + "\t(" + String.join(" ", args) + ")";
     }
 
     public void setPhase(int newPhase) {

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.*;
 
 import be.uclouvain.service.DirectiveContext;
@@ -53,7 +54,7 @@ public class OntUtils {
     }
 
     public static String getMacroURI(String uniqueName) {
-        return OntCWAF.NS + "Macro_" + uniqueName;
+        return OntCWAF.NS + "Macro_" + uniqueName.toLowerCase();
     }
 
     public static String getURIForName(String name) {
@@ -76,6 +77,16 @@ public class OntUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
+        if (withSchema) {
+            OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
+            schema.read("Jena-project/ontCWAF_0.6.ttl", "TTL");
+            model.add(schema);
+        }
+        saveOntology(filePath, model, format);
     }
 
     public static Resource findFileContaining(OntModel model, Individual directive) {

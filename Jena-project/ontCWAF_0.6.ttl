@@ -15,7 +15,7 @@
                                      dc:creator "Bastien Wiaux" ;
                                      dc:description "CWAF config ontology"@en ;
                                      dc:title "OntCWAF"@en ;
-                                     owl:versionInfo "0.5"@en .
+                                     owl:versionInfo "0.6"@en .
 
 #################################################################
 #    Annotation properties
@@ -61,38 +61,6 @@ cwaf:containsFile rdf:type owl:ObjectProperty ,
                   rdfs:label "containsFile"@en .
 
 
-###  http://visualdataweb.org/ontCWAF/hasLocation
-cwaf:hasLocation rdf:type owl:ObjectProperty ,
-                          owl:FunctionalProperty ;
-                 rdfs:domain cwaf:Scope ;
-                 rdfs:range cwaf:Location ;
-                 rdfs:label "hasLocation"@en .
-
-
-###  http://visualdataweb.org/ontCWAF/hasScope
-cwaf:hasScope rdf:type owl:ObjectProperty ,
-                       owl:FunctionalProperty ;
-              rdfs:domain cwaf:Directive ;
-              rdfs:range cwaf:Scope ;
-              rdfs:label "hasScope"@en .
-
-
-###  http://visualdataweb.org/ontCWAF/hasServer
-cwaf:hasServer rdf:type owl:ObjectProperty ,
-                        owl:FunctionalProperty ;
-               rdfs:domain cwaf:Scope ;
-               rdfs:range cwaf:Server ;
-               rdfs:label "hasServer"@en .
-
-
-###  http://visualdataweb.org/ontCWAF/hasVirtualHost
-cwaf:hasVirtualHost rdf:type owl:ObjectProperty ,
-                             owl:FunctionalProperty ;
-                    rdfs:domain cwaf:Scope ;
-                    rdfs:range cwaf:VirtualHost ;
-                    rdfs:label "hasVirtualHost"@en .
-
-
 ###  http://visualdataweb.org/ontCWAF/ifChain
 cwaf:ifChain rdf:type owl:ObjectProperty ,
                       owl:TransitiveProperty ;
@@ -110,12 +78,34 @@ cwaf:includeFile rdf:type owl:ObjectProperty ,
                  rdfs:label "includeFile"@en .
 
 
+###  http://visualdataweb.org/ontCWAF/isEndingLocation
+cwaf:isEndingLocation rdf:type owl:ObjectProperty ,
+                               owl:FunctionalProperty ,
+                               owl:InverseFunctionalProperty ;
+                      rdfs:domain cwaf:EndLocation ;
+                      rdfs:range cwaf:Location .
+
+
+###  http://visualdataweb.org/ontCWAF/isEndingVirtualHost
+cwaf:isEndingVirtualHost rdf:type owl:ObjectProperty ,
+                                  owl:FunctionalProperty ,
+                                  owl:InverseFunctionalProperty ;
+                         rdfs:domain cwaf:EndVirtualHost ;
+                         rdfs:range cwaf:VirtualHost .
+
+
 ###  http://visualdataweb.org/ontCWAF/useMacro
-cwaf:useMacro rdf:type owl:ObjectProperty ,
-                       owl:FunctionalProperty ;
+cwaf:useMacro rdf:type owl:ObjectProperty ;
+              owl:inverseOf cwaf:usedBy ;
+              rdf:type owl:FunctionalProperty ;
               rdfs:domain cwaf:Use ;
               rdfs:range cwaf:Macro ;
               rdfs:label "useMacro"@en .
+
+
+###  http://visualdataweb.org/ontCWAF/usedBy
+cwaf:usedBy rdf:type owl:ObjectProperty ,
+                     owl:InverseFunctionalProperty .
 
 
 #################################################################
@@ -176,13 +166,6 @@ cwaf:locationPath rdf:type owl:DatatypeProperty ,
                              "locationPath"@iri-based .
 
 
-###  http://visualdataweb.org/ontCWAF/macroArgs
-cwaf:macroArgs rdf:type owl:DatatypeProperty ;
-               rdfs:domain cwaf:Macro ;
-               rdfs:range xsd:string ;
-               rdfs:label "macroArgs"@en .
-
-
 ###  http://visualdataweb.org/ontCWAF/macroName
 cwaf:macroName rdf:type owl:DatatypeProperty ,
                         owl:FunctionalProperty ;
@@ -190,6 +173,13 @@ cwaf:macroName rdf:type owl:DatatypeProperty ,
                rdfs:range xsd:string ;
                rdfs:label "macroName"@en ,
                           "macroName"@iri-based .
+
+
+###  http://visualdataweb.org/ontCWAF/macroParams
+cwaf:macroParams rdf:type owl:DatatypeProperty ;
+                 rdfs:domain cwaf:Macro ;
+                 rdfs:range xsd:string ;
+                 rdfs:label "macroParams"@en .
 
 
 ###  http://visualdataweb.org/ontCWAF/phase
@@ -211,35 +201,26 @@ cwaf:ruleType rdf:type owl:DatatypeProperty ,
 ###  http://visualdataweb.org/ontCWAF/serverName
 cwaf:serverName rdf:type owl:DatatypeProperty ,
                          owl:FunctionalProperty ;
-                rdfs:domain cwaf:Server ;
+                rdfs:domain cwaf:VirtualHost ;
                 rdfs:range xsd:string ;
                 rdfs:label "serverName"@en ,
                            "serverName"@iri-based .
 
 
-###  http://visualdataweb.org/ontCWAF/serverPort
-cwaf:serverPort rdf:type owl:DatatypeProperty ,
-                         owl:FunctionalProperty ;
-                rdfs:domain cwaf:Server ;
-                rdfs:range xsd:integer ;
-                rdfs:label "serverPort"@en ,
-                           "serverPort"@iri-based .
+###  http://visualdataweb.org/ontCWAF/useArgs
+cwaf:useArgs rdf:type owl:DatatypeProperty ;
+             rdfs:domain cwaf:Use ;
+             rdfs:range xsd:string ;
+             rdfs:label "useArgs"@en .
 
 
-###  http://visualdataweb.org/ontCWAF/useParams
-cwaf:useParams rdf:type owl:DatatypeProperty ;
-               rdfs:domain cwaf:Use ;
-               rdfs:range xsd:string ;
-               rdfs:label "useParams"@en .
-
-
-###  http://visualdataweb.org/ontCWAF/vHostName
-cwaf:vHostName rdf:type owl:DatatypeProperty ,
-                        owl:FunctionalProperty ;
-               rdfs:domain cwaf:VirtualHost ;
-               rdfs:range xsd:string ;
-               rdfs:label "vHostName"@en ,
-                          "vHostName"@iri-based .
+###  http://visualdataweb.org/ontCWAF/virtualHostName
+cwaf:virtualHostName rdf:type owl:DatatypeProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:domain cwaf:VirtualHost ;
+                     rdfs:range xsd:string ;
+                     rdfs:label "virtualHostName"@en ,
+                                "virtualHostName" .
 
 
 #################################################################
@@ -268,12 +249,27 @@ cwaf:Directive rdf:type owl:Class ;
 
 ###  http://visualdataweb.org/ontCWAF/Else
 cwaf:Else rdf:type owl:Class ;
-          rdfs:subClassOf cwaf:Beacon .
+          rdfs:subClassOf cwaf:Beacon ;
+          owl:disjointWith cwaf:ElseIf ,
+                           cwaf:If ,
+                           cwaf:Macro .
 
 
 ###  http://visualdataweb.org/ontCWAF/ElseIf
 cwaf:ElseIf rdf:type owl:Class ;
-            rdfs:subClassOf cwaf:Beacon .
+            rdfs:subClassOf cwaf:Beacon ;
+            owl:disjointWith cwaf:If ,
+                             cwaf:Macro .
+
+
+###  http://visualdataweb.org/ontCWAF/EndLocation
+cwaf:EndLocation rdf:type owl:Class ;
+                 rdfs:subClassOf cwaf:ScopeRule .
+
+
+###  http://visualdataweb.org/ontCWAF/EndVirtualHost
+cwaf:EndVirtualHost rdf:type owl:Class ;
+                    rdfs:subClassOf cwaf:ScopeRule .
 
 
 ###  http://visualdataweb.org/ontCWAF/File
@@ -294,6 +290,7 @@ cwaf:If rdf:type owl:Class ;
 cwaf:Include rdf:type owl:Class ;
              rdfs:subClassOf cwaf:Rule ;
              owl:disjointWith cwaf:ModSecRule ,
+                              cwaf:ScopeRule ,
                               cwaf:Use ;
              rdfs:label "Include"@en ,
                         "Include"@iri-based .
@@ -301,6 +298,7 @@ cwaf:Include rdf:type owl:Class ;
 
 ###  http://visualdataweb.org/ontCWAF/Location
 cwaf:Location rdf:type owl:Class ;
+              rdfs:subClassOf cwaf:ScopeRule ;
               rdfs:label "Location"@en ,
                          "Location"@iri-based .
 
@@ -315,7 +313,8 @@ cwaf:Macro rdf:type owl:Class ;
 ###  http://visualdataweb.org/ontCWAF/ModSecRule
 cwaf:ModSecRule rdf:type owl:Class ;
                 rdfs:subClassOf cwaf:Rule ;
-                owl:disjointWith cwaf:Use ;
+                owl:disjointWith cwaf:ScopeRule ,
+                                 cwaf:Use ;
                 rdfs:label "ModSecRule"@en ,
                            "ModSecRule"@iri-based .
 
@@ -327,16 +326,10 @@ cwaf:Rule rdf:type owl:Class ;
                      "Rule"@iri-based .
 
 
-###  http://visualdataweb.org/ontCWAF/Scope
-cwaf:Scope rdf:type owl:Class ;
-           rdfs:label "Scope"@en ,
-                      "Scope"@iri-based .
-
-
-###  http://visualdataweb.org/ontCWAF/Server
-cwaf:Server rdf:type owl:Class ;
-            rdfs:label "Server"@en ,
-                       "Server"@iri-based .
+###  http://visualdataweb.org/ontCWAF/ScopeRule
+cwaf:ScopeRule rdf:type owl:Class ;
+               rdfs:subClassOf cwaf:Rule ;
+               owl:disjointWith cwaf:Use .
 
 
 ###  http://visualdataweb.org/ontCWAF/Use
@@ -348,6 +341,7 @@ cwaf:Use rdf:type owl:Class ;
 
 ###  http://visualdataweb.org/ontCWAF/VirtualHost
 cwaf:VirtualHost rdf:type owl:Class ;
+                 rdfs:subClassOf cwaf:ScopeRule ;
                  rdfs:label "VirtualHost"@en ,
                             "VirtualHost"@iri-based .
 

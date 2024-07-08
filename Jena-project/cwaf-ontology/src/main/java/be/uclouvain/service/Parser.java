@@ -26,7 +26,7 @@ import static be.uclouvain.service.Constants.Parser.*;
 
 public class Parser {
 
-    static String pwd = null;
+    // static String pwd = null;
 
     public static OntModel parseConfig(String filePath) throws IOException {
 
@@ -58,11 +58,11 @@ public class Parser {
             }
         }
 
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+
         Individual file = model.createIndividual(OntCWAF.NS + filePath, OntCWAF.FILE);
         file.addLiteral(OntCWAF.FILE_PATH, filePath);
         file_bag.add(file);
-
-        List<String> lines = Files.readAllLines(Paths.get(pathAdapter(filePath)));
 
         DirectiveContext context = new DirectiveContext();
 
@@ -92,14 +92,18 @@ public class Parser {
         if (virtualHostMatcher.find()) {
             context.lastIf = "";
             String virtualHost = virtualHostMatcher.group(1);
-            context.currentVirtualhost = virtualHost;
+            Individual vh = createVirtualHost(model, context, line_num, virtualHost);
+            context.currentVirtualhost = vh.getURI();
+            attachDirectiveToOnt(model, context, vh, file);
             return;
         }
 
         Matcher virtualHostEndMatcher = virtualHostEndPattern.matcher(line);
         if (virtualHostEndMatcher.find()) {
             context.lastIf = "";
+            Individual evh = createEndVirtualHost(model, context, line_num, context.currentVirtualhost);
             context.currentVirtualhost = "";
+            attachDirectiveToOnt(model, context, evh, file);
             return;
         }
 
@@ -173,13 +177,17 @@ public class Parser {
         Matcher locationMatcher = locationPattern.matcher(line);
         if (locationMatcher.find()) {
             String location = locationMatcher.group(1);
-            context.currentLocation = location;
+            Individual loc = createLocation(model, context, line_num, location);
+            context.currentLocation = loc.getURI();
+            attachDirectiveToOnt(model, context, loc, file);
             return;
         }
 
         Matcher locationEndMatcher = locationEndPattern.matcher(line);
         if (locationEndMatcher.find()) {
+            Individual eloc = createEndLocation(model, context, line_num, context.currentLocation);
             context.currentLocation = "";
+            attachDirectiveToOnt(model, context, eloc, file);
             return;
         }
 
@@ -187,7 +195,7 @@ public class Parser {
         if (genericMatcher.find()) {
             String name = genericMatcher.group(1);
             String args = genericMatcher.group(2);
-            Individual beacon = createBeacon(model, context, line_num, name);
+            Individual beacon = createBeacon(model, context, line_num, name, args);
             attachDirectiveToOnt(model, context, beacon, file);
             context.beaconStack.push(beacon.getURI());
             return;
@@ -216,7 +224,7 @@ public class Parser {
         if (includeMatcher.find()) {
             String includedFile = includeMatcher.group(1);
             if (includedFile.contains("*")) {
-                List<Path> expanded = expandPath(pathAdapter(includedFile));
+                List<Path> expanded = expandPath(includedFile);
                 // System.out.println("Expanded: " + expanded.toString() + " from " + includedFile);
                 expanded.forEach(path -> {
                     try {
@@ -224,7 +232,7 @@ public class Parser {
                         Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                         attachDirectiveToOnt(model, context, include, file);
                     } catch (NoSuchFileException e) {
-                        System.err.println("File not found: " + path.toString());
+                        System.err.println("File not found: " + e.getFile());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -247,7 +255,7 @@ public class Parser {
             return;
         }
 
-        Matcher servernameMatcher = servernamePattern.matcher(line);
+        Matcher servernameMatcher = servernamePattern.matcher(line); //TODO
         if (servernameMatcher.find()) {
             String serverName = servernameMatcher.group(1);
             context.serverName = serverName;
@@ -282,7 +290,6 @@ public class Parser {
 
         Matcher generalRuleMatcher = genericRulePattern.matcher(line);
         if (generalRuleMatcher.find()) {
-            //TODO change to match any Rule
             String ruleKeyword = generalRuleMatcher.group(1);
             String args = generalRuleMatcher.group(2);
             // System.out.println("Rule: " + ruleKeyword + " with args: " + args);
@@ -299,21 +306,18 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        pwd = args[0];
         try {
-            OntModel model = parseConfig(args[1]);
+            OntModel model = parseConfig(args[0]);
             // OntUtils.print_bag(model.getBag(Constants.FILE_BAG_NAME));
             // OntUtils.print_all_statements(model);
             saveOntology("config.ttl", model, "TTL");
+            saveOntology("full_schema.ttl", model, "TTL", true);
         } catch (IOException e) {
             e.printStackTrace();
     }
 
 }
 
-    private static String pathAdapter(String path) {
-        return path.replace("conf/", pwd+"/");
-    }
 
     //ChatGPT - Code Snippet
     public static List<Path> expandPath(String pattern) throws IOException {
