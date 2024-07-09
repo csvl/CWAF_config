@@ -15,7 +15,7 @@
                                      dc:creator "Bastien Wiaux" ;
                                      dc:description "CWAF config ontology"@en ;
                                      dc:title "OntCWAF"@en ;
-                                     owl:versionInfo "0.6"@en .
+                                     owl:versionInfo "0.7"@en .
 
 #################################################################
 #    Annotation properties
@@ -167,6 +167,12 @@ cwaf:ifType rdf:type owl:DatatypeProperty ,
                      owl:FunctionalProperty ;
             rdfs:domain cwaf:IfRule ;
             rdfs:range xsd:string .
+
+
+###  http://visualdataweb.org/ontCWAF/isPlaceHolder
+cwaf:isPlaceHolder rdf:type owl:DatatypeProperty ;
+                   rdfs:domain owl:Thing ;
+                   rdfs:range xsd:boolean .
 
 
 ###  http://visualdataweb.org/ontCWAF/locationPath

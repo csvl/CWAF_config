@@ -39,6 +39,7 @@ public class Parser {
         config.addProperty(OntCWAF.CONTAINS_FILE, file_bag);
 
         parseConfigFile(filePath, confModel, file_bag);
+        cleanPlaceHolders(confModel);
 
         return confModel;
     }
@@ -138,8 +139,24 @@ public class Parser {
             return;
         }
 
-        Matcher ifEndMatcher = ifPatternEnd.matcher(line);
+        Matcher ifEndMatcher = ifEndPattern.matcher(line);
         if (ifEndMatcher.find()) {
+            context.lastIf = context.beaconStack.pop();
+            return;
+        }
+
+        Matcher ifRuleMatcher = ifRulePattern.matcher(line);
+        if (ifRuleMatcher.find()) {
+            String rule = ifRuleMatcher.group(1);
+            String args = ifRuleMatcher.group(2);
+            Individual ifInd = createIfRule(model, context, line_num, rule, args);
+            attachDirectiveToOnt(model, context, ifInd, file);
+            context.beaconStack.push(ifInd.getURI());
+            return;
+        }
+
+        Matcher ifRuleEndMatcher = ifRuleEndPattern.matcher(line);
+        if (ifRuleEndMatcher.find()) {
             context.lastIf = context.beaconStack.pop();
             return;
         }

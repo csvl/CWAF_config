@@ -54,7 +54,24 @@ public class OntUtils {
     }
 
     public static String getMacroURI(String uniqueName) {
+        if (uniqueName == null || uniqueName.length() == 0){
+            throw new IllegalArgumentException("Macro name cannot be null or empty");
+        }
+        if (uniqueName.startsWith(OntCWAF.NS)) {
+            return uniqueName;
+        }
         return OntCWAF.NS + "Macro_" + uniqueName.toLowerCase();
+    }
+
+    public static String getMacroNameFromURI(String URI) {
+        return URI.replace(OntCWAF.NS + "Macro_", "");
+    }
+
+    public static void cleanPlaceHolders(OntModel model) {
+        List<Statement> stmts = model.listLiteralStatements(null, OntCWAF.IS_PLACE_HOLDER, true).toList();
+        for (Statement stmt : stmts) {
+            stmt.getSubject().as(Individual.class).remove();
+        }
     }
 
     public static String getURIForName(String name) {
@@ -83,7 +100,7 @@ public class OntUtils {
     public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
         if (withSchema) {
             OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-            schema.read("Jena-project/ontCWAF_0.6.ttl", "TTL");
+            schema.read("Jena-project/ontCWAF_0.7.ttl", "TTL");
             model.add(schema);
         }
         saveOntology(filePath, model, format);

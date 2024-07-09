@@ -4,17 +4,19 @@ import org.apache.jena.rdf.model.*;
 
 import be.uclouvain.model.Condition;
 import be.uclouvain.model.Directive;
+import be.uclouvain.model.LocalVar;
 import be.uclouvain.vocabulary.OntCWAF;
 
 import static be.uclouvain.service.Constants.Parser.phasePattern;
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
+import static be.uclouvain.utils.OntUtils.getMacroURI;
 
 import java.security.InvalidParameterException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.apache.jena.ontology.DatatypeProperty;
@@ -28,7 +30,7 @@ public class Compiler {
         OntModel ontFS = ctx.getInfModel();
         dump.forEach( dir -> {
             System.out.print(dir);
-            StmtIterator stmts = ontFS.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, dir.getIndividual());
+            StmtIterator stmts = ontFS.listStatements(dir.getIndividual(), OntCWAF.CONTAINED_IN, (RDFNode)null);
             // stmts.forEach(System.out::println);
             stmts.forEach( stmt -> {
                 if (stmt.getSubject().as(Individual.class).hasProperty(OntCWAF.FILE_PATH)) {
@@ -96,18 +98,17 @@ public class Compiler {
     }
 
     private static Stream<Directive> expandUse(CompileContext ctx, Directive use) {
-        String macroURI = use.getIndividual().getProperty(OntCWAF.USE_MACRO).getObject().asLiteral().getString();
-        if (!ctx.isMacroDefined(macroURI)) {
-            System.err.println("Macro not defined: " + macroURI);
-            System.err.println("Used in directive: " + use.getIndividual().getURI());
-            return Stream.empty();
-        }
-        Individual macro = ctx.getModel().getIndividual(macroURI);
-        if (macro == null) {
-            System.err.println("Macro defined but not found: " + macroURI);
-            System.err.println("Used in directive: " + use.getIndividual().getURI());
-            return Stream.empty();
-        }
+        Individual macro = use.getIndividual().getProperty(OntCWAF.USE_MACRO).getObject().as(Individual.class);
+        // if (!ctx.isMacroDefined(macroURI)) {
+        //     System.err.println("Macro not defined: " + macroURI);
+        //     System.err.println("Used in directive: " + use.getIndividual().getURI());
+        //     return Stream.empty();
+        // }
+        // if (macro == null) {
+        //     System.err.println("Macro defined but not found: " + macroURI);
+        //     System.err.println("Used in directive: " + use.getIndividual().getURI());
+        //     return Stream.empty();
+        // }
         String[] args = use.getArgs();
         // System.err.println("Using macro: " + macro.getLocalName() + " with args " + Arrays.toString(args));
         return compileMacroContent(ctx, macro, args); //, use.getScope()
@@ -161,10 +162,12 @@ public class Compiler {
     }
 
     private static String replaceContent(CompileContext ctx, String content){
-        for (String var : ctx.getLocalVars().keySet()) {
-            String regex = Matcher.quoteReplacement(var);
-            String localVal = Matcher.quoteReplacement(ctx.getLocalVars().get(var));
-            content = content.replaceAll(regex, localVal);
+        for (LocalVar var : ctx.getLocalVars()) {
+            String regex = Pattern.quote(var.name);
+            String localVal = var.value;
+            if (localVal != null) {
+                content = content.replaceAll(regex, Matcher.quoteReplacement(localVal));
+            }
         }
         return content;
     }
@@ -239,12 +242,27 @@ public class Compiler {
         Individual directiveInd = directive.getIndividual();
         String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(args, null);
+        if (content.length != 0 && ctx.getLocalVar("${"+content[0]+"}") != null) { //TODO create "contains var"
+            return Stream.empty();
+        }
         if (content.length == 1) {
             ctx.addVar("${"+content[0]+"}", null);
         } else if (content.length == 2) {
             ctx.addVar("${"+content[0]+"}", content[1]);
         } else {
             System.err.println("Invalid number of arguments for Define: " + content.length);
+        }
+        return Stream.empty();
+    }
+
+    private static Stream<Directive> compileDefineStr(CompileContext ctx, Directive directive){
+        Individual directiveInd = directive.getIndividual();
+        String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
+        String[] content = parseArguments(args, null);
+        if (content.length == 2) {
+            ctx.addVar("~{"+content[0]+"}", content[1]);
+        } else {
+            System.err.println("Invalid number of arguments for DefineStr: " + content.length + " in directive " + directiveInd.getLocalName());
         }
         return Stream.empty();
     }
@@ -263,22 +281,32 @@ public class Compiler {
 
     private static Stream<Directive> compileUndefMacro(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
-        String macroURI = directiveInd.getURI();
-        ctx.undefineMacro(macroURI);
+        String arg = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
+        String[] content = parseArguments(arg, null);
+        if (content.length >= 1) {
+            String macroURI = getMacroURI(content[0]);
+            ctx.undefineMacro(macroURI);
+        } else {
+            System.err.println("Invalid number of arguments for UndefMacro: " + content.length);
+        }
         return Stream.empty();
     }
 
     private static Stream<Directive> compileGenericRule(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
-        if (directiveInd.hasProperty(OntCWAF.RULE_TYPE)) {
-            String ruleType = directiveInd.getPropertyValue(OntCWAF.RULE_TYPE).asLiteral().getString().toLowerCase();
+        if (directiveInd.hasProperty(OntCWAF.DIR_TYPE)) {
+            String ruleType = directiveInd.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString().toLowerCase();
             switch (ruleType) {
                 case "define":
                     return compileDefine(ctx, directive);
+                case "definestr":
+                    return compileDefineStr(ctx, directive);
                 case "undefmacro":
                     return compileUndefMacro(ctx, directive);
                 case "undefine":
                     return compileUndefine(ctx, directive);
+                case "secdefaultaction":
+                    return Stream.of(directive);
                 default:
                     return Stream.of(directive);
             }
@@ -294,6 +322,54 @@ public class Compiler {
         return Stream.empty();
     }
 
+    private static Stream<Directive> compileGenericIf(CompileContext ctx, Directive directive){
+        Individual ifInd = directive.getIndividual();
+        if (ifInd.hasProperty(OntCWAF.IF_TYPE)) {
+            String dirType = ifInd.getPropertyValue(OntCWAF.IF_TYPE).asLiteral().getString().toLowerCase();
+            Condition condition = null;
+            String cond = ifInd.getPropertyValue(OntCWAF.CONDITION).asLiteral().getString();
+            String[] content = parseArguments(cond, null);
+            switch (dirType) {
+                case "define":
+                    if (content.length >= 1) {
+                        if (content[0].startsWith("!")) {
+                            condition = new Condition("∃ " + content[0].substring(1)).not();
+                        } else {
+                            condition = new Condition("∃ " + content[0]);
+                        }
+                    } else {
+                        System.err.println("Invalid number of arguments for IfDefine: " + content.length);
+                        return Stream.empty();
+                    }
+                        break;
+                case "module":
+                    if (content.length >= 1) {
+                        if (content[0].startsWith("!")) {
+                            condition = new Condition("≜[" + content[0].substring(1) + "]").not();
+                        } else {
+                            condition = new Condition("≜[" + content[0] + "]");
+                        }
+                    } else {
+                        System.err.println("Invalid number of arguments for IfModule: " + content.length);
+                        return Stream.empty();
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if (condition == null) {
+                return compileContainer(ctx, ifInd);
+            }
+            ctx.addEC(condition);
+            Stream<Directive> res = compileContainer(ctx, ifInd);
+            ctx.popEC();
+            return res;
+        } else {
+            System.err.println("Directive Type not found for directive " + ifInd.getLocalName());
+        }
+        return compileContainer(ctx, ifInd);
+    }
+
     private static Stream<Directive> compileDirective(CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
         expandVars(ctx, directive);
@@ -302,6 +378,8 @@ public class Compiler {
                 return compileIf(ctx, directive.getIndividual());
             } else if (directiveInd.hasOntClass(OntCWAF.MACRO)) {
                 return compileDefineMacro(ctx, directiveInd);
+            } else if (directiveInd.hasProperty(OntCWAF.IF_TYPE)) {
+                return compileGenericIf(ctx, directive);
             } else {
                 return compileContainer(ctx, directiveInd);
             }
@@ -311,7 +389,7 @@ public class Compiler {
             return expandUse(ctx, directive);
         } else if (directiveInd.hasOntClass(OntCWAF.SCOPE_RULE)) {
             return compileScopeRule(ctx, directive);
-        } else if (directiveInd.hasProperty(OntCWAF.RULE_TYPE)) {
+        } else if (directiveInd.hasProperty(OntCWAF.DIR_TYPE)) {
             return compileGenericRule(ctx, directive);
         } else {
             return Stream.of(directive);
@@ -323,7 +401,7 @@ public class Compiler {
         ontFS.read("config.ttl", "TTL");
 
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        schema.read("Jena-project/ontCWAF_0.6.ttl", "TTL");
+        schema.read("Jena-project/ontCWAF_0.7.ttl", "TTL");
         // ontFS.add(schema);
         // ontFS.write(System.out, "TTL");
         // System.exit(0);

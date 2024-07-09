@@ -13,7 +13,7 @@ import be.uclouvain.service.Constants;
 import be.uclouvain.vocabulary.OntCWAF;
 
 public class Directive implements Comparable<Directive> {
-    
+
     private int lineNum;
     private Individual resource;
     private String location = "global";
@@ -55,7 +55,7 @@ public class Directive implements Comparable<Directive> {
         this.existance_condition = ctx.getEC();
 
         ctx.getTrace().forEach( ancestor -> {
-            if (ancestor.hasOntClass(OntCWAF.IF) || ancestor.hasOntClass(OntCWAF.ELSE_IF) || ancestor.hasOntClass(OntCWAF.ELSE)) {
+            if (ancestor.hasOntClass(OntCWAF.IF_FAMILY) || ancestor.hasOntClass(OntCWAF.ELSE_FAMILY)) {
                 ifLevel++;
             }
         });
@@ -127,13 +127,14 @@ public class Directive implements Comparable<Directive> {
 
     @Override
     public String toString() {
+        String EC = existance_condition.getCondition();
         return "{" +
                 "phase=" + phase +
                 ", ifLevel=" + ifLevel +
                 ", location='" + (location == null ? "global" : location) + '\'' +
                 ", virtualHost='" + (virtualHost== null ? "" : virtualHost) + '\'' +
                 ", lineNum=" + lineNum +
-                ", EC=" + existance_condition.getCondition() +
+                (EC == "true" ? "" : ", EC=" + existance_condition.getCondition()) +
                 "}\t" + resource.getLocalName() + "\t(" + String.join(" ", args) + ")";
     }
 

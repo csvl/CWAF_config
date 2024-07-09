@@ -13,7 +13,9 @@ public class Constants {
 
         // Beacon patterns
         public static Pattern ifPattern = Pattern.compile("[ \\t]*<If\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern ifPatternEnd = Pattern.compile("[ \\t]*</If>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifEndPattern = Pattern.compile("[ \\t]*</If>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifRulePattern = Pattern.compile("[ \\t]*<If(.*?)\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifRuleEndPattern = Pattern.compile("[ \\t]*</If(.*?)>", Pattern.CASE_INSENSITIVE);
         public static Pattern elseIfPattern = Pattern.compile("[ \\t]*<ElseIf\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
         public static Pattern elseIfEndPattern = Pattern.compile("[ \\t]*</ElseIf>", Pattern.CASE_INSENSITIVE);
         public static Pattern elsePattern = Pattern.compile("[ \\t]*<Else>", Pattern.CASE_INSENSITIVE);

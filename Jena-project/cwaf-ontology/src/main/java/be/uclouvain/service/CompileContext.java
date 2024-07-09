@@ -1,6 +1,7 @@
 package be.uclouvain.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
@@ -8,6 +9,7 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
 
 import be.uclouvain.model.Condition;
+import be.uclouvain.model.LocalVar;
 import be.uclouvain.model.Scope;
 
 public class CompileContext{
@@ -16,7 +18,7 @@ public class CompileContext{
     private OntModel schema;
     private OntModel infModel;
     private Stack<Individual> trace = new Stack<>();
-    private Map<String, String> localVars = new HashMap<>();
+    private List<LocalVar> localVars = new ArrayList<>();
     private Map<String, List<String>> varTag = new HashMap<>();
     private Stack<Condition> existance_conditions = new Stack<>();
     private Scope scope = new Scope();
@@ -44,7 +46,7 @@ public class CompileContext{
         definedMacros.addAll(other.definedMacros);
 
         trace.addAll(other.trace);
-        localVars.putAll(other.localVars);
+        localVars.addAll(other.localVars);
         for (Map.Entry<String, List<String>> entry : other.varTag.entrySet()) {
             List<String> copy = new ArrayList<>(entry.getValue());
             varTag.put(entry.getKey(), copy);
@@ -84,39 +86,50 @@ public class CompileContext{
     }
 
     public void addVar(String name, String value){
-        localVars.put(name, value);
+        if (localVars.stream().anyMatch(v -> v.name.equals(name))){
+            localVars.removeIf(v -> v.name.equals(name));
+        }
+        localVars.add(new LocalVar(name, value));
     }
 
     public void defineMacro(String name) {
-        definedMacros.add(name);
+        // definedMacros.add(name);
     }
 
     public boolean isMacroDefined(String name) {
-        return definedMacros.contains(name);
+        // return definedMacros.contains(name);
+        return true;
     }
 
     public void undefineMacro(String name) {
-        if (!definedMacros.remove(name)) {
-            System.err.println("Attempt to undefine macro " + name + ", which was not defined");
-        }
+        // if (!definedMacros.remove(name)) {
+        //     System.err.println("Attempt to undefine macro " + name + ", which was not defined");
+        // }
     }
 
     public void addVar(String name, String value, String tag){
-        localVars.put(name, value);
-        List<String> tagList = varTag.getOrDefault(tag, new ArrayList<>());
-        tagList.add(name);
-        varTag.put(tag, tagList);
+        if (localVars.stream().anyMatch(v -> v.name.equals(name) && v.tag.equals(tag))){
+            localVars.removeIf(v -> v.name.equals(name) && v.tag.equals(tag));
+        }
+        localVars.add(new LocalVar(name, value, tag));
+        // List<String> tagList = varTag.getOrDefault(tag, new ArrayList<>());
+        // tagList.add(name);
+        // varTag.put(tag, tagList);
     }
 
     public void removeVar(String name){
-        localVars.remove(name);
+        localVars.removeIf(v -> v.name.equals(name));
     }
 
     public void removeTaggedVar(String tag) {
-        List<String> taggedVars = varTag.get(tag);
-        for (String var : taggedVars) {
-            localVars.remove(var);
-        }
+        localVars.removeIf(v -> v.tag.equals(tag));
+        // List<String> taggedVars = varTag.get(tag);
+        // if (taggedVars == null) {
+        //     return;
+        // }
+        // for (String var : taggedVars) {
+        //     localVars.remove(var);
+        // }
     }
 
     public void addEC(String condition) {
@@ -135,8 +148,33 @@ public class CompileContext{
         return existance_conditions.stream().reduce((C1, C2) -> C1.and(C2)).orElse(new Condition("true"));
     }
 
-    public Map<String, String> getLocalVars() {
-        return localVars;
+    public List<LocalVar> getLocalVars() {
+        String tag = trace.peek().getURI();
+        List<LocalVar> rep_vars = new ArrayList<>();
+        for (LocalVar var : localVars) {
+            if (var.tag.equals(tag)) {
+                rep_vars.add(var);
+            }
+        }
+        for (LocalVar var : localVars) {
+            if (rep_vars.stream().noneMatch(v -> v.name.equals(var.name))){
+                rep_vars.add(var);
+            }
+        }
+        return rep_vars;
+    }
+
+    public LocalVar getLocalVar(String name) {
+        String tag = trace.peek().getURI();
+        List<LocalVar> rep_vars = localVars.stream().filter(v -> v.name.equals(name) && v.tag.equals(tag)).collect(Collectors.toList());
+        if (rep_vars.size() != 0) {
+            return rep_vars.get(0);
+        }
+        rep_vars = localVars.stream().filter(v -> v.name.equals(name)).collect(Collectors.toList());
+        if (rep_vars.size() == 0) {
+            return null;
+        }
+        return rep_vars.get(0);
     }
 
     public Stack<Individual> getTrace() {

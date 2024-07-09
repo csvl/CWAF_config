@@ -7,12 +7,12 @@ public class Condition {
     public boolean inverse;
 
     public static Condition and(Condition c1, Condition c2) {
-        return new Condition("(" + c1.getCondition() + " AND " + c2.getCondition() + ")");
+        return new Condition("(" + c1.getCondition() + " ∧ " + c2.getCondition() + ")");
     }
 
 
     public static Condition or(Condition c1, Condition c2) {
-        return new Condition("(" + c1.getCondition() + " OR " + c2.getCondition() + ")");
+        return new Condition("(" + c1.getCondition() + " ∨ " + c2.getCondition() + ")");
     }
 
     public static Condition not(Condition c) {
@@ -30,7 +30,7 @@ public class Condition {
 
     public String getCondition() {
         if (inverse) {
-            return "NOT(" + condition + ")";
+            return "¬(" + condition + ")";
         } else {
             return condition;
         }
@@ -54,5 +54,10 @@ public class Condition {
 
     public Condition or(Condition c) {
         return or(this, c);
+    }
+
+    @Override
+    public String toString() {
+        return getCondition();
     }
 }

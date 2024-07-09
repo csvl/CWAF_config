@@ -1,5 +1,7 @@
 package be.uclouvain.utils;
 
+import static be.uclouvain.utils.OntUtils.getMacroNameFromURI;
+
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.Seq;
 
@@ -19,6 +21,9 @@ public class DirectiveFactory {
     }
 
     public static String[] parseArguments(String macroArgs, Individual use) {
+        if (macroArgs == null || macroArgs.length() == 0) {
+            return new String[0];
+        }
         String[] args = macroArgs.split(" +(?:(?=(?:[^\"\']*(?:(\"[^\"]*\")|(\'[^\']*\')))*[^\"\']*$))");
         for (int i = 0; i < args.length; i++) {
             // if (!args[i].contains(" ")) {
@@ -40,7 +45,12 @@ public class DirectiveFactory {
         Individual use = createRule(model, context, line_num, "Use", args, OntCWAF.USE);
         // Seq argsInd = parseArguments(args, use);
         // use.addProperty(OntCWAF.USE_PARAMS, argsInd);
-        use.addLiteral(OntCWAF.USE_MACRO, macroURI);
+        Individual macro = model.getIndividual(macroURI);
+        if (macro == null) {
+            macro = createMacro(model, context, -1, getMacroNameFromURI(macroURI), "");
+            macro.addLiteral(OntCWAF.IS_PLACE_HOLDER, true);
+        }
+        use.addProperty(OntCWAF.USE_MACRO, macro);
         return use;
     }
 
@@ -97,7 +107,7 @@ public class DirectiveFactory {
     public static Individual createRule(OntModel model, DirectiveContext context, int line_num, String name, String args, OntClass type) {
         Individual ruleInd = createDirective(model, context, line_num, name, type);
         if (name != null && name != "")
-            ruleInd.addLiteral(OntCWAF.RULE_TYPE, name);
+            ruleInd.addLiteral(OntCWAF.DIR_TYPE, name);
         if (args != null && args != "")
             ruleInd.addLiteral(OntCWAF.ARGUMENTS, args);
         return ruleInd;
@@ -119,24 +129,40 @@ public class DirectiveFactory {
 
     public static Individual createMacro(OntModel model, DirectiveContext context, int line_num, String name, String paramsString) {
         String URI = OntUtils.getMacroURI(name);
-        Individual macro = model.createIndividual(URI, OntCWAF.MACRO);
+        Individual macro = model.getIndividual(URI);
+        if (macro != null) {
+            macro.removeAll(null);
+        } else {
+            macro = model.createIndividual(URI, OntCWAF.MACRO);
+        }
         initDirective(model, context, line_num, URI, macro);
         macro.addLiteral(OntCWAF.MACRO_NAME, name);
-        // Seq params = parseArguments(paramsString, macro);
         macro.addLiteral(OntCWAF.MACRO_PARAMS, paramsString);
         return macro;
     }
 
-    public static Individual createIf(OntModel model, DirectiveContext context, int line_num, String condition) {
-        Individual ifInd = createBeacon(model, context, line_num, "If", OntCWAF.IF);
+    public static Individual createIfFamily(OntModel model, DirectiveContext context, int line_num, String name, String condition) {
+        return createIfFamily(model, context, line_num, name, condition, OntCWAF.IF_FAMILY);
+    }
+
+    public static Individual createIfFamily(OntModel model, DirectiveContext context, int line_num, String name, String condition, OntClass type) {
+        Individual ifInd = createBeacon(model, context, line_num, name, type);
         ifInd.addLiteral(OntCWAF.CONDITION, condition);
         return ifInd;
     }
 
-    public static Individual createElseIf(OntModel model, DirectiveContext context, int line_num, String condition) {
-        Individual ifInd = createBeacon(model, context, line_num, "ElseIf", OntCWAF.ELSE_IF);
-        ifInd.addLiteral(OntCWAF.CONDITION, condition);
+    public static Individual createIf(OntModel model, DirectiveContext context, int line_num, String condition) {
+        return createIfFamily(model, context, line_num, "If", condition, OntCWAF.IF);
+    }
+
+    public static Individual createIfRule(OntModel model, DirectiveContext context, int line_num, String rule, String arg) {
+        Individual ifInd = createIfFamily(model, context, line_num, "IfRule", arg, OntCWAF.IF_RULE);
+        ifInd.addLiteral(OntCWAF.IF_TYPE, rule);
         return ifInd;
+    }
+
+    public static Individual createElseIf(OntModel model, DirectiveContext context, int line_num, String condition) {
+        return createIfFamily(model, context, line_num, "ElseIf", condition, OntCWAF.ELSE_IF);
     }
 
     public static Individual createElse(OntModel model, DirectiveContext context, int line_num) {
@@ -159,7 +185,6 @@ public class DirectiveFactory {
         Individual loc = createDirective(model, context, line_num, "Location", OntCWAF.LOCATION);
         loc.addLiteral(OntCWAF.LOCATION_PATH, path);
         return loc;
-
     }
 
     public static Individual createEndLocation(OntModel model, DirectiveContext context, int line_num, String loc_URI) {

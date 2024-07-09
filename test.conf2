@@ -1,0 +1,43 @@
+
+
+<Macro OrderAddEnv_  $param $phase>
+ # Always match
+ SecAction                "phase:$phase,nolog,setenv:'var=%{env.var}/$param-ph$phase'"
+ # Never match
+#  SecRule REQUEST_URI "$^" "phase:$phase,nolog,msg:'Never match'"
+</Macro>
+
+
+<Macro OrderAddEnvIf $param      $phase>
+ <If "1 == 1">
+#   <If "1 == 1">
+#    Use OrderAddEnv_ "$param-if2" $phase
+#   </If>
+  Use  OrderAddEnv_ "$param-if1" $phase
+ </If>
+#  Use   OrderAddEnv_ "$param-if0" $phase
+</Macro>
+
+<Macro OrderAddEnvLoc_  $param      $phase>
+  Use  OrderAddEnvIf    "$param-1"     $phase
+  Use  OrderAddEnv_     "$param-2"     $phase
+#   Use  OrderAddEnvIf    "$param-3" 	   $phase
+ <If "1 == 0">
+#   Use OrderAddEnv_     "$param-!if" $phase
+ </If>
+</Macro>
+
+<Macro OrderAddEnvLoc @param>
+ Use OrderAddEnvLoc_  @param 1
+#  Use OrderAddEnvLoc_  @param 2
+#  Use OrderAddEnvLoc_  @param 3
+#  Use OrderAddEnvLoc_  @param 4
+#  Use OrderAddEnvLoc_  @param 5
+</Macro>
+
+
+# Use BeginVhost _default_
+#  Use OrderAddEnvLoc vhost1
+#  Use OrderAddEnvLoc vhost2
+# Use EndVhost
+Use  OrderAddEnvLoc server1
