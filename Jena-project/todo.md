@@ -8,7 +8,7 @@
  - [x] phase en argument passe pas
  - [x] VirtualHost des macros doit être lié aux Uses, pas à la définition
  - [x] pas de VirtualHost ni de location pour la config globale
- - [ ] certains param sont bien remplacés et d'autres non
+ - [x] certains param sont bien remplacés et d'autres non
  - [ ] fichier s'affiche pas dans l'output
 
 # Parser

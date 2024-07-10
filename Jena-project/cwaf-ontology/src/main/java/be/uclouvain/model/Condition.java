@@ -1,7 +1,8 @@
 package be.uclouvain.model;
 
+import java.io.Serializable;
 
-public class Condition {
+public class Condition implements Serializable{
 
     public String condition;
     public boolean inverse;

@@ -1,8 +1,12 @@
 package be.uclouvain.utils;
 
 import java.util.*;
+import java.util.stream.Stream;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.apache.jena.ontology.Individual;
@@ -10,6 +14,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.*;
 
+import be.uclouvain.model.Directive;
 import be.uclouvain.service.DirectiveContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
@@ -140,6 +145,26 @@ public class OntUtils {
         } else {
             file.addProperty(OntCWAF.CONTAINS_DIRECTIVE, directive);
         }
+    }
+
+    public static void writeStreamToFile(String filename, Stream<Directive> strm) {
+        try (FileOutputStream fileOut = new FileOutputStream(filename);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(strm.toList());
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public static Stream<Directive> readStreamFromFile(String filename) {
+        Stream<Directive> data = null;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("global_order.ser"))) {
+            data = ((List<Directive>) ois.readObject()).stream();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 
 }

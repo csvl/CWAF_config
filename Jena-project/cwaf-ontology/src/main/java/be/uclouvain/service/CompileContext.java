@@ -149,6 +149,9 @@ public class CompileContext{
     }
 
     public List<LocalVar> getLocalVars() {
+        if (trace.size() == 0) {
+            return localVars;
+        }
         String tag = trace.peek().getURI();
         List<LocalVar> rep_vars = new ArrayList<>();
         for (LocalVar var : localVars) {

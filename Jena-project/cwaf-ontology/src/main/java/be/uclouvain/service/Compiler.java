@@ -2,6 +2,10 @@ package be.uclouvain.service;
 
 import org.apache.jena.rdf.model.*;
 
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import be.uclouvain.model.Condition;
 import be.uclouvain.model.Directive;
 import be.uclouvain.model.LocalVar;
@@ -9,14 +13,22 @@ import be.uclouvain.vocabulary.OntCWAF;
 
 import static be.uclouvain.service.Constants.Parser.phasePattern;
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
-import static be.uclouvain.utils.OntUtils.getMacroURI;
+import static be.uclouvain.utils.OntUtils.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.jena.ontology.DatatypeProperty;
@@ -41,13 +53,50 @@ public class Compiler {
         });
     }
     
-    public static void compileConfig(CompileContext ctx, OntModel ontExec) {
+    public static Stream<Directive> compileConfig(CompileContext ctx, OntModel ontExec) {
+        defineStrPass(ctx);
         Individual config = ctx.getModel().getIndividual(OntCWAF.NS + "config");
         Bag file_bag = config.getProperty(OntCWAF.CONTAINS_FILE).getObject().as(Bag.class);
         Individual first_file = file_bag.iterator().next().as(Individual.class);
-        Stream<Directive> dump_like = compileFile(ctx, first_file).sorted();
-        // dump_like.forEach(a -> {});
-        printStreamDump(ctx, dump_like);
+        Stream<Directive> global_order = compileFile(ctx, first_file).sorted();
+        return global_order;
+    }
+
+    public static void defineStrPass(CompileContext ctx) {
+        //FIXME: this is uggly as shit, but it works and I don't have the energy to think a better solution
+        Iterator<Individual> definestr = ctx.getModel().listIndividuals().filterKeep(ind -> {
+            if (ind.hasProperty(OntCWAF.DIR_TYPE)) {
+                String dirType = ind.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString().toLowerCase();
+                return dirType.equals("definestr");
+            }
+            return false;
+        });
+        while (definestr.hasNext()) {
+            Individual directiveInd = definestr.next();
+            compileDefineStr(ctx, directiveInd);
+        }
+        solveAllVars(ctx);
+    }
+
+    private static void solveAllVars(CompileContext ctx) {
+        Map<Boolean, List<LocalVar>> partitioned = ctx.getLocalVars().stream().collect(Collectors.partitioningBy(var -> var.value.contains("~{")));
+        int to_solve = partitioned.get(true).size();
+        int last_to_solve = -1;
+        while (to_solve != last_to_solve && to_solve > 0) {
+            List<LocalVar> vars = partitioned.get(false);
+            partitioned.get(true).forEach(var -> {
+                for (LocalVar var2 : vars) {
+                    if (var.value.contains(var2.name)) {
+                        String regex2 = Pattern.quote(var2.name);
+                        String value2 = var2.value;
+                        var.value = var.value.replaceAll(regex2, Matcher.quoteReplacement(value2));
+                    }
+                }
+            });
+            partitioned = ctx.getLocalVars().stream().collect(Collectors.partitioningBy(var -> var.value.contains("~{")));
+            last_to_solve = to_solve; 
+            to_solve = partitioned.get(true).size();
+        }
     }
 
     private static Stream<Directive> getOrderedDirectives(CompileContext ctx, Individual container) {
@@ -255,8 +304,7 @@ public class Compiler {
         return Stream.empty();
     }
 
-    private static Stream<Directive> compileDefineStr(CompileContext ctx, Directive directive){
-        Individual directiveInd = directive.getIndividual();
+    private static Stream<Directive> compileDefineStr(CompileContext ctx, Individual directiveInd){
         String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(args, null);
         if (content.length == 2) {
@@ -300,13 +348,14 @@ public class Compiler {
                 case "define":
                     return compileDefine(ctx, directive);
                 case "definestr":
-                    return compileDefineStr(ctx, directive);
+                    return Stream.empty();
+                //     return compileDefineStr(ctx, directive);
                 case "undefmacro":
                     return compileUndefMacro(ctx, directive);
                 case "undefine":
                     return compileUndefine(ctx, directive);
                 case "secdefaultaction":
-                    return Stream.of(directive);
+                    return Stream.of(directive); //TODO
                 default:
                     return Stream.of(directive);
             }
@@ -409,7 +458,9 @@ public class Compiler {
 
         OntModel ontExec = ModelFactory.createOntologyModel();
 
-        compileConfig(ctx, ontExec);
+        Stream<Directive> global_order = compileConfig(ctx, ontExec);
 
+        printStreamDump(ctx, global_order);
+        // writeStreamToFile("global_order.ser", global_order);
     }
 }

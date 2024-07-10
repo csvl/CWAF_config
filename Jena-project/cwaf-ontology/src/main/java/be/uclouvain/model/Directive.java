@@ -2,6 +2,7 @@ package be.uclouvain.model;
 
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.jena.ontology.Individual;
@@ -12,16 +13,17 @@ import be.uclouvain.service.CompileContext;
 import be.uclouvain.service.Constants;
 import be.uclouvain.vocabulary.OntCWAF;
 
-public class Directive implements Comparable<Directive> {
+public class Directive implements Comparable<Directive>, Serializable {
 
     private int lineNum;
-    private Individual resource;
+    private transient Individual resource;
     private String location = "global";
     private String virtualHost;
     private int ifLevel = 0;
     private int phase = Constants.DEFAULT_PHASE; 
-    private String[] args; //TODO: Implement better handling of arguments
+    private String[] args;
     private Condition existance_condition;
+    private String name;
 
     public Directive(CompileContext ctx, Individual resource) {
 
@@ -36,6 +38,8 @@ public class Directive implements Comparable<Directive> {
         //     this.virtualHost = virtualHost != null ? virtualHost.getObject().as(Individual.class)
         //                             .getPropertyValue(OntCWAF.V_HOST_NAME).asLiteral().getString() : null;
         // }
+
+        this.name = resource.getLocalName();
 
         this.location = ctx.getCurrentLocation();
         this.virtualHost = ctx.getCurrentVirtualHost();
@@ -93,6 +97,10 @@ public class Directive implements Comparable<Directive> {
         this.args[i] = arg;
     }
 
+    public int getPhase() {
+        return phase;
+    }
+
     public int getLineNum() {
         return lineNum;
     }
@@ -135,7 +143,7 @@ public class Directive implements Comparable<Directive> {
                 ", virtualHost='" + (virtualHost== null ? "" : virtualHost) + '\'' +
                 ", lineNum=" + lineNum +
                 (EC == "true" ? "" : ", EC=" + existance_condition.getCondition()) +
-                "}\t" + resource.getLocalName() + "\t(" + String.join(" ", args) + ")";
+                "}\t" + name + "\t(" + String.join(" ", args) + ")";
     }
 
     public void setPhase(int newPhase) {

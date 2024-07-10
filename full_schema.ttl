@@ -236,7 +236,7 @@ cwaf:Use_9367f28c-c67d-30aa-a8cc-328e5fe1c591
 
 cwaf:Macro_sendheaders_
         rdf:type                cwaf:Macro;
-        cwaf:containsDirective  cwaf:Use_c020b76e-93ea-31e4-9cb3-67d71dafd4bc , cwaf:Use_82a8b88a-c718-3c53-8499-96f3c817fae4 , cwaf:Use_d36d5d0d-d437-38cf-8d4d-c6f73a375f2e , cwaf:Use_33d1e536-5888-3bb9-abea-5e7353002015 , cwaf:Use_a457b97f-742f-3106-9b23-e2f1283ca1b5 , cwaf:Use_c7dfb38a-bca6-3fe0-a0fc-61b3681b5ada , cwaf:Use_160f6bf3-5969-3c75-b200-a2f3d5b8100b , cwaf:Use_3fbfaa01-0410-388a-924d-81dd747cdf0d;
+        cwaf:containsDirective  cwaf:Use_c020b76e-93ea-31e4-9cb3-67d71dafd4bc , cwaf:Use_d36d5d0d-d437-38cf-8d4d-c6f73a375f2e , cwaf:Use_33d1e536-5888-3bb9-abea-5e7353002015 , cwaf:Use_82a8b88a-c718-3c53-8499-96f3c817fae4 , cwaf:Use_a457b97f-742f-3106-9b23-e2f1283ca1b5 , cwaf:Use_c7dfb38a-bca6-3fe0-a0fc-61b3681b5ada , cwaf:Use_160f6bf3-5969-3c75-b200-a2f3d5b8100b , cwaf:Use_3fbfaa01-0410-388a-924d-81dd747cdf0d;
         cwaf:dirLineNum         "365"^^xsd:long;
         cwaf:macroName          "SendHeaders_";
         cwaf:macroParams        "" .
@@ -261,7 +261,7 @@ cwaf:DefineStr_100ec69b-293e-3fce-9db3-4d8b33d72d05
         cwaf:dirLineNum  "46"^^xsd:long;
         cwaf:dirType     "DefineStr" .
 
-xsd:gDay  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:gDay  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:RewriteCond_fd5c0360-bc91-31da-bb01-e7d847f95ba6
         rdf:type         cwaf:Rule;
@@ -4264,7 +4264,7 @@ cwaf:IfRule_00df62c6-dae2-3b2d-ac32-d529f3dc5fcf
 
 <http://visualdataweb.org/ontCWAF/conf/common/macros/remappath.conf>
         rdf:type                cwaf:File;
-        cwaf:containsDirective  cwaf:Macro_secremapext , cwaf:Macro_fixpathcase , cwaf:Macro_enforcessl , cwaf:Macro_notrailingslash , cwaf:Macro_checkssl_ , cwaf:Macro_fixtrailingslash , cwaf:Macro_noremapurlinqueryext , cwaf:Macro_fixrequestquerypath , cwaf:Macro_proxypreservehost , cwaf:Macro_noremapurlinquery , cwaf:Macro_notifyssltobackend , cwaf:Macro_fixargspath , cwaf:Macro_checkssl;
+        cwaf:containsDirective  cwaf:Macro_checkssl , cwaf:Macro_secremapext , cwaf:Macro_fixpathcase , cwaf:Macro_enforcessl , cwaf:Macro_notrailingslash , cwaf:Macro_checkssl_ , cwaf:Macro_fixtrailingslash , cwaf:Macro_noremapurlinqueryext , cwaf:Macro_fixrequestquerypath , cwaf:Macro_proxypreservehost , cwaf:Macro_noremapurlinquery , cwaf:Macro_notifyssltobackend , cwaf:Macro_fixargspath;
         cwaf:filePath           "conf/common/macros/remappath.conf" .
 
 cwaf:Use_a312352c-5ade-3b4f-b537-88354b7aaf5b
@@ -4469,7 +4469,7 @@ cwaf:Use_9b54efb3-3902-3e84-a59e-174f56c4e8de
         cwaf:useMacro    cwaf:Macro_secrule .
 
 cwaf:Include  rdf:type       owl:Class , rdfs:Resource , rdfs:Class;
-        rdfs:label           "Include"@iri-based , "Include"@en;
+        rdfs:label           "Include"@en , "Include"@iri-based;
         rdfs:subClassOf      cwaf:Rule , owl:Thing , rdfs:Resource , cwaf:Directive , cwaf:Include;
         owl:disjointWith     cwaf:ModSecRule , cwaf:ScopeRule , cwaf:Use;
         owl:equivalentClass  cwaf:Include .
@@ -5106,7 +5106,7 @@ cwaf:Use_579f34e2-df55-3dd2-8ad7-adf59c3e266a
         cwaf:useMacro    cwaf:Macro_secruleintcomp_ .
 
 cwaf:ModSecRule  rdf:type    rdfs:Resource , owl:Class , rdfs:Class;
-        rdfs:label           "ModSecRule"@en , "ModSecRule"@iri-based;
+        rdfs:label           "ModSecRule"@iri-based , "ModSecRule"@en;
         rdfs:subClassOf      cwaf:ModSecRule , rdfs:Resource , cwaf:Rule , owl:Thing , cwaf:Directive;
         owl:disjointWith     cwaf:Include , cwaf:Use , cwaf:ScopeRule;
         owl:equivalentClass  cwaf:ModSecRule .
@@ -6805,8 +6805,8 @@ cwaf:Use_e2259a4f-9dbc-337b-a1f9-847cf30d4409
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_setsslheadertobackend .
 
-cwaf:Location  rdf:type      rdfs:Class , owl:Class , rdfs:Resource;
-        rdfs:label           "Location"@en , "Location"@iri-based;
+cwaf:Location  rdf:type      owl:Class , rdfs:Class , rdfs:Resource;
+        rdfs:label           "Location"@iri-based , "Location"@en;
         rdfs:subClassOf      cwaf:Directive , cwaf:ScopeRule , cwaf:Location , cwaf:Rule , owl:Thing , rdfs:Resource;
         owl:equivalentClass  cwaf:Location .
 
@@ -7349,7 +7349,7 @@ cwaf:Use_0a53bd52-5127-35ee-8de4-f0befce81dbc
 
 cwaf:filePath  rdf:type     rdf:Property , owl:FunctionalProperty , rdfs:Resource , owl:DatatypeProperty;
         rdfs:domain         owl:Thing , rdfs:Resource , cwaf:File;
-        rdfs:label          "filePath"@en , "filePath"@iri-based;
+        rdfs:label          "filePath"@iri-based , "filePath"@en;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:filePath .
 
@@ -8956,7 +8956,7 @@ cwaf:DefineStr_ebc2046b-315f-30d4-a37e-33193615512d
 
 cwaf:Macro_fixrequestquerypath
         rdf:type                cwaf:Macro;
-        cwaf:containsDirective  cwaf:Use_611416da-1424-3b21-971f-fdda817d2867 , cwaf:RewriteCond_fd5c0360-bc91-31da-bb01-e7d847f95ba6 , cwaf:RewriteRule_8135d446-9504-34ad-ad04-1ec203142612 , cwaf:Use_be8cd5f0-af6e-3dc3-884b-b936fcef49a4 , cwaf:RewriteOptions_8add58f4-f47d-394a-bcc3-c9aee4abe2b4 , cwaf:RewriteRule_71e7ce06-79f1-379a-b114-605bc6497de9 , cwaf:RewriteCond_db629256-2e37-3966-899e-b3855e4a41a2 , cwaf:RewriteCond_dd961403-b619-3e2c-9b2c-5228e67fc434 , cwaf:RewriteCond_96554eef-fccd-315f-8a40-bf5941dfe16a , cwaf:RewriteCond_8473e0c6-eccb-3947-ba3d-d9b234bf91d6 , cwaf:RewriteRule_0af0b17a-e0e7-33ce-a9ab-d0cb0aa06f99 , cwaf:Use_20f3ec81-bea6-3844-b81b-f2e2c35e4ec6 , cwaf:RewriteCond_caf9d015-fb67-3506-ba05-69f10ba78113 , cwaf:Use_b19cf475-50d6-3893-822b-71417aa8fdc0 , cwaf:Use_4db5cbce-c0aa-37b4-82a8-dc6c2f4f5cbc , cwaf:Use_9ffc2acc-f870-3522-8491-6a3d93430d28 , cwaf:Use_99839c88-81f1-3252-919d-3d121e1d21e7 , cwaf:RewriteCond_9011448f-1e2a-3da1-aae3-b355f75ce072 , cwaf:Use_573056f4-a20e-3aa5-be87-9b204e096f97;
+        cwaf:containsDirective  cwaf:Use_611416da-1424-3b21-971f-fdda817d2867 , cwaf:RewriteCond_fd5c0360-bc91-31da-bb01-e7d847f95ba6 , cwaf:RewriteRule_8135d446-9504-34ad-ad04-1ec203142612 , cwaf:Use_be8cd5f0-af6e-3dc3-884b-b936fcef49a4 , cwaf:RewriteOptions_8add58f4-f47d-394a-bcc3-c9aee4abe2b4 , cwaf:RewriteCond_96554eef-fccd-315f-8a40-bf5941dfe16a , cwaf:RewriteRule_71e7ce06-79f1-379a-b114-605bc6497de9 , cwaf:RewriteCond_db629256-2e37-3966-899e-b3855e4a41a2 , cwaf:RewriteCond_dd961403-b619-3e2c-9b2c-5228e67fc434 , cwaf:RewriteCond_8473e0c6-eccb-3947-ba3d-d9b234bf91d6 , cwaf:RewriteRule_0af0b17a-e0e7-33ce-a9ab-d0cb0aa06f99 , cwaf:Use_20f3ec81-bea6-3844-b81b-f2e2c35e4ec6 , cwaf:RewriteCond_caf9d015-fb67-3506-ba05-69f10ba78113 , cwaf:Use_b19cf475-50d6-3893-822b-71417aa8fdc0 , cwaf:Use_4db5cbce-c0aa-37b4-82a8-dc6c2f4f5cbc , cwaf:Use_9ffc2acc-f870-3522-8491-6a3d93430d28 , cwaf:Use_99839c88-81f1-3252-919d-3d121e1d21e7 , cwaf:RewriteCond_9011448f-1e2a-3da1-aae3-b355f75ce072 , cwaf:Use_573056f4-a20e-3aa5-be87-9b204e096f97;
         cwaf:dirLineNum         "115"^^xsd:long;
         cwaf:macroName          "FixRequestQueryPath";
         cwaf:macroParams        "$frontServer $frontPath $http $backServer $backPort $backPath" .
@@ -9714,7 +9714,7 @@ cwaf:Use_44f0993a-4586-3679-8d34-0f86f03a6230
 
 cwaf:phase  rdf:type        rdf:Property , owl:DatatypeProperty , rdfs:Resource;
         rdfs:domain         cwaf:Directive , owl:Thing , rdfs:Resource , cwaf:ModSecRule , cwaf:Rule;
-        rdfs:label          "phase"@iri-based , "phase"@en;
+        rdfs:label          "phase"@en , "phase"@iri-based;
         rdfs:range          xsd:integer , rdfs:Resource , xsd:decimal;
         rdfs:subPropertyOf  cwaf:phase .
 
@@ -10248,7 +10248,7 @@ cwaf:Use_fd9b5711-ce9b-32c5-b0b0-a7c9078f08c5
 
 owl:equivalentClass  rdf:type  rdfs:Resource , rdf:Property;
         rdfs:domain         rdfs:Resource , rdfs:Class , owl:Class;
-        rdfs:range          rdfs:Class , rdfs:Resource , owl:Class;
+        rdfs:range          rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:subPropertyOf  owl:equivalentClass .
 
 cwaf:Use_f2ad7d5c-cce5-3b92-9e14-0e596dba507b
@@ -10392,7 +10392,7 @@ cwaf:UndefMacro_f004e667-29f4-3480-9113-95dc6b83dc63
         cwaf:dirType     "UndefMacro" .
 
 cwaf:Macro_oauth1  rdf:type     cwaf:Macro;
-        cwaf:containsDirective  cwaf:Use_de535efa-e8cd-36f2-9e5b-2c13d29cbeb7 , cwaf:Use_0ba36896-ffe0-3564-badf-0838da9c9bd5 , cwaf:Use_df6fb2af-024b-3394-8544-fa75d0a7ba4a , cwaf:Use_e4ab482c-f810-3199-8e40-b8e9d619b061 , cwaf:Use_0b38e4c9-db5f-350d-91ff-fe30b27cebfd , cwaf:Use_96014a12-5590-3942-b927-9560fd7a5bc8 , cwaf:Use_a0c66b61-95b1-31e0-ac6b-61094b7f2813 , cwaf:Use_814ec1ea-5652-35d6-bcd3-c1d47d4a0017 , cwaf:Use_2d0a8348-8941-3e55-a7e4-483c1c0cdd84 , cwaf:Use_81025f78-f71f-3fdb-8869-ad00a58e8711 , cwaf:Use_5e1e6022-3057-3481-865f-4f3f5f69b866 , cwaf:Use_bfa6908e-372c-327d-a6f9-65bdbf251b56 , cwaf:Use_8e844efd-cece-3c54-8bfb-3eee8e9a7efd;
+        cwaf:containsDirective  cwaf:Use_de535efa-e8cd-36f2-9e5b-2c13d29cbeb7 , cwaf:Use_df6fb2af-024b-3394-8544-fa75d0a7ba4a , cwaf:Use_0ba36896-ffe0-3564-badf-0838da9c9bd5 , cwaf:Use_e4ab482c-f810-3199-8e40-b8e9d619b061 , cwaf:Use_0b38e4c9-db5f-350d-91ff-fe30b27cebfd , cwaf:Use_96014a12-5590-3942-b927-9560fd7a5bc8 , cwaf:Use_a0c66b61-95b1-31e0-ac6b-61094b7f2813 , cwaf:Use_814ec1ea-5652-35d6-bcd3-c1d47d4a0017 , cwaf:Use_2d0a8348-8941-3e55-a7e4-483c1c0cdd84 , cwaf:Use_81025f78-f71f-3fdb-8869-ad00a58e8711 , cwaf:Use_5e1e6022-3057-3481-865f-4f3f5f69b866 , cwaf:Use_bfa6908e-372c-327d-a6f9-65bdbf251b56 , cwaf:Use_8e844efd-cece-3c54-8bfb-3eee8e9a7efd;
         cwaf:dirLineNum         "33"^^xsd:long;
         cwaf:macroName          "OAuth1";
         cwaf:macroParams        "" .
@@ -10584,7 +10584,7 @@ cwaf:Use_e308bb45-3c3c-32c3-b869-e4854110fca7
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secruledeny .
 
-xsd:gMonth  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:gMonth  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:DefineStr_be82607a-16b9-3d1d-a85b-c97fd75f31fe
         rdf:type         cwaf:Rule;
@@ -10690,7 +10690,7 @@ owl:DatatypeProperty  rdf:type  rdfs:Resource , rdfs:Class;
         rdfs:subClassOf  rdf:Property .
 
 cwaf:Use  rdf:type           owl:Class , rdfs:Class , rdfs:Resource;
-        rdfs:label           "Use"@iri-based , "Use"@en;
+        rdfs:label           "Use"@en , "Use"@iri-based;
         rdfs:subClassOf      owl:Thing , rdfs:Resource , cwaf:Rule , cwaf:Use , cwaf:Directive;
         owl:disjointWith     cwaf:Include , cwaf:ModSecRule , cwaf:ScopeRule;
         owl:equivalentClass  cwaf:Use .
@@ -11033,7 +11033,7 @@ cwaf:Use_99ade5ca-15cb-38c8-97b9-280e4bc0d22e
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_seccookiebyterangeexcl .
 
-rdf:Seq  rdf:type        rdfs:Class , rdfs:Resource;
+rdf:Seq  rdf:type        rdfs:Resource , rdfs:Class;
         rdfs:subClassOf  rdfs:Container .
 
 cwaf:Use_5de85147-a031-3620-9d4a-c31e98d5a9d4
@@ -11356,7 +11356,7 @@ cwaf:IfRule_e59047cf-5acc-32fd-9923-7fbb24baea66
 
 cwaf:Macro_headeralwaysclean
         rdf:type                cwaf:Macro;
-        cwaf:containsDirective  cwaf:Use_78147ced-06cb-333c-8d3c-d0ee317fffb3 , cwaf:Use_4a472643-dcdc-35f8-a5b4-7509c5238a77 , cwaf:Use_4701fefc-27b1-3311-b8e4-77737d808635 , cwaf:Use_b310d5a3-2194-317b-b652-8fc52cba33e4 , cwaf:Use_d6df6dc4-13cc-3407-9e43-db8cf75126c3 , cwaf:Use_24190b85-f64f-3969-99b6-c42ddcc770ba , cwaf:Use_7f963cd8-ea42-3feb-9aab-8a2e81348597 , cwaf:Use_87fd4bb7-d7a4-3875-a9d9-b433802190ed , cwaf:Use_6b0d2c80-ee1e-3307-8a7b-61796c34c905 , cwaf:Use_b1f20afe-bc6f-3f56-bef4-c44bcc77000a , cwaf:Use_eb651803-d02f-3b51-88a2-4a428142ddd4 , cwaf:Use_cb9a087c-80ca-36a0-97a7-e9d7e9ef8d94 , cwaf:Use_47e3e719-313a-39dd-98b0-61a0b8124c76 , cwaf:Use_44a80211-fd85-38c5-8c17-dfdd0612c874 , cwaf:Use_aa37a91a-3437-330a-8502-17a15984ff20 , cwaf:Use_26c6c7db-6546-3c5e-aca5-d0ce56b0296f , cwaf:Use_6ecd6540-4402-3835-9414-579686ca8a7e;
+        cwaf:containsDirective  cwaf:Use_78147ced-06cb-333c-8d3c-d0ee317fffb3 , cwaf:Use_4a472643-dcdc-35f8-a5b4-7509c5238a77 , cwaf:Use_4701fefc-27b1-3311-b8e4-77737d808635 , cwaf:Use_b310d5a3-2194-317b-b652-8fc52cba33e4 , cwaf:Use_24190b85-f64f-3969-99b6-c42ddcc770ba , cwaf:Use_7f963cd8-ea42-3feb-9aab-8a2e81348597 , cwaf:Use_87fd4bb7-d7a4-3875-a9d9-b433802190ed , cwaf:Use_6b0d2c80-ee1e-3307-8a7b-61796c34c905 , cwaf:Use_b1f20afe-bc6f-3f56-bef4-c44bcc77000a , cwaf:Use_eb651803-d02f-3b51-88a2-4a428142ddd4 , cwaf:Use_d6df6dc4-13cc-3407-9e43-db8cf75126c3 , cwaf:Use_cb9a087c-80ca-36a0-97a7-e9d7e9ef8d94 , cwaf:Use_47e3e719-313a-39dd-98b0-61a0b8124c76 , cwaf:Use_44a80211-fd85-38c5-8c17-dfdd0612c874 , cwaf:Use_aa37a91a-3437-330a-8502-17a15984ff20 , cwaf:Use_26c6c7db-6546-3c5e-aca5-d0ce56b0296f , cwaf:Use_6ecd6540-4402-3835-9414-579686ca8a7e;
         cwaf:dirLineNum         "22"^^xsd:long;
         cwaf:macroName          "HeaderAlwaysClean";
         cwaf:macroParams        "@header" .
@@ -11467,7 +11467,7 @@ cwaf:Use_7f202b29-f369-3a05-9f53-daa5f50d690f
 
 cwaf:virtualHostName  rdf:type  rdf:Property , rdfs:Resource , owl:FunctionalProperty , owl:DatatypeProperty;
         rdfs:domain         cwaf:Rule , cwaf:VirtualHost , cwaf:Directive , cwaf:ScopeRule , rdfs:Resource , owl:Thing;
-        rdfs:label          "virtualHostName"@en , "virtualHostName";
+        rdfs:label          "virtualHostName" , "virtualHostName"@en;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:virtualHostName .
 
@@ -11720,7 +11720,7 @@ cwaf:Header_3975d74a-083f-358f-8b7a-ab05b918ce65
 
 cwaf:condition  rdf:type    rdfs:Resource , owl:FunctionalProperty , rdf:Property , owl:DatatypeProperty;
         rdfs:domain         owl:Thing , cwaf:IfFamily , cwaf:Directive , cwaf:Beacon , rdfs:Resource;
-        rdfs:label          "condition"@en , "condition"@iri-based;
+        rdfs:label          "condition"@iri-based , "condition"@en;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:condition .
 
@@ -16198,7 +16198,7 @@ cwaf:Use_835065bc-e336-3f65-a535-6ad41fcdd152
 cwaf:IfRule_a277613a-37d2-323b-a3ad-e6f3b856f09e
         rdf:type                cwaf:IfRule;
         cwaf:condition          "EXTENDEDSTATUS";
-        cwaf:containsDirective  cwaf:Use_87b3a3ee-b5e4-31c3-8018-872201f834dc , cwaf:Use_e0f2142a-d12e-33f0-8635-c319b096d663 , cwaf:Use_2e7e9a84-4d42-3bab-a4b6-7a832191c0b2 , cwaf:Use_2b582a3b-005b-31df-9d87-ef58facaf6ad , cwaf:Header_cf172520-e231-3f65-b682-5398f70c73d2 , cwaf:RequestHeader_44f5bb93-bc6b-3607-ae3f-cc29247f87f7 , cwaf:Use_85797526-2936-3718-a3e0-f183d84d2776 , cwaf:Use_76b6a27e-a747-351d-bdf7-a71b60e440b1 , cwaf:Use_27f0ff56-b975-3561-b520-63639eb2cb06 , cwaf:Use_825c75ff-2ee4-38cc-a1ac-bd992696e41c , cwaf:Use_e46969fb-df16-3e69-bcc1-352f3b52e042 , cwaf:Use_c6efecc9-9014-3ce0-b1f4-4a8e7e285439 , cwaf:Use_48f2a4bd-6ae7-36eb-b744-81ee7d92d586 , cwaf:Use_db07c5ae-e39d-3f33-a797-8ec450e41f9d , cwaf:Use_adf88327-7561-3f0d-a1a0-b4ae5aed05d7 , cwaf:Use_b3abc514-3a5f-33e0-85c5-eb6c618d3790 , cwaf:Use_dfcbd644-29a1-3c68-bf3b-754a91a07885 , cwaf:Header_f90ff165-700d-351b-9000-f8c110fd227c , cwaf:Use_a80053ad-33ea-373b-90af-719d2ceb208d , cwaf:Use_2b8ea028-3870-32da-9550-154d3065605d , cwaf:Setenv_39eb8909-acfc-33c3-9350-94d510e108e8 , cwaf:Use_1156c2b1-c47c-3bf7-9958-d075d9a7fa92 , cwaf:Header_6c9b50f3-95e1-3b03-8af4-aa30160a23cd , cwaf:Use_7d12f549-5996-3ceb-8e06-2eaa495a00e0 , cwaf:Use_cc3cdb36-7962-36ee-b5c6-d5f247d0b8cf , cwaf:Use_51fcb5f8-3bb9-3d7d-a206-1aa0d0ad839f , cwaf:Use_083c58a0-6e34-3fde-b5fa-714ed3c0e965 , cwaf:Use_1a70cc0f-472a-397c-b9ed-61b85216c83a , cwaf:Use_46bd7522-5ee2-30d1-a903-2840e94b11a4 , cwaf:Header_15bb3a04-7708-3825-adf0-6cb8854e479a , cwaf:RequestHeader_b9094490-e8ce-37c1-af61-2eb47d587ae9 , cwaf:Use_9ba3b94b-8741-331f-a532-7501f8417348 , cwaf:Use_50d25b1b-c19f-3c73-bca8-3225cc014aab , cwaf:Use_f52d5e54-8677-3be9-aed1-c20ba8436b78 , cwaf:Use_741d93ff-d6a6-300c-ad5c-b067d94f2261;
+        cwaf:containsDirective  cwaf:Use_87b3a3ee-b5e4-31c3-8018-872201f834dc , cwaf:Use_e0f2142a-d12e-33f0-8635-c319b096d663 , cwaf:Use_2e7e9a84-4d42-3bab-a4b6-7a832191c0b2 , cwaf:Use_2b582a3b-005b-31df-9d87-ef58facaf6ad , cwaf:RequestHeader_44f5bb93-bc6b-3607-ae3f-cc29247f87f7 , cwaf:Use_85797526-2936-3718-a3e0-f183d84d2776 , cwaf:Use_76b6a27e-a747-351d-bdf7-a71b60e440b1 , cwaf:Header_cf172520-e231-3f65-b682-5398f70c73d2 , cwaf:Use_27f0ff56-b975-3561-b520-63639eb2cb06 , cwaf:Use_825c75ff-2ee4-38cc-a1ac-bd992696e41c , cwaf:Use_e46969fb-df16-3e69-bcc1-352f3b52e042 , cwaf:Use_c6efecc9-9014-3ce0-b1f4-4a8e7e285439 , cwaf:Use_48f2a4bd-6ae7-36eb-b744-81ee7d92d586 , cwaf:Use_db07c5ae-e39d-3f33-a797-8ec450e41f9d , cwaf:Use_adf88327-7561-3f0d-a1a0-b4ae5aed05d7 , cwaf:Use_b3abc514-3a5f-33e0-85c5-eb6c618d3790 , cwaf:Use_dfcbd644-29a1-3c68-bf3b-754a91a07885 , cwaf:Header_f90ff165-700d-351b-9000-f8c110fd227c , cwaf:Use_a80053ad-33ea-373b-90af-719d2ceb208d , cwaf:Use_2b8ea028-3870-32da-9550-154d3065605d , cwaf:Use_1156c2b1-c47c-3bf7-9958-d075d9a7fa92 , cwaf:Setenv_39eb8909-acfc-33c3-9350-94d510e108e8 , cwaf:Header_6c9b50f3-95e1-3b03-8af4-aa30160a23cd , cwaf:Use_7d12f549-5996-3ceb-8e06-2eaa495a00e0 , cwaf:Use_cc3cdb36-7962-36ee-b5c6-d5f247d0b8cf , cwaf:Use_51fcb5f8-3bb9-3d7d-a206-1aa0d0ad839f , cwaf:Use_083c58a0-6e34-3fde-b5fa-714ed3c0e965 , cwaf:Use_1a70cc0f-472a-397c-b9ed-61b85216c83a , cwaf:Use_46bd7522-5ee2-30d1-a903-2840e94b11a4 , cwaf:Header_15bb3a04-7708-3825-adf0-6cb8854e479a , cwaf:RequestHeader_b9094490-e8ce-37c1-af61-2eb47d587ae9 , cwaf:Use_9ba3b94b-8741-331f-a532-7501f8417348 , cwaf:Use_50d25b1b-c19f-3c73-bca8-3225cc014aab , cwaf:Use_f52d5e54-8677-3be9-aed1-c20ba8436b78 , cwaf:Use_741d93ff-d6a6-300c-ad5c-b067d94f2261;
         cwaf:dirLineNum         "106"^^xsd:long;
         cwaf:ifType             "Define" .
 
@@ -17837,7 +17837,7 @@ cwaf:Use_db0976e6-200d-3e6b-b059-8d7801fb96f1
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secrule .
 
-xsd:gYearMonth  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:gYearMonth  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:Macro_secruleengineip
         rdf:type                cwaf:Macro;
@@ -18105,7 +18105,7 @@ cwaf:DefineStr_c48454e2-62a2-3a01-9b4d-3c8229a24753
         cwaf:dirLineNum  "92"^^xsd:long;
         cwaf:dirType     "DefineStr" .
 
-xsd:base64Binary  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:base64Binary  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:DefineStr_84e43659-9108-31cd-8ed1-c54b7932cab4
         rdf:type         cwaf:Rule;
@@ -19484,7 +19484,7 @@ cwaf:Macro_secrequestbodyaccess
         cwaf:macroName          "SecRequestBodyAccess";
         cwaf:macroParams        "@switch" .
 
-rdf:XMLLiteral  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+rdf:XMLLiteral  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:Use_7da2ccef-41ed-328a-a74a-41ba2098e238
         rdf:type         cwaf:Use;
@@ -19821,7 +19821,7 @@ cwaf:Header_0ae57e8b-95b6-3e6a-ae7e-1bc47a582746
         cwaf:dirLineNum  "34"^^xsd:long;
         cwaf:dirType     "Header" .
 
-rdf:Alt  rdf:type        rdfs:Class , rdfs:Resource;
+rdf:Alt  rdf:type        rdfs:Resource , rdfs:Class;
         rdfs:subClassOf  rdfs:Container .
 
 cwaf:Use_19ed9b68-3ea1-3247-b000-547de59f27af
@@ -21448,7 +21448,7 @@ cwaf:Use_a4a6b4c9-c0ec-3d4a-9f1d-e262a93b6f3d
         cwaf:useMacro    cwaf:Macro_cspadddirective .
 
 cwaf:VirtualHost  rdf:type   owl:Class , rdfs:Resource , rdfs:Class;
-        rdfs:label           "VirtualHost"@iri-based , "VirtualHost"@en;
+        rdfs:label           "VirtualHost"@en , "VirtualHost"@iri-based;
         rdfs:subClassOf      rdfs:Resource , cwaf:ScopeRule , cwaf:VirtualHost , cwaf:Directive , cwaf:Rule , owl:Thing;
         owl:equivalentClass  cwaf:VirtualHost .
 
@@ -21622,7 +21622,7 @@ cwaf:Use_e9775e92-5706-362e-af6c-bccc3e952fc7
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secrule .
 
-xsd:double  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:double  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 owl:Thing  rdf:type          rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:subClassOf      rdfs:Resource , owl:Thing;
@@ -23983,7 +23983,7 @@ cwaf:DefineStr_bd3aa8e5-e85c-38dc-9cd2-1c4567043e67
         cwaf:dirLineNum  "309"^^xsd:long;
         cwaf:dirType     "DefineStr" .
 
-rdf:Bag  rdf:type        rdfs:Class , rdfs:Resource;
+rdf:Bag  rdf:type        rdfs:Resource , rdfs:Class;
         rdfs:subClassOf  rdfs:Container .
 
 cwaf:Use_2cb4e3f3-a5fc-33eb-a059-48fbba5840d6
@@ -24729,7 +24729,7 @@ cwaf:Use_41fb0ff6-7c11-327b-829d-9b68b9d41dac
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secauditlog .
 
-xsd:gYear  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:gYear  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:Use_0ab880cf-3fe4-3bd5-8667-b6efd44e427c
         rdf:type         cwaf:Use;
@@ -25082,7 +25082,7 @@ cwaf:Warning_d73107a6-3493-3541-b8f4-7f3d530722f1
 
 cwaf:Macro_reqcontentautodetect
         rdf:type                cwaf:Macro;
-        cwaf:containsDirective  cwaf:Use_a8f824b8-9ca7-381c-be5b-dbf56d38dee0 , cwaf:Use_24df5dc9-d5e4-33e4-a1e8-02f7a2074434 , cwaf:Use_537ac630-159f-38c4-966f-3eea4822c4f1 , cwaf:Use_9470659b-bb5e-3233-a530-6278ffa4a587 , cwaf:Use_ddd6ef52-6653-35c2-b62a-cf2d5e0e8e1d , cwaf:Use_02374065-038e-36c7-89a9-7ce5a827ddf0 , cwaf:Use_e035e8cf-5d74-39bf-890d-c04a9d42a669 , cwaf:IfRule_218a2da1-c8df-33be-81c9-7a4e0f14b432 , cwaf:Use_1701d435-4f15-3018-bb23-42817353cd9f , cwaf:Use_ec58f452-9bb9-3ec2-b2a1-834f7c8ef6b9 , cwaf:Use_92406e67-91d3-333e-9a65-9c7648ec7e63;
+        cwaf:containsDirective  cwaf:Use_a8f824b8-9ca7-381c-be5b-dbf56d38dee0 , cwaf:Use_24df5dc9-d5e4-33e4-a1e8-02f7a2074434 , cwaf:Use_537ac630-159f-38c4-966f-3eea4822c4f1 , cwaf:Use_9470659b-bb5e-3233-a530-6278ffa4a587 , cwaf:Use_ddd6ef52-6653-35c2-b62a-cf2d5e0e8e1d , cwaf:Use_02374065-038e-36c7-89a9-7ce5a827ddf0 , cwaf:Use_e035e8cf-5d74-39bf-890d-c04a9d42a669 , cwaf:IfRule_218a2da1-c8df-33be-81c9-7a4e0f14b432 , cwaf:Use_1701d435-4f15-3018-bb23-42817353cd9f , cwaf:Use_92406e67-91d3-333e-9a65-9c7648ec7e63 , cwaf:Use_ec58f452-9bb9-3ec2-b2a1-834f7c8ef6b9;
         cwaf:dirLineNum         "42"^^xsd:long;
         cwaf:macroName          "ReqContentAutodetect";
         cwaf:macroParams        "" .
@@ -25504,7 +25504,7 @@ cwaf:DefineStr_2b014f3e-2c70-30a3-9cc2-c14ce9c435c2
 cwaf:IfRule_9fb8411b-cf2e-3db0-8889-ad6c5b1a4471
         rdf:type                cwaf:IfRule;
         cwaf:condition          "!noSecurityRules";
-        cwaf:containsDirective  cwaf:SecRule_aeb15297-4389-3887-944c-9e539b48c685 , cwaf:Use_e5bde18f-f53c-34e4-8112-c5eabb012257 , cwaf:Use_9c28ee9a-55b5-3946-8863-b365a8571e33 , cwaf:Use_873bec26-b96f-3ba9-aa04-d47071375d73 , cwaf:Use_e26dca94-354b-3ec3-b2f5-64b21f67dc86 , cwaf:Use_4dfaf404-b8c1-31fd-82f4-a961970c8087 , cwaf:RewriteRule_fd63ef36-1b00-3212-bf69-9dc7e9978fdc , cwaf:SecRule_a83c2640-079c-3b78-953e-1fa2f3ef644e , cwaf:Use_363e0b2e-0935-3633-acb2-7d144947df54 , cwaf:Use_a3ecd4e0-df53-35b9-bd88-02c2fa07b56a , cwaf:Use_bf032a4e-2ab8-39d7-b6d3-0e1227e842b0 , cwaf:Use_9b7a0945-5202-363e-a315-c74adc8466dc , cwaf:Use_7885ef8a-4855-3971-9143-3fcb9b7e622b , cwaf:SecRule_4c6b3dac-4283-344e-a78c-bc31b2538623 , cwaf:SecMarker_5905aea0-1ba0-32c9-9dfd-340442efa655 , cwaf:Use_8ae5935d-7be7-3fe5-b071-4de05347f513 , cwaf:IfRule_711b6932-6a33-3d3b-9958-86e0bf794901 , cwaf:Use_20e22f3f-4706-34aa-a988-6e81158afa5d , cwaf:Use_f34af4e9-e1f0-3717-9a6b-adcb299fe40a , cwaf:Use_8a7e2371-9831-35e3-babf-4d63db09e9c9 , cwaf:Use_b3bc4966-26ff-347e-aa75-4681776c04b4 , cwaf:SecRule_67492025-3c8a-3d1a-8be6-5a43d10663b9 , cwaf:Use_baccb6fd-c1f4-3c3b-a3ba-4175a5deeb03 , cwaf:Use_047a6ab1-0680-30d0-9edc-4b5428d105cf , cwaf:Use_6eb78463-3c56-3395-a87e-48603ce4d855 , cwaf:Use_b568830b-2029-36e7-a31a-314851287ed6 , cwaf:Use_bdb49b1f-2e73-3bee-8b36-7485b152d34e , cwaf:Use_2db1db0d-956a-38c4-bfab-33c5c18a374f , cwaf:Use_6fb88ef6-ddcd-38e0-b05b-1b6322e6d3d0 , cwaf:Use_82286bd6-db0e-31cd-913d-479be7792963 , cwaf:SecAction_03145062-0c3d-3f7e-b3fc-3dd23b2d0d56 , cwaf:Use_89bce943-744d-3c66-8313-5792f4be9f77 , cwaf:Use_666373b3-b20b-3c76-afc1-857e58bdfb6d , cwaf:Use_d48bb14d-70e9-33c9-b2ac-599289aa8a78 , cwaf:Use_134d98c9-1f34-3764-8b51-92f6be2f63fc;
+        cwaf:containsDirective  cwaf:SecRule_aeb15297-4389-3887-944c-9e539b48c685 , cwaf:Use_e5bde18f-f53c-34e4-8112-c5eabb012257 , cwaf:Use_9c28ee9a-55b5-3946-8863-b365a8571e33 , cwaf:Use_873bec26-b96f-3ba9-aa04-d47071375d73 , cwaf:Use_e26dca94-354b-3ec3-b2f5-64b21f67dc86 , cwaf:Use_4dfaf404-b8c1-31fd-82f4-a961970c8087 , cwaf:RewriteRule_fd63ef36-1b00-3212-bf69-9dc7e9978fdc , cwaf:SecRule_a83c2640-079c-3b78-953e-1fa2f3ef644e , cwaf:Use_363e0b2e-0935-3633-acb2-7d144947df54 , cwaf:Use_a3ecd4e0-df53-35b9-bd88-02c2fa07b56a , cwaf:Use_bf032a4e-2ab8-39d7-b6d3-0e1227e842b0 , cwaf:Use_9b7a0945-5202-363e-a315-c74adc8466dc , cwaf:Use_7885ef8a-4855-3971-9143-3fcb9b7e622b , cwaf:SecRule_4c6b3dac-4283-344e-a78c-bc31b2538623 , cwaf:SecMarker_5905aea0-1ba0-32c9-9dfd-340442efa655 , cwaf:Use_8ae5935d-7be7-3fe5-b071-4de05347f513 , cwaf:IfRule_711b6932-6a33-3d3b-9958-86e0bf794901 , cwaf:Use_20e22f3f-4706-34aa-a988-6e81158afa5d , cwaf:Use_f34af4e9-e1f0-3717-9a6b-adcb299fe40a , cwaf:Use_8a7e2371-9831-35e3-babf-4d63db09e9c9 , cwaf:Use_b3bc4966-26ff-347e-aa75-4681776c04b4 , cwaf:SecRule_67492025-3c8a-3d1a-8be6-5a43d10663b9 , cwaf:Use_baccb6fd-c1f4-3c3b-a3ba-4175a5deeb03 , cwaf:Use_047a6ab1-0680-30d0-9edc-4b5428d105cf , cwaf:Use_6eb78463-3c56-3395-a87e-48603ce4d855 , cwaf:Use_b568830b-2029-36e7-a31a-314851287ed6 , cwaf:Use_bdb49b1f-2e73-3bee-8b36-7485b152d34e , cwaf:Use_2db1db0d-956a-38c4-bfab-33c5c18a374f , cwaf:Use_6fb88ef6-ddcd-38e0-b05b-1b6322e6d3d0 , cwaf:SecAction_03145062-0c3d-3f7e-b3fc-3dd23b2d0d56 , cwaf:Use_82286bd6-db0e-31cd-913d-479be7792963 , cwaf:Use_89bce943-744d-3c66-8313-5792f4be9f77 , cwaf:Use_666373b3-b20b-3c76-afc1-857e58bdfb6d , cwaf:Use_d48bb14d-70e9-33c9-b2ac-599289aa8a78 , cwaf:Use_134d98c9-1f34-3764-8b51-92f6be2f63fc;
         cwaf:dirLineNum         "38"^^xsd:long;
         cwaf:ifType             "Define" .
 
@@ -26843,7 +26843,7 @@ cwaf:Macro_cspunset  cwaf:containsDirective
         cwaf:macroParams        "@header @cond" .
 
 rdfs:ContainerMembershipProperty
-        rdf:type         rdfs:Class , rdfs:Resource;
+        rdf:type         rdfs:Resource , rdfs:Class;
         rdfs:subClassOf  rdf:Property .
 
 cwaf:Macro_serveralias
@@ -27687,7 +27687,7 @@ cwaf:Options_805c7b16-24b5-3ce9-8681-422b07065f6c
 
 cwaf:arguments  rdf:type    rdfs:Resource , owl:DatatypeProperty , rdf:Property;
         rdfs:domain         rdfs:Resource , cwaf:Directive , owl:Thing;
-        rdfs:label          "arguments"@iri-based , "arguments"@en;
+        rdfs:label          "arguments"@en , "arguments"@iri-based;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:arguments .
 
@@ -27719,7 +27719,7 @@ cwaf:Macro_payglobee  rdf:type  cwaf:Macro;
 
 <http://visualdataweb.org/ontCWAF/conf/common/macros/rules.conf>
         rdf:type                cwaf:File;
-        cwaf:containsDirective  cwaf:Macro_secruleurlphase , cwaf:DefineStr_627f18e7-3f95-3623-8f05-25a47a9e19a9 , cwaf:Macro_allowmultipleparams , cwaf:Macro_skipafteronsuccess , cwaf:Macro_secrulefilephase1 , cwaf:Macro_secruleargregex , cwaf:Macro_secrulecookies_ , cwaf:Macro_whitelistcoll_ , cwaf:Macro_secruleargsfileurlheaderscookies , cwaf:Macro_secruleurlphase_ , cwaf:Macro_secruleengineurl , cwaf:Macro_secactiondeny , cwaf:Macro_secargnameallowcharacter , cwaf:Macro_tokencheckexist , cwaf:Macro_secrulebodywarning , cwaf:Macro_secruleenginevhosturl , cwaf:Macro_secblockpath , cwaf:Macro_secrulearg , cwaf:Macro_sanitizecookie , cwaf:Macro_secrulexmlarg , cwaf:Macro_useragentdetect , cwaf:Macro_secruleargssql , cwaf:Macro_argpostwhitelistext , cwaf:Macro_secruleengineurlip , cwaf:Macro_secruleargscookiesnoaction , cwaf:Macro_secruleheuristicargscookies , cwaf:Macro_secrulesqlheuristicargs , cwaf:Macro_secrulecookiesnoaction_ , cwaf:Macro_secruleresponsewarning , cwaf:Macro_checkwhitelistargs_ , cwaf:Macro_secrulerequestbody , cwaf:Macro_secruleheuristicargs , cwaf:Macro_secruleargnamecharsstrict , cwaf:Macro_secruleinput , cwaf:Macro_secruledeny , cwaf:Macro_secruleinputheaderssql , cwaf:Macro_headerdetect_ , cwaf:Macro_useragentdetect_ , cwaf:Macro_secrulexssheuristic , cwaf:Macro_checkwhitelistargsp1_ , cwaf:Macro_secruleheuristicargscookiesheaders , cwaf:Macro_secrulerequestxml_ , cwaf:Macro_secruleresponse , cwaf:Macro_secruleargscookies , cwaf:Macro_sanitizeresponseheader , cwaf:Macro_secruleargsascii , cwaf:Macro_secrulecookie , cwaf:Macro_disableruleid , cwaf:Macro_detectbackendinbody , cwaf:Macro_arggetwhitelistp1 , cwaf:Macro_secrulefile , cwaf:Macro_sanitize_ , cwaf:Macro_secrulecookiessql , cwaf:Macro_secruleargs , cwaf:Macro_secruleexcludeargsandcookies , cwaf:Macro_blockmultipleparams , cwaf:Macro_skipframework_ , cwaf:Macro_sanitizexml , cwaf:Macro_secrestrictargsyntax , cwaf:Macro_skipframeworkphase_ , cwaf:Macro_secruleargnamechars__ , cwaf:Macro_secrulegtbig , cwaf:Macro_secruleenginevhost , cwaf:Macro_secruleexcludeargsnoaction_ , cwaf:Macro_skipafteronsuccess2 , cwaf:Macro_whitelisttemplate_ , cwaf:Macro_secruleblockclientpath , cwaf:Macro_utf8encoding , cwaf:Macro_secruleexcludeargs , cwaf:Macro_secrulebodyargscookies , cwaf:Macro_secrulegt , cwaf:Macro_secruleinputheaders , cwaf:Macro_checkwhitelistargs , cwaf:Macro_secruleresponsewarningonce , cwaf:Macro_secheuristiccheck_ , cwaf:Macro_secrulecookiesascii , cwaf:Macro_secruleargscookiessql , cwaf:Macro_secblockcurrentpath , cwaf:Macro_secargnameallowallcharacters , cwaf:Macro_secruleargnamechars , cwaf:Macro_secruleargnamechars_ , cwaf:Macro_allowandparsexml , cwaf:Macro_secruleheader , cwaf:Macro_secrulebody , cwaf:Macro_mixedencoding , cwaf:Macro_secrulegtbig_ , cwaf:Macro_sanitizeheader , cwaf:Macro_secenforceheader , cwaf:Macro_secruleuseragent , cwaf:Macro_secruleinputbody , cwaf:Macro_tokenchecknb , cwaf:Macro_secargsyntax , cwaf:Macro_secruleargscookiesascii , cwaf:Macro_secrulegtbig_noid , cwaf:Macro_skipafteronsuccess_ , cwaf:Macro_secruleresponseargs , cwaf:Macro_arggetwhitelistextp1 , cwaf:Macro_arggetwhitelist , cwaf:Macro_arggetwhitelistext , cwaf:Macro_secrulebasename , cwaf:Macro_sanitizecookieheader , cwaf:Macro_secruleresponsewarningext , cwaf:Macro_whitelistusername , cwaf:Macro_secrulesqlmacro_ , cwaf:Macro_secruleurlphase1 , cwaf:Macro_secruleheuristicurl , cwaf:Macro_secruleengineip , cwaf:Macro_secrulecookiesexclude , cwaf:Macro_tokenincreaseusage , cwaf:Macro_secruleenginevhosturlip , cwaf:Macro_sanitizearg , cwaf:Macro_secrulecookies , cwaf:Macro_nosecurityrules , cwaf:Macro_checkwhitelistargsp1 , cwaf:Macro_argwhitelistext , cwaf:Macro_secruleheaders , cwaf:Macro_secrulepatheverywhere , cwaf:Macro_secruleintcomp_ , cwaf:Macro_sanitizeheaderext , cwaf:Macro_secruleheuristic_ , cwaf:Macro_whitelistcollext_ , cwaf:Macro_argwhitelist , cwaf:Macro_sanitizebytes_ , cwaf:Macro_argpostwhitelist , cwaf:Macro_checkwhitelistargsp1withargchecks , cwaf:Macro_secrulesqlheuristic , cwaf:Macro_secruleurl , cwaf:Macro_secrulereqbody_ , cwaf:Macro_secrulesubsetof , cwaf:Macro_sanitizeresponseheaderext , cwaf:Macro_secruleexcludeargs_ , cwaf:Macro_secblockhostname , cwaf:Macro_secruleinputheaders1;
+        cwaf:containsDirective  cwaf:Macro_secruleurlphase , cwaf:DefineStr_627f18e7-3f95-3623-8f05-25a47a9e19a9 , cwaf:Macro_allowmultipleparams , cwaf:Macro_skipafteronsuccess , cwaf:Macro_secrulefilephase1 , cwaf:Macro_secruleargregex , cwaf:Macro_secrulecookies_ , cwaf:Macro_whitelistcoll_ , cwaf:Macro_secruleargsfileurlheaderscookies , cwaf:Macro_secruleurlphase_ , cwaf:Macro_secruleengineurl , cwaf:Macro_secactiondeny , cwaf:Macro_secargnameallowcharacter , cwaf:Macro_tokencheckexist , cwaf:Macro_secrulebodywarning , cwaf:Macro_secruleenginevhosturl , cwaf:Macro_secblockpath , cwaf:Macro_secrulearg , cwaf:Macro_sanitizecookie , cwaf:Macro_secrulexmlarg , cwaf:Macro_useragentdetect , cwaf:Macro_secruleargssql , cwaf:Macro_argpostwhitelistext , cwaf:Macro_secruleengineurlip , cwaf:Macro_secruleargscookiesnoaction , cwaf:Macro_secruleheuristicargscookies , cwaf:Macro_secrulesqlheuristicargs , cwaf:Macro_secrulecookiesnoaction_ , cwaf:Macro_secruleresponsewarning , cwaf:Macro_checkwhitelistargs_ , cwaf:Macro_secrulerequestbody , cwaf:Macro_secruleheuristicargs , cwaf:Macro_secruleargnamecharsstrict , cwaf:Macro_secruleinput , cwaf:Macro_secruledeny , cwaf:Macro_secruleinputheaderssql , cwaf:Macro_headerdetect_ , cwaf:Macro_useragentdetect_ , cwaf:Macro_secrulexssheuristic , cwaf:Macro_checkwhitelistargsp1_ , cwaf:Macro_secruleheuristicargscookiesheaders , cwaf:Macro_secrulerequestxml_ , cwaf:Macro_secruleresponse , cwaf:Macro_secruleargscookies , cwaf:Macro_sanitizeresponseheader , cwaf:Macro_secruleargsascii , cwaf:Macro_secrulecookie , cwaf:Macro_disableruleid , cwaf:Macro_detectbackendinbody , cwaf:Macro_arggetwhitelistp1 , cwaf:Macro_secrulefile , cwaf:Macro_sanitize_ , cwaf:Macro_secrulecookiessql , cwaf:Macro_secruleargs , cwaf:Macro_secruleexcludeargsandcookies , cwaf:Macro_blockmultipleparams , cwaf:Macro_skipframework_ , cwaf:Macro_sanitizexml , cwaf:Macro_secrestrictargsyntax , cwaf:Macro_skipframeworkphase_ , cwaf:Macro_secruleargnamechars__ , cwaf:Macro_secrulegtbig , cwaf:Macro_secruleenginevhost , cwaf:Macro_secruleexcludeargsnoaction_ , cwaf:Macro_skipafteronsuccess2 , cwaf:Macro_whitelisttemplate_ , cwaf:Macro_secruleblockclientpath , cwaf:Macro_utf8encoding , cwaf:Macro_secruleexcludeargs , cwaf:Macro_secrulebodyargscookies , cwaf:Macro_secrulegt , cwaf:Macro_secruleinputheaders , cwaf:Macro_checkwhitelistargs , cwaf:Macro_secruleresponsewarningonce , cwaf:Macro_secheuristiccheck_ , cwaf:Macro_secrulecookiesascii , cwaf:Macro_secruleargscookiessql , cwaf:Macro_secblockcurrentpath , cwaf:Macro_secargnameallowallcharacters , cwaf:Macro_secruleargnamechars , cwaf:Macro_secruleargnamechars_ , cwaf:Macro_allowandparsexml , cwaf:Macro_secruleheader , cwaf:Macro_secrulebody , cwaf:Macro_mixedencoding , cwaf:Macro_secrulegtbig_ , cwaf:Macro_sanitizeheader , cwaf:Macro_secenforceheader , cwaf:Macro_secruleuseragent , cwaf:Macro_secruleinputbody , cwaf:Macro_tokenchecknb , cwaf:Macro_secargsyntax , cwaf:Macro_secruleargscookiesascii , cwaf:Macro_secrulegtbig_noid , cwaf:Macro_skipafteronsuccess_ , cwaf:Macro_secruleresponseargs , cwaf:Macro_arggetwhitelistextp1 , cwaf:Macro_arggetwhitelist , cwaf:Macro_arggetwhitelistext , cwaf:Macro_secrulebasename , cwaf:Macro_sanitizecookieheader , cwaf:Macro_secruleresponsewarningext , cwaf:Macro_whitelistusername , cwaf:Macro_secrulesqlmacro_ , cwaf:Macro_secruleurlphase1 , cwaf:Macro_secruleheuristicurl , cwaf:Macro_secruleengineip , cwaf:Macro_secrulecookiesexclude , cwaf:Macro_tokenincreaseusage , cwaf:Macro_secruleenginevhosturlip , cwaf:Macro_sanitizearg , cwaf:Macro_secrulecookies , cwaf:Macro_checkwhitelistargsp1 , cwaf:Macro_nosecurityrules , cwaf:Macro_argwhitelistext , cwaf:Macro_secruleheaders , cwaf:Macro_secrulepatheverywhere , cwaf:Macro_secruleintcomp_ , cwaf:Macro_sanitizeheaderext , cwaf:Macro_secruleheuristic_ , cwaf:Macro_whitelistcollext_ , cwaf:Macro_argwhitelist , cwaf:Macro_sanitizebytes_ , cwaf:Macro_argpostwhitelist , cwaf:Macro_checkwhitelistargsp1withargchecks , cwaf:Macro_secrulesqlheuristic , cwaf:Macro_secruleurl , cwaf:Macro_secrulereqbody_ , cwaf:Macro_secrulesubsetof , cwaf:Macro_sanitizeresponseheaderext , cwaf:Macro_secruleexcludeargs_ , cwaf:Macro_secblockhostname , cwaf:Macro_secruleinputheaders1;
         cwaf:filePath           "conf/common/macros/rules.conf" .
 
 rdfs:isDefinedBy  rdf:type  rdfs:Resource , rdf:Property;
@@ -28001,7 +28001,7 @@ cwaf:Macro_substurlroot
 
 <http://visualdataweb.org/ontCWAF/conf/macros.conf>
         rdf:type                cwaf:File;
-        cwaf:containsDirective  cwaf:Macro_orderaddenv , cwaf:Macro_endvhost , cwaf:Macro_orderaddenvif , cwaf:UndefMacro_f004e667-29f4-3480-9113-95dc6b83dc63 , cwaf:SecAction_c8ca33c4-693a-3249-aaca-e2f4f0f2b678 , cwaf:UndefMacro_8289b3e9-1823-34a7-808c-a1e75a572a3f , cwaf:Macro_orderaddenv_ , cwaf:Macro_orderaddenvloc , cwaf:Macro_beginvhost , cwaf:Macro_orderaddenvloc_;
+        cwaf:containsDirective  cwaf:Macro_orderaddenv , cwaf:Macro_endvhost , cwaf:Macro_orderaddenvif , cwaf:UndefMacro_f004e667-29f4-3480-9113-95dc6b83dc63 , cwaf:SecAction_c8ca33c4-693a-3249-aaca-e2f4f0f2b678 , cwaf:Macro_orderaddenv_ , cwaf:UndefMacro_8289b3e9-1823-34a7-808c-a1e75a572a3f , cwaf:Macro_orderaddenvloc , cwaf:Macro_beginvhost , cwaf:Macro_orderaddenvloc_;
         cwaf:filePath           "conf/macros.conf" .
 
 cwaf:Macro_checkentrypages
@@ -28268,7 +28268,7 @@ cwaf:LoadFile_c80d02d1-0eca-3471-8a04-e75e4ff003d5
 
 cwaf:dirLineNum  rdf:type   owl:DatatypeProperty , owl:FunctionalProperty , rdf:Property , rdfs:Resource;
         rdfs:domain         rdfs:Resource , cwaf:Directive , owl:Thing;
-        rdfs:label          "dirLineNum"@iri-based , "dirLineNum"@en;
+        rdfs:label          "dirLineNum"@en , "dirLineNum"@iri-based;
         rdfs:range          xsd:decimal , xsd:integer , rdfs:Resource;
         rdfs:subPropertyOf  cwaf:dirLineNum .
 
@@ -28542,7 +28542,7 @@ cwaf:RequestHeader_f56eb854-7e4a-3b1b-a75e-9d60a7ae335f
         cwaf:dirLineNum  "47"^^xsd:long;
         cwaf:dirType     "RequestHeader" .
 
-xsd:anyURI  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:anyURI  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:Include_6d722177-aa92-3413-ba11-8ae2b6906b2b
         rdf:type          cwaf:Include;
@@ -28835,7 +28835,7 @@ cwaf:Use_b7d017d4-18d4-3b9c-8e26-55f71832c078
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secruleremovebyfulltag .
 
-xsd:hexBinary  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:hexBinary  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:DefineStr_7972b706-7dae-3f53-af98-0e61990fd18c
         rdf:type         cwaf:Rule;
@@ -30532,7 +30532,7 @@ cwaf:Macro_warning  cwaf:containsDirective
         cwaf:macroName          "Warning";
         cwaf:macroParams        "@msg" .
 
-xsd:positiveInteger  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:positiveInteger  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:Macro_endvhostnosec
         rdf:type                cwaf:Macro;
@@ -30594,7 +30594,7 @@ cwaf:Header_250c5fad-69dd-3ebb-a7f9-b02d9dcefdd3
         cwaf:dirLineNum  "352"^^xsd:long;
         cwaf:dirType     "Header" .
 
-xsd:gMonthDay  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:gMonthDay  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:DefineStr_2050e843-c696-35e0-be47-9ce2583a1dc6
         rdf:type         cwaf:Rule;
@@ -34417,7 +34417,7 @@ cwaf:Use_559cb601-e360-36cd-ab62-9b64a8be3e51
         cwaf:useMacro    cwaf:Macro_setenvearly .
 
 cwaf:Beacon  rdf:type        owl:Class , rdfs:Class , rdfs:Resource;
-        rdfs:label           "Beacon"@iri-based , "Beacon"@en;
+        rdfs:label           "Beacon"@en , "Beacon"@iri-based;
         rdfs:subClassOf      rdfs:Resource , cwaf:Beacon , owl:Thing , cwaf:Directive;
         owl:disjointWith     cwaf:Rule;
         owl:equivalentClass  cwaf:Beacon .
@@ -34753,7 +34753,7 @@ cwaf:RewriteRule_aed5500c-83a6-3e8d-9666-ab7f24180975
 cwaf:IfRule_4de214d6-a6dd-31c3-ab56-8181518232a4
         rdf:type                cwaf:IfRule;
         cwaf:condition          "ssl_module";
-        cwaf:containsDirective  cwaf:Use_ba23a85e-c4df-32f1-98d4-afa28e247867 , cwaf:Use_81f4e8aa-77db-357e-b673-68ce6c3cd9e2 , cwaf:Use_a592a41e-c197-3f73-a163-d98fbeed781e , cwaf:Use_13cd7096-abd4-3a52-bc5f-f82a39b5ea67 , cwaf:Use_3a405f1e-d7bb-3b77-ba9f-e4c10e0b7e96 , cwaf:Use_5ef35087-713a-3fd5-9053-1c308cb0d76f , cwaf:IfRule_3a1fdade-2727-3744-b0e8-2d4549c8808d , cwaf:Use_20642af3-86ca-35bf-a885-da04f9afd30c , cwaf:Use_61b76599-4670-3478-8592-ac43778a0d15 , cwaf:Use_0b1cf6f9-de11-39be-87aa-19334df63c52 , cwaf:IfRule_e92fa8a7-6cdf-3978-a13b-3522b9d0a374 , cwaf:SSLOptions_011ebc66-f691-39d1-b7ea-a05b50538758 , cwaf:Macro_setsslheadertobackend , cwaf:Use_90b850ac-9f0f-3fcb-b15e-92eb491db251 , cwaf:Use_7fe240b0-2492-336c-87cd-d1064f1e5d87 , cwaf:Use_ecce4d82-b48e-31ca-886b-954eed8fb971 , cwaf:Use_a8e21378-c3d3-31fc-9a0c-e3b3b3801dfe , cwaf:SSLEngine_156fe558-36ec-3104-8012-2dc6fd42a150 , cwaf:UndefMacro_38592f3e-a44f-3278-9be9-4daba6442f90;
+        cwaf:containsDirective  cwaf:Use_ba23a85e-c4df-32f1-98d4-afa28e247867 , cwaf:Use_81f4e8aa-77db-357e-b673-68ce6c3cd9e2 , cwaf:Use_a592a41e-c197-3f73-a163-d98fbeed781e , cwaf:Use_13cd7096-abd4-3a52-bc5f-f82a39b5ea67 , cwaf:Use_3a405f1e-d7bb-3b77-ba9f-e4c10e0b7e96 , cwaf:Use_5ef35087-713a-3fd5-9053-1c308cb0d76f , cwaf:IfRule_3a1fdade-2727-3744-b0e8-2d4549c8808d , cwaf:Use_20642af3-86ca-35bf-a885-da04f9afd30c , cwaf:Use_61b76599-4670-3478-8592-ac43778a0d15 , cwaf:Use_0b1cf6f9-de11-39be-87aa-19334df63c52 , cwaf:IfRule_e92fa8a7-6cdf-3978-a13b-3522b9d0a374 , cwaf:SSLOptions_011ebc66-f691-39d1-b7ea-a05b50538758 , cwaf:Use_90b850ac-9f0f-3fcb-b15e-92eb491db251 , cwaf:Macro_setsslheadertobackend , cwaf:Use_7fe240b0-2492-336c-87cd-d1064f1e5d87 , cwaf:Use_ecce4d82-b48e-31ca-886b-954eed8fb971 , cwaf:Use_a8e21378-c3d3-31fc-9a0c-e3b3b3801dfe , cwaf:SSLEngine_156fe558-36ec-3104-8012-2dc6fd42a150 , cwaf:UndefMacro_38592f3e-a44f-3278-9be9-4daba6442f90;
         cwaf:dirLineNum         "2"^^xsd:long;
         cwaf:ifType             "Module" .
 
@@ -34924,7 +34924,7 @@ cwaf:Macro_payadyen  rdf:type   cwaf:Macro;
         cwaf:macroParams        "" .
 
 cwaf:Macro  rdf:type         owl:Class , rdfs:Class , rdfs:Resource;
-        rdfs:label           "Macro"@en , "Macro"@iri-based;
+        rdfs:label           "Macro"@iri-based , "Macro"@en;
         rdfs:subClassOf      rdfs:Resource , owl:Thing , cwaf:Directive , cwaf:Macro , cwaf:Beacon;
         owl:disjointWith     cwaf:If , cwaf:ElseIf , cwaf:Else;
         owl:equivalentClass  cwaf:Macro .
@@ -34942,7 +34942,7 @@ cwaf:DefineStr_d4280348-e618-3ce8-82b6-96638479ef18
         cwaf:dirType     "DefineStr" .
 
 xsd:unsignedByte  rdf:type   rdfs:Datatype , rdfs:Resource , owl:Class , rdfs:Class;
-        rdfs:subClassOf      xsd:short , xsd:long , xsd:integer , xsd:nonNegativeInteger , xsd:byte , xsd:unsignedLong , xsd:int , xsd:unsignedByte , xsd:unsignedShort , xsd:unsignedInt;
+        rdfs:subClassOf      xsd:short , xsd:long , xsd:integer , xsd:byte , xsd:nonNegativeInteger , xsd:unsignedLong , xsd:int , xsd:unsignedByte , xsd:unsignedShort , xsd:unsignedInt;
         owl:disjointWith     xsd:string , xsd:boolean , xsd:dateTime , xsd:time , xsd:float , xsd:date , xsd:duration;
         owl:equivalentClass  xsd:unsignedByte .
 
@@ -35116,7 +35116,7 @@ cwaf:Use_e2300ec0-c48f-37da-a54b-9ba29e756975
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secruleremovebyfulltag .
 
-xsd:negativeInteger  rdf:type  rdfs:Class , rdfs:Resource , rdfs:Datatype .
+xsd:negativeInteger  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:Use_d3de53db-5582-3e76-9269-2bdd800fb146
         rdf:type         cwaf:Use;

@@ -16,7 +16,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.*;
 
-import be.uclouvain.utils.Directive;
 import be.uclouvain.utils.OntUtils;
 
 import be.uclouvain.vocabulary.OntCWAF;
