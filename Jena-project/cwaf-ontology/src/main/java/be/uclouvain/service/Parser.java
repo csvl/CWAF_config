@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
@@ -200,10 +197,20 @@ public class Parser {
         }
 
         Matcher locationEndMatcher = locationEndPattern.matcher(line);
-        if (locationEndMatcher.find()) {
+        Matcher locationMatchEndMatcher = locationMatchEndPattern.matcher(line);
+        if (locationEndMatcher.find() || locationMatchEndMatcher.find()) {
             Individual eloc = createEndLocation(model, context, line_num, context.currentLocation);
             context.currentLocation = "";
             attachDirectiveToOnt(model, context, eloc, file);
+            return;
+        }
+
+        Matcher locationMatchMatcher = locationMatchPattern.matcher(line);
+        if (locationMatchMatcher.find()) {
+            String location = locationMatchMatcher.group(1);
+            Individual loc = createLocation(model, context, line_num, "~ "+location);
+            context.currentLocation = loc.getURI();
+            attachDirectiveToOnt(model, context, loc, file);
             return;
         }
 

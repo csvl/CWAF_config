@@ -70,6 +70,7 @@ public class DirectiveFactory {
         String URI = OntUtils.getURIForName(name);
         Individual directiveInd = model.createIndividual(URI, type);
         initDirective(model, context, line_num, URI, directiveInd);
+        directiveInd.addLiteral(OntCWAF.DIR_TYPE, name);
         return directiveInd;
     }
 

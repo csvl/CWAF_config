@@ -3,24 +3,33 @@ PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 
-<http://visualdataweb.org/ontCWAF/EndLocation_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9>
-        rdf:type  <http://visualdataweb.org/ontCWAF/EndLocation>;
+<http://visualdataweb.org/ontCWAF/dummy_toast_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "6"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/isEndingLocation>
-                <http://visualdataweb.org/ontCWAF/Location_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d> .
+                "23"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "dummy_toast" .
 
-<http://visualdataweb.org/ontCWAF/EndVirtualHost_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0>
-        rdf:type  <http://visualdataweb.org/ontCWAF/EndVirtualHost>;
+<http://visualdataweb.org/ontCWAF/Location_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "11"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/isEndingVirtualHost>
-                <http://visualdataweb.org/ontCWAF/VirtualHost_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945> .
+                "18"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "Location";
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "~ /test/" .
+
+<http://visualdataweb.org/ontCWAF/dummy_test_3b52653c-04c7-3929-a3b6-80bc01839e4a>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "19"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "dummy_test" .
 
 <http://visualdataweb.org/ontCWAF/test.conf>
         rdf:type  <http://visualdataweb.org/ontCWAF/File>;
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/VirtualHost_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945> , <http://visualdataweb.org/ontCWAF/EndLocation_685a3936-276f-3b62-ba73-2dd0075e578a> , <http://visualdataweb.org/ontCWAF/Location_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d> , <http://visualdataweb.org/ontCWAF/Location_3b52653c-04c7-3929-a3b6-80bc01839e4a> , <http://visualdataweb.org/ontCWAF/dummy_toast_a153e148-fa27-3061-b0f6-8f08e4a76ee1> , <http://visualdataweb.org/ontCWAF/dummy_2fb981ba-7647-3352-abef-1f02d24ef27f> , <http://visualdataweb.org/ontCWAF/Location_4c9bf5a8-b2f8-354d-ac33-73057875911a> , <http://visualdataweb.org/ontCWAF/EndLocation_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9> , <http://visualdataweb.org/ontCWAF/EndLocation_42daf7c9-2835-3e93-9a76-ff9b57ca0552> , <http://visualdataweb.org/ontCWAF/dummy_test_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2> , <http://visualdataweb.org/ontCWAF/EndVirtualHost_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0>;
+                <http://visualdataweb.org/ontCWAF/Location_685a3936-276f-3b62-ba73-2dd0075e578a> , <http://visualdataweb.org/ontCWAF/EndLocation_4c9bf5a8-b2f8-354d-ac33-73057875911a> , <http://visualdataweb.org/ontCWAF/dummy_toast_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0> , <http://visualdataweb.org/ontCWAF/dummy_test_3b52653c-04c7-3929-a3b6-80bc01839e4a> , <http://visualdataweb.org/ontCWAF/EndLocation_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2> , <http://visualdataweb.org/ontCWAF/EndLocation_2fb981ba-7647-3352-abef-1f02d24ef27f> , <http://visualdataweb.org/ontCWAF/Location_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945> , <http://visualdataweb.org/ontCWAF/Location_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9> , <http://visualdataweb.org/ontCWAF/dummy_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d>;
         <http://visualdataweb.org/ontCWAF/filePath>
                 "test.conf" .
 
@@ -31,69 +40,58 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/containsFile>
                 <http://visualdataweb.org/ontCWAF/file_bag> .
 
-<http://visualdataweb.org/ontCWAF/Location_3b52653c-04c7-3929-a3b6-80bc01839e4a>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "8"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/locationPath>
-                "/test" .
-
-<http://visualdataweb.org/ontCWAF/dummy_toast_a153e148-fa27-3061-b0f6-8f08e4a76ee1>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "14"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "dummy_toast" .
-
 <http://visualdataweb.org/ontCWAF/file_bag>
         rdf:type  rdf:Bag;
         rdf:_1    <http://visualdataweb.org/ontCWAF/test.conf> .
 
-<http://visualdataweb.org/ontCWAF/dummy_test_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "9"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "dummy_test" .
-
-<http://visualdataweb.org/ontCWAF/dummy_2fb981ba-7647-3352-abef-1f02d24ef27f>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "5"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "dummy" .
-
-<http://visualdataweb.org/ontCWAF/EndLocation_685a3936-276f-3b62-ba73-2dd0075e578a>
+<http://visualdataweb.org/ontCWAF/EndLocation_4c9bf5a8-b2f8-354d-ac33-73057875911a>
         rdf:type  <http://visualdataweb.org/ontCWAF/EndLocation>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "10"^^xsd:long;
+                "24"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "EndLocation";
         <http://visualdataweb.org/ontCWAF/isEndingLocation>
-                <http://visualdataweb.org/ontCWAF/Location_3b52653c-04c7-3929-a3b6-80bc01839e4a> .
+                <http://visualdataweb.org/ontCWAF/Location_685a3936-276f-3b62-ba73-2dd0075e578a> .
 
-<http://visualdataweb.org/ontCWAF/VirtualHost_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945>
-        rdf:type  <http://visualdataweb.org/ontCWAF/VirtualHost>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "3"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/virtualHostName>
-                "*:8000" .
-
-<http://visualdataweb.org/ontCWAF/Location_4c9bf5a8-b2f8-354d-ac33-73057875911a>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "13"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/locationPath>
-                "/toast/" .
-
-<http://visualdataweb.org/ontCWAF/Location_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "4"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/locationPath>
-                "/" .
-
-<http://visualdataweb.org/ontCWAF/EndLocation_42daf7c9-2835-3e93-9a76-ff9b57ca0552>
+<http://visualdataweb.org/ontCWAF/EndLocation_2fb981ba-7647-3352-abef-1f02d24ef27f>
         rdf:type  <http://visualdataweb.org/ontCWAF/EndLocation>;
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "16"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "EndLocation";
+        <http://visualdataweb.org/ontCWAF/isEndingLocation>
+                <http://visualdataweb.org/ontCWAF/Location_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945> .
+
+<http://visualdataweb.org/ontCWAF/Location_685a3936-276f-3b62-ba73-2dd0075e578a>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "22"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "Location";
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "~ /toast/" .
+
+<http://visualdataweb.org/ontCWAF/Location_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Location>;
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "14"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "Location";
+        <http://visualdataweb.org/ontCWAF/locationPath>
+                "~ \"/(extra|special)/data\"" .
+
+<http://visualdataweb.org/ontCWAF/EndLocation_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2>
+        rdf:type  <http://visualdataweb.org/ontCWAF/EndLocation>;
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "20"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "EndLocation";
+        <http://visualdataweb.org/ontCWAF/isEndingLocation>
+                <http://visualdataweb.org/ontCWAF/Location_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9> .
+
+<http://visualdataweb.org/ontCWAF/dummy_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d>
+        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "15"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/isEndingLocation>
-                <http://visualdataweb.org/ontCWAF/Location_4c9bf5a8-b2f8-354d-ac33-73057875911a> .
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "dummy" .

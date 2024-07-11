@@ -12,23 +12,25 @@ public class Constants {
 
 
         // Beacon patterns
-        public static Pattern ifPattern = Pattern.compile("[ \\t]*<If\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern ifEndPattern = Pattern.compile("[ \\t]*</If>", Pattern.CASE_INSENSITIVE);
-        public static Pattern ifRulePattern = Pattern.compile("[ \\t]*<If(.*?)\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern ifRuleEndPattern = Pattern.compile("[ \\t]*</If(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern elseIfPattern = Pattern.compile("[ \\t]*<ElseIf\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern elseIfEndPattern = Pattern.compile("[ \\t]*</ElseIf>", Pattern.CASE_INSENSITIVE);
-        public static Pattern elsePattern = Pattern.compile("[ \\t]*<Else>", Pattern.CASE_INSENSITIVE);
-        public static Pattern elseEndPattern = Pattern.compile("[ \\t]*</Else>", Pattern.CASE_INSENSITIVE);
-        public static Pattern macroPattern = Pattern.compile("[ \\t]*<Macro\\s+(\\S+?)(?:\\s+(.*))?>", Pattern.CASE_INSENSITIVE);
-        public static Pattern macroEndPattern = Pattern.compile("[ \\t]*</Macro>", Pattern.CASE_INSENSITIVE);
-        public static Pattern genericPattern = Pattern.compile("[ \\t]*<(\\S+?)\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern genericEndPattern = Pattern.compile("[ \\t]*</(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifPattern = Pattern.compile("[ \\t]*<\\s*If\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifEndPattern = Pattern.compile("[ \\t]*</\\s*If\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifRulePattern = Pattern.compile("[ \\t]*<\\s*If(.*?)\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern ifRuleEndPattern = Pattern.compile("[ \\t]*</\\s*If(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern elseIfPattern = Pattern.compile("[ \\t]*<\\s*ElseIf\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern elseIfEndPattern = Pattern.compile("[ \\t]*</\\s*ElseIf\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern elsePattern = Pattern.compile("[ \\t]*<\\s*Else\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern elseEndPattern = Pattern.compile("[ \\t]*</\\s*Else\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern macroPattern = Pattern.compile("[ \\t]*<\\s*Macro\\s+(\\S+?)(?:\\s+(.*))?>", Pattern.CASE_INSENSITIVE);
+        public static Pattern macroEndPattern = Pattern.compile("[ \\t]*</\\s*Macro\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern genericPattern = Pattern.compile("[ \\t]*<(?!\\/)\\s*(\\S+?)\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern genericEndPattern = Pattern.compile("[ \\t]*<\\/(.*?)>", Pattern.CASE_INSENSITIVE);
         // Edge case:
-        public static Pattern virtualHostPattern = Pattern.compile("<VirtualHost\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern virtualHostEndPattern = Pattern.compile("</VirtualHost>", Pattern.CASE_INSENSITIVE);
-        public static Pattern locationPattern = Pattern.compile("[ \\t]*<Location\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
-        public static Pattern locationEndPattern = Pattern.compile("[ \\t]*</Location>", Pattern.CASE_INSENSITIVE);
+        public static Pattern virtualHostPattern = Pattern.compile("<\\s*VirtualHost\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern virtualHostEndPattern = Pattern.compile("</\\s*VirtualHost\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern locationPattern = Pattern.compile("[ \\t]*<\\s*Location\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern locationEndPattern = Pattern.compile("[ \\t]*</\\s*Location\\s*>", Pattern.CASE_INSENSITIVE);
+        public static Pattern locationMatchPattern = Pattern.compile("[ \\t]*<\\s*LocationMatch\\s+(.*?)>", Pattern.CASE_INSENSITIVE);
+        public static Pattern locationMatchEndPattern = Pattern.compile("[ \\t]*</\\s*LocationMatch\\s*>", Pattern.CASE_INSENSITIVE);
 
         //Directives
         public static Pattern genericRulePattern = Pattern.compile("^[ \\t]*(\\S+)(?:\\s+(.*))?$");

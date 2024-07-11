@@ -11,7 +11,7 @@ PREFIX xml:  <http://www.w3.org/XML/1998/namespace>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 
 cwaf:Location  rdf:type      rdfs:Class , owl:Class , rdfs:Resource;
-        rdfs:label           "Location"@iri-based , "Location"@en;
+        rdfs:label           "Location"@en , "Location"@iri-based;
         rdfs:subClassOf      cwaf:Directive , cwaf:ScopeRule , cwaf:Location , cwaf:Rule , owl:Thing , rdfs:Resource;
         owl:equivalentClass  cwaf:Location .
 
@@ -30,15 +30,21 @@ cwaf:ifType  rdf:type       rdf:Property , rdfs:Resource , owl:FunctionalPropert
 
 xsd:positiveInteger  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
+cwaf:EndLocation_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2
+        rdf:type               cwaf:EndLocation;
+        cwaf:dirLineNum        "20"^^xsd:long;
+        cwaf:dirType           "EndLocation";
+        cwaf:isEndingLocation  cwaf:Location_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9 .
+
+rdf:Property  rdf:type       owl:Class , rdfs:Resource , rdfs:Class;
+        rdfs:subClassOf      rdf:Property , rdfs:Resource;
+        owl:equivalentClass  rdf:Property .
+
 cwaf:isEndingLocation
         rdf:type            owl:ObjectProperty , owl:FunctionalProperty , rdf:Property , rdfs:Resource , owl:InverseFunctionalProperty;
         rdfs:domain         cwaf:Rule , cwaf:Directive , cwaf:EndLocation , rdfs:Resource , cwaf:ScopeRule , owl:Thing;
         rdfs:range          rdfs:Resource , owl:Thing , cwaf:ScopeRule , cwaf:Directive , cwaf:Rule , cwaf:Location;
         rdfs:subPropertyOf  cwaf:isEndingLocation .
-
-rdf:Property  rdf:type       owl:Class , rdfs:Resource , rdfs:Class;
-        rdfs:subClassOf      rdf:Property , rdfs:Resource;
-        owl:equivalentClass  rdf:Property .
 
 rdfs:Resource  rdf:type      owl:Class , rdfs:Resource , rdfs:Class;
         rdfs:subClassOf      rdfs:Resource;
@@ -48,11 +54,11 @@ xsd:dateTime  rdf:type    owl:Class , rdfs:Class , rdfs:Datatype , rdfs:Resource
         owl:disjointWith  xsd:string , xsd:short , xsd:unsignedInt , xsd:unsignedShort , xsd:decimal , xsd:int , xsd:nonPositiveInteger , xsd:duration , xsd:unsignedLong , xsd:nonNegativeInteger , xsd:long , xsd:byte , xsd:unsignedByte , xsd:float , xsd:boolean , xsd:time , xsd:date , xsd:integer .
 
 rdfs:ContainerMembershipProperty
-        rdf:type         rdfs:Resource , rdfs:Class;
+        rdf:type         rdfs:Class , rdfs:Resource;
         rdfs:subClassOf  rdf:Property .
 
 owl:intersectionOf  rdf:type  rdfs:Resource , rdf:Property;
-        rdfs:domain         rdfs:Class , rdfs:Resource , owl:Class;
+        rdfs:domain         rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:subPropertyOf  owl:intersectionOf .
 
 cwaf:macroParams  rdf:type  rdfs:Resource , owl:DatatypeProperty , rdf:Property;
@@ -71,13 +77,13 @@ xsd:nonNegativeInteger
         owl:disjointWith     xsd:time , xsd:float , xsd:string , xsd:date , xsd:dateTime , xsd:duration , xsd:boolean;
         owl:equivalentClass  xsd:nonNegativeInteger .
 
-rdf:Statement  rdf:type      owl:Class , rdfs:Resource , rdfs:Class;
-        rdfs:subClassOf      rdf:Statement , rdfs:Resource;
-        owl:equivalentClass  rdf:Statement .
-
 owl:Ontology  rdf:type       owl:Class , rdfs:Resource , rdfs:Class;
         rdfs:subClassOf      owl:Ontology , rdfs:Resource;
         owl:equivalentClass  owl:Ontology .
+
+rdf:Statement  rdf:type      owl:Class , rdfs:Resource , rdfs:Class;
+        rdfs:subClassOf      rdf:Statement , rdfs:Resource;
+        owl:equivalentClass  rdf:Statement .
 
 owl:sameAs  rdf:type        rdfs:Resource , owl:ObjectProperty , rdf:Property , owl:SymmetricProperty;
         rdfs:subPropertyOf  owl:sameAs .
@@ -107,6 +113,12 @@ cwaf:Configuration  rdf:type  rdfs:Resource , owl:Class , rdfs:Class;
         rdfs:subClassOf      cwaf:Configuration , rdfs:Resource , owl:Thing;
         owl:equivalentClass  cwaf:Configuration .
 
+cwaf:Location_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945
+        rdf:type           cwaf:Location;
+        cwaf:dirLineNum    "14"^^xsd:long;
+        cwaf:dirType       "Location";
+        cwaf:locationPath  "~ \"/(extra|special)/data\"" .
+
 rdf:object  rdf:type        rdfs:Resource , rdf:Property;
         rdfs:domain         rdfs:Resource , rdf:Statement;
         rdfs:subPropertyOf  rdf:object .
@@ -115,11 +127,6 @@ cwaf:Directive  rdf:type     rdfs:Resource , owl:Class , rdfs:Class;
         rdfs:label           "Directive"@en , "Directive"@iri-based;
         rdfs:subClassOf      cwaf:Directive , rdfs:Resource , owl:Thing;
         owl:equivalentClass  cwaf:Directive .
-
-cwaf:EndLocation_685a3936-276f-3b62-ba73-2dd0075e578a
-        rdf:type               cwaf:EndLocation;
-        cwaf:dirLineNum        "10"^^xsd:long;
-        cwaf:isEndingLocation  cwaf:Location_3b52653c-04c7-3929-a3b6-80bc01839e4a .
 
 xsd:time  rdf:type        owl:Class , rdfs:Resource , rdfs:Datatype , rdfs:Class;
         owl:disjointWith  xsd:long , xsd:short , xsd:date , xsd:unsignedInt , xsd:nonPositiveInteger , xsd:boolean , xsd:int , xsd:decimal , xsd:byte , xsd:integer , xsd:string , xsd:dateTime , xsd:unsignedByte , xsd:unsignedLong , xsd:duration , xsd:unsignedShort , xsd:nonNegativeInteger , xsd:float .
@@ -135,17 +142,23 @@ rdfs:range  rdf:type        rdfs:Resource , rdf:Property;
         rdfs:range          rdfs:Resource , rdfs:Class;
         rdfs:subPropertyOf  rdfs:range .
 
+cwaf:If  rdf:type            owl:Class , rdfs:Class , rdfs:Resource;
+        rdfs:label           "If"@en , "If"@iri-based;
+        rdfs:subClassOf      rdfs:Resource , cwaf:IfFamily , owl:Thing , cwaf:Beacon , cwaf:If , cwaf:Directive;
+        owl:disjointWith     cwaf:Macro;
+        owl:equivalentClass  cwaf:If .
+
 cwaf:ModSecRule  rdf:type    rdfs:Resource , owl:Class , rdfs:Class;
         rdfs:label           "ModSecRule"@en , "ModSecRule"@iri-based;
         rdfs:subClassOf      cwaf:ModSecRule , rdfs:Resource , cwaf:Rule , owl:Thing , cwaf:Directive;
         owl:disjointWith     cwaf:Include , cwaf:Use , cwaf:ScopeRule;
         owl:equivalentClass  cwaf:ModSecRule .
 
-cwaf:If  rdf:type            owl:Class , rdfs:Class , rdfs:Resource;
-        rdfs:label           "If"@iri-based , "If"@en;
-        rdfs:subClassOf      rdfs:Resource , cwaf:IfFamily , owl:Thing , cwaf:Beacon , cwaf:If , cwaf:Directive;
-        owl:disjointWith     cwaf:Macro;
-        owl:equivalentClass  cwaf:If .
+cwaf:EndLocation_2fb981ba-7647-3352-abef-1f02d24ef27f
+        rdf:type               cwaf:EndLocation;
+        cwaf:dirLineNum        "16"^^xsd:long;
+        cwaf:dirType           "EndLocation";
+        cwaf:isEndingLocation  cwaf:Location_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945 .
 
 cwaf:Else  rdf:type          rdfs:Class , owl:Class , rdfs:Resource;
         rdfs:subClassOf      cwaf:ElseFamily , cwaf:Beacon , owl:Thing , cwaf:Directive , rdfs:Resource , cwaf:Else;
@@ -156,7 +169,7 @@ xsd:date  rdf:type        rdfs:Datatype , owl:Class , rdfs:Resource , rdfs:Class
         owl:disjointWith  xsd:time , xsd:byte , xsd:dateTime , xsd:int , xsd:integer , xsd:short , xsd:unsignedByte , xsd:boolean , xsd:unsignedInt , xsd:string , xsd:nonNegativeInteger , xsd:duration , xsd:nonPositiveInteger , xsd:float , xsd:unsignedLong , xsd:long , xsd:unsignedShort , xsd:decimal .
 
 owl:onProperty  rdf:type    rdfs:Resource , rdf:Property;
-        rdfs:domain         owl:Class , rdfs:Class , rdfs:Resource , owl:Restriction;
+        rdfs:domain         rdfs:Resource , owl:Class , rdfs:Class , owl:Restriction;
         rdfs:range          rdfs:Resource , owl:Property;
         rdfs:subPropertyOf  owl:onProperty .
 
@@ -178,7 +191,7 @@ rdfs:Literal  rdf:type       owl:Class , rdfs:Resource , rdfs:Class;
 
 cwaf:serverName  rdf:type   owl:FunctionalProperty , owl:DatatypeProperty , rdf:Property , rdfs:Resource;
         rdfs:domain         cwaf:VirtualHost , rdfs:Resource , cwaf:Directive , cwaf:ScopeRule , owl:Thing , cwaf:Rule;
-        rdfs:label          "serverName"@en , "serverName"@iri-based;
+        rdfs:label          "serverName"@iri-based , "serverName"@en;
         rdfs:range          xsd:string , rdfs:Resource;
         rdfs:subPropertyOf  cwaf:serverName .
 
@@ -191,13 +204,14 @@ cwaf:config  rdf:type      cwaf:Configuration;
         cwaf:configName    "first conf";
         cwaf:containsFile  cwaf:file_bag .
 
+cwaf:Location_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9
+        rdf:type           cwaf:Location;
+        cwaf:dirLineNum    "18"^^xsd:long;
+        cwaf:dirType       "Location";
+        cwaf:locationPath  "~ /test/" .
+
 owl:inverseOf  rdf:type     rdfs:Resource , rdf:Property;
         rdfs:subPropertyOf  owl:inverseOf .
-
-cwaf:Location_4c9bf5a8-b2f8-354d-ac33-73057875911a
-        rdf:type           cwaf:Location;
-        cwaf:dirLineNum    "13"^^xsd:long;
-        cwaf:locationPath  "/toast/" .
 
 xsd:nonPositiveInteger
         rdf:type          rdfs:Class , rdfs:Datatype , owl:Class , rdfs:Resource;
@@ -224,11 +238,6 @@ cwaf:ElseFamily  rdf:type    rdfs:Resource , owl:Class , rdfs:Class;
         rdfs:subClassOf      cwaf:Directive , cwaf:Beacon , cwaf:ElseFamily , rdfs:Resource , owl:Thing;
         owl:equivalentClass  cwaf:ElseFamily .
 
-cwaf:dummy_2fb981ba-7647-3352-abef-1f02d24ef27f
-        rdf:type         cwaf:Rule;
-        cwaf:dirLineNum  "5"^^xsd:long;
-        cwaf:dirType     "dummy" .
-
 xsd:hexBinary  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:isEndingVirtualHost
@@ -237,7 +246,7 @@ cwaf:isEndingVirtualHost
         rdfs:range          cwaf:ScopeRule , cwaf:Rule , owl:Thing , cwaf:Directive , rdfs:Resource , cwaf:VirtualHost;
         rdfs:subPropertyOf  cwaf:isEndingVirtualHost .
 
-rdf:Bag  rdf:type        rdfs:Resource , rdfs:Class;
+rdf:Bag  rdf:type        rdfs:Class , rdfs:Resource;
         rdfs:subClassOf  rdfs:Container .
 
 rdfs:Class  rdf:type         owl:Class , rdfs:Resource , rdfs:Class;
@@ -245,14 +254,19 @@ rdfs:Class  rdf:type         owl:Class , rdfs:Resource , rdfs:Class;
         owl:equivalentClass  rdfs:Class .
 
 owl:equivalentClass  rdf:type  rdfs:Resource , rdf:Property;
-        rdfs:domain         rdfs:Class , rdfs:Resource , owl:Class;
+        rdfs:domain         rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:range          rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:subPropertyOf  owl:equivalentClass .
 
 cwaf:VirtualHost  rdf:type   owl:Class , rdfs:Resource , rdfs:Class;
-        rdfs:label           "VirtualHost"@en , "VirtualHost"@iri-based;
+        rdfs:label           "VirtualHost"@iri-based , "VirtualHost"@en;
         rdfs:subClassOf      rdfs:Resource , cwaf:ScopeRule , cwaf:VirtualHost , cwaf:Directive , cwaf:Rule , owl:Thing;
         owl:equivalentClass  cwaf:VirtualHost .
+
+cwaf:dummy_test_3b52653c-04c7-3929-a3b6-80bc01839e4a
+        rdf:type         cwaf:Rule;
+        cwaf:dirLineNum  "19"^^xsd:long;
+        cwaf:dirType     "dummy_test" .
 
 owl:TransitiveProperty
         rdf:type         rdfs:Resource , rdfs:Class;
@@ -280,7 +294,7 @@ xsd:double  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:condition  rdf:type    rdfs:Resource , owl:FunctionalProperty , rdf:Property , owl:DatatypeProperty;
         rdfs:domain         owl:Thing , cwaf:IfFamily , cwaf:Directive , cwaf:Beacon , rdfs:Resource;
-        rdfs:label          "condition"@iri-based , "condition"@en;
+        rdfs:label          "condition"@en , "condition"@iri-based;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:condition .
 
@@ -295,7 +309,7 @@ cwaf:includeFile  rdf:type  rdf:Property , rdfs:Resource , owl:FunctionalPropert
         rdfs:range          rdfs:Resource , owl:Thing , cwaf:File;
         rdfs:subPropertyOf  cwaf:includeFile .
 
-rdf:Alt  rdf:type        rdfs:Resource , rdfs:Class;
+rdf:Alt  rdf:type        rdfs:Class , rdfs:Resource;
         rdfs:subClassOf  rdfs:Container .
 
 owl:InverseFunctionalProperty
@@ -342,13 +356,14 @@ rdfs:isDefinedBy  rdf:type  rdfs:Resource , rdf:Property;
 rdfs:Datatype  rdf:type  rdfs:Resource , rdfs:Class;
         rdfs:subClassOf  rdfs:Class .
 
-cwaf:dummy_test_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2
-        rdf:type         cwaf:Rule;
-        cwaf:dirLineNum  "9"^^xsd:long;
-        cwaf:dirType     "dummy_test" .
+cwaf:Location_685a3936-276f-3b62-ba73-2dd0075e578a
+        rdf:type           cwaf:Location;
+        cwaf:dirLineNum    "22"^^xsd:long;
+        cwaf:dirType       "Location";
+        cwaf:locationPath  "~ /toast/" .
 
 cwaf:Rule  rdf:type          owl:Class , rdfs:Resource , rdfs:Class;
-        rdfs:label           "Rule"@iri-based , "Rule"@en;
+        rdfs:label           "Rule"@en , "Rule"@iri-based;
         rdfs:subClassOf      owl:Thing , rdfs:Resource , cwaf:Directive , cwaf:Rule;
         owl:disjointWith     cwaf:Beacon;
         owl:equivalentClass  cwaf:Rule .
@@ -358,11 +373,6 @@ cwaf:dirType  rdf:type      rdf:Property , owl:DatatypeProperty , owl:Functional
         rdfs:label          "dirType"@en;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:dirType .
-
-cwaf:VirtualHost_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945
-        rdf:type              cwaf:VirtualHost;
-        cwaf:dirLineNum       "3"^^xsd:long;
-        cwaf:virtualHostName  "*:8000" .
 
 xsd:anyURI  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
@@ -376,7 +386,7 @@ rdfs:subClassOf  rdf:type   rdfs:Resource , rdf:Property;
 xsd:gMonthDay  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 owl:oneOf  rdf:type         rdfs:Resource , rdf:Property;
-        rdfs:domain         rdfs:Class , rdfs:Resource , owl:Class;
+        rdfs:domain         rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:subPropertyOf  owl:oneOf .
 
 owl:ObjectProperty  rdf:type  rdfs:Resource , rdfs:Class;
@@ -396,7 +406,7 @@ rdf:subject  rdf:type       rdfs:Resource , rdf:Property;
 
 rdf:nil  rdf:type  rdfs:Resource , rdf:List .
 
-rdf:Seq  rdf:type        rdfs:Resource , rdfs:Class;
+rdf:Seq  rdf:type        rdfs:Class , rdfs:Resource;
         rdfs:subClassOf  rdfs:Container .
 
 cwaf:Beacon  rdf:type        owl:Class , rdfs:Class , rdfs:Resource;
@@ -414,11 +424,6 @@ cwaf:containedIn  rdf:type  owl:ObjectProperty , owl:TransitiveProperty , rdfs:R
         rdfs:subPropertyOf  cwaf:containedIn;
         owl:inverseOf       cwaf:containsDirective .
 
-cwaf:EndLocation_42daf7c9-2835-3e93-9a76-ff9b57ca0552
-        rdf:type               cwaf:EndLocation;
-        cwaf:dirLineNum        "15"^^xsd:long;
-        cwaf:isEndingLocation  cwaf:Location_4c9bf5a8-b2f8-354d-ac33-73057875911a .
-
 cwaf:useMacro  rdf:type     rdfs:Resource , owl:ObjectProperty , owl:FunctionalProperty , rdf:Property;
         rdfs:domain         cwaf:Rule , cwaf:Directive , owl:Thing , rdfs:Resource , cwaf:Use;
         rdfs:label          "useMacro"@en;
@@ -433,15 +438,14 @@ cwaf:IfFamily  rdf:type      rdfs:Resource , owl:Class , rdfs:Class;
 owl:AsymmetricProperty
         rdf:type  rdfs:Resource , rdfs:Class .
 
+cwaf:LocationMatch  rdf:type  rdfs:Resource , rdfs:Class , owl:Class;
+        rdfs:subClassOf      cwaf:Rule , cwaf:Directive , owl:Thing , cwaf:LocationMatch , cwaf:ScopeRule , rdfs:Resource , cwaf:Location;
+        owl:equivalentClass  cwaf:LocationMatch .
+
 cwaf:ScopeRule  rdf:type     rdfs:Class , rdfs:Resource , owl:Class;
         rdfs:subClassOf      owl:Thing , cwaf:Directive , rdfs:Resource , cwaf:ScopeRule , cwaf:Rule;
         owl:disjointWith     cwaf:ModSecRule , cwaf:Include , cwaf:Use;
         owl:equivalentClass  cwaf:ScopeRule .
-
-cwaf:dummy_toast_a153e148-fa27-3061-b0f6-8f08e4a76ee1
-        rdf:type         cwaf:Rule;
-        cwaf:dirLineNum  "14"^^xsd:long;
-        cwaf:dirType     "dummy_toast" .
 
 owl:differentFrom  rdf:type  rdfs:Resource , owl:ObjectProperty , rdf:Property , owl:SymmetricProperty;
         rdfs:subPropertyOf  owl:differentFrom .
@@ -486,7 +490,7 @@ cwaf:EndLocation  rdf:type   rdfs:Class , rdfs:Resource , owl:Class;
 
 cwaf:macroName  rdf:type    owl:FunctionalProperty , rdf:Property , owl:DatatypeProperty , rdfs:Resource;
         rdfs:domain         cwaf:Macro , cwaf:Directive , cwaf:Beacon , owl:Thing , rdfs:Resource;
-        rdfs:label          "macroName"@en , "macroName"@iri-based;
+        rdfs:label          "macroName"@iri-based , "macroName"@en;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:macroName .
 
@@ -505,6 +509,11 @@ owl:disjointWith  rdf:type  owl:ObjectProperty , owl:SymmetricProperty , rdf:Pro
         rdfs:range          owl:Class , rdfs:Class , rdfs:Resource;
         rdfs:subPropertyOf  owl:disjointWith .
 
+cwaf:dummy_toast_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0
+        rdf:type         cwaf:Rule;
+        cwaf:dirLineNum  "23"^^xsd:long;
+        cwaf:dirType     "dummy_toast" .
+
 xsd:gYearMonth  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:containsDirective
@@ -515,14 +524,14 @@ cwaf:containsDirective
         rdfs:subPropertyOf  cwaf:containsDirective;
         owl:inverseOf       cwaf:containedIn .
 
-cwaf:Location_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d
-        rdf:type           cwaf:Location;
-        cwaf:dirLineNum    "4"^^xsd:long;
-        cwaf:locationPath  "/" .
-
 cwaf:test.conf  rdf:type        cwaf:File;
-        cwaf:containsDirective  cwaf:VirtualHost_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945 , cwaf:EndLocation_685a3936-276f-3b62-ba73-2dd0075e578a , cwaf:Location_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d , cwaf:Location_3b52653c-04c7-3929-a3b6-80bc01839e4a , cwaf:dummy_toast_a153e148-fa27-3061-b0f6-8f08e4a76ee1 , cwaf:dummy_2fb981ba-7647-3352-abef-1f02d24ef27f , cwaf:Location_4c9bf5a8-b2f8-354d-ac33-73057875911a , cwaf:EndLocation_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9 , cwaf:EndLocation_42daf7c9-2835-3e93-9a76-ff9b57ca0552 , cwaf:dummy_test_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2 , cwaf:EndVirtualHost_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0;
+        cwaf:containsDirective  cwaf:Location_685a3936-276f-3b62-ba73-2dd0075e578a , cwaf:EndLocation_4c9bf5a8-b2f8-354d-ac33-73057875911a , cwaf:dummy_toast_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0 , cwaf:dummy_test_3b52653c-04c7-3929-a3b6-80bc01839e4a , cwaf:EndLocation_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2 , cwaf:EndLocation_2fb981ba-7647-3352-abef-1f02d24ef27f , cwaf:Location_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945 , cwaf:Location_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9 , cwaf:dummy_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d;
         cwaf:filePath           "test.conf" .
+
+cwaf:dummy_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d
+        rdf:type         cwaf:Rule;
+        cwaf:dirLineNum  "15"^^xsd:long;
+        cwaf:dirType     "dummy" .
 
 rdfs:seeAlso  rdf:type      rdfs:Resource , rdf:Property;
         rdfs:subPropertyOf  rdfs:seeAlso .
@@ -558,7 +567,7 @@ owl:priorVersion  rdf:type  rdfs:Resource , rdf:Property;
 
 cwaf:dirLineNum  rdf:type   owl:DatatypeProperty , owl:FunctionalProperty , rdf:Property , rdfs:Resource;
         rdfs:domain         rdfs:Resource , cwaf:Directive , owl:Thing;
-        rdfs:label          "dirLineNum"@iri-based , "dirLineNum"@en;
+        rdfs:label          "dirLineNum"@en , "dirLineNum"@iri-based;
         rdfs:range          xsd:decimal , xsd:integer , rdfs:Resource;
         rdfs:subPropertyOf  cwaf:dirLineNum .
 
@@ -566,24 +575,25 @@ xsd:base64Binary  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 xsd:negativeInteger  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
-cwaf:EndLocation_d01fb709-7c18-3f2d-8dc0-f1cebf8456e9
+cwaf:EndLocation_4c9bf5a8-b2f8-354d-ac33-73057875911a
         rdf:type               cwaf:EndLocation;
-        cwaf:dirLineNum        "6"^^xsd:long;
-        cwaf:isEndingLocation  cwaf:Location_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d .
+        cwaf:dirLineNum        "24"^^xsd:long;
+        cwaf:dirType           "EndLocation";
+        cwaf:isEndingLocation  cwaf:Location_685a3936-276f-3b62-ba73-2dd0075e578a .
 
 cwaf:   rdf:type         rdfs:Resource , owl:Ontology;
         dc:creator       "Bastien Wiaux";
         dc:description   "CWAF config ontology"@en;
         dc:title         "OntCWAF"@en;
-        owl:versionInfo  "0.7"@en .
+        owl:versionInfo  "0.8"@en .
+
+rdf:XMLLiteral  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 cwaf:filePath  rdf:type     rdf:Property , owl:FunctionalProperty , rdfs:Resource , owl:DatatypeProperty;
         rdfs:domain         owl:Thing , rdfs:Resource , cwaf:File;
         rdfs:label          "filePath"@en , "filePath"@iri-based;
         rdfs:range          rdfs:Resource , xsd:string;
         rdfs:subPropertyOf  cwaf:filePath .
-
-rdf:XMLLiteral  rdf:type  rdfs:Resource , rdfs:Class , rdfs:Datatype .
 
 owl:Restriction  rdf:type    owl:Class , rdfs:Resource , rdfs:Class;
         rdfs:subClassOf      owl:Restriction , rdfs:Resource , owl:Class;
@@ -600,7 +610,7 @@ rdf:predicate  rdf:type     rdfs:Resource , rdf:Property;
         rdfs:subPropertyOf  rdf:predicate .
 
 cwaf:Use  rdf:type           owl:Class , rdfs:Class , rdfs:Resource;
-        rdfs:label           "Use"@en , "Use"@iri-based;
+        rdfs:label           "Use"@iri-based , "Use"@en;
         rdfs:subClassOf      owl:Thing , rdfs:Resource , cwaf:Rule , cwaf:Use , cwaf:Directive;
         owl:disjointWith     cwaf:Include , cwaf:ModSecRule , cwaf:ScopeRule;
         owl:equivalentClass  cwaf:Use .
@@ -628,24 +638,14 @@ owl:FunctionalProperty
 xsd:duration  rdf:type    rdfs:Datatype , owl:Class , rdfs:Resource , rdfs:Class;
         owl:disjointWith  xsd:unsignedShort , xsd:nonNegativeInteger , xsd:time , xsd:dateTime , xsd:float , xsd:decimal , xsd:date , xsd:integer , xsd:short , xsd:long , xsd:boolean , xsd:unsignedInt , xsd:unsignedByte , xsd:unsignedLong , xsd:byte , xsd:int , xsd:string , xsd:nonPositiveInteger .
 
-cwaf:Location_3b52653c-04c7-3929-a3b6-80bc01839e4a
-        rdf:type           cwaf:Location;
-        cwaf:dirLineNum    "8"^^xsd:long;
-        cwaf:locationPath  "/test" .
-
 cwaf:EndVirtualHost  rdf:type  rdfs:Resource , rdfs:Class , owl:Class;
         rdfs:subClassOf      cwaf:Directive , cwaf:EndVirtualHost , cwaf:Rule , cwaf:ScopeRule , rdfs:Resource , owl:Thing;
         owl:equivalentClass  cwaf:EndVirtualHost .
 
+rdfs:Container  rdf:type  rdfs:Class , rdfs:Resource .
+
 cwaf:file_bag  rdf:type  rdf:Bag;
         rdf:_1    cwaf:test.conf .
-
-rdfs:Container  rdf:type  rdfs:Resource , rdfs:Class .
-
-cwaf:EndVirtualHost_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0
-        rdf:type                  cwaf:EndVirtualHost;
-        cwaf:dirLineNum           "11"^^xsd:long;
-        cwaf:isEndingVirtualHost  cwaf:VirtualHost_a0e43ef2-f0eb-33bb-b60f-bb700dc2c945 .
 
 cwaf:usedBy  rdf:type       owl:InverseFunctionalProperty , rdfs:Resource , rdf:Property , owl:ObjectProperty;
         rdfs:domain         cwaf:Directive , rdfs:Resource , owl:Thing , cwaf:Macro , cwaf:Beacon;

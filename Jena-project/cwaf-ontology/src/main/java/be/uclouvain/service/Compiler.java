@@ -414,10 +414,39 @@ public class Compiler {
             ctx.popEC();
             return res;
         } else {
-            System.err.println("Directive Type not found for directive " + ifInd.getLocalName());
+            System.err.println("If Type not found for directive " + ifInd.getLocalName());
         }
         return compileContainer(ctx, ifInd);
     }
+
+
+    // private static Stream<Directive> compileGenericContainer(CompileContext ctx, Directive directive){
+    //     Individual ifInd = directive.getIndividual();
+    //     if (ifInd.hasProperty(OntCWAF.DIR_TYPE)) {
+    //         String dirType = ifInd.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString().toLowerCase();
+    //         String args = ifInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
+    //         String[] content = parseArguments(args, null);
+    //         Stream<Directive> res =Stream.empty();
+    //         switch (dirType) {
+    //             case "locationmatch":
+    //                 if (content.length == 1) {
+    //                     System.err.println("LocationMatch: " + content[0]);
+    //                     ctx.setCurrentLocation(content[0]);
+    //                     res = compileContainer(ctx, ifInd);
+    //                     ctx.resetCurrentLocation();
+    //                 } else {
+    //                     System.err.println("Invalid number of arguments for IfDefine: " + content.length);
+    //                 }
+    //                     break;
+    //             default:
+    //                 break;
+    //         }
+    //         return res;
+    //     } else {
+    //         System.err.println("Directive Type not found for directive " + ifInd.getLocalName());
+    //     }
+    //     return compileContainer(ctx, ifInd);
+    // }
 
     private static Stream<Directive> compileDirective(CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
@@ -430,6 +459,8 @@ public class Compiler {
                 return compileDefineMacro(ctx, directiveInd);
             } else if (directiveInd.hasProperty(OntCWAF.IF_TYPE)) {
                 return compileGenericIf(ctx, directive);
+            // } else if (directiveInd.hasProperty(OntCWAF.DIR_TYPE)) {
+            //     return compileGenericContainer(ctx, directive);
             } else {
                 return compileContainer(ctx, directiveInd);
             }

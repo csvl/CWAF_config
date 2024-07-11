@@ -24,10 +24,10 @@
 # Compilation
 
  - [x] gérer les variables locales + les paramètres
- - [ ] gérer les:
+ - [x] gérer les:
     - [x] IfDefine
     - [x] IfModule
-    - [ ] LocationMatch
+    - [x] LocationMatch
  - [-] évaluer les conditions pour de vrai
 
  --------------------------------

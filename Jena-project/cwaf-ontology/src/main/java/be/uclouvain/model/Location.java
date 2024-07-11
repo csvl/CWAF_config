@@ -1,5 +1,7 @@
 package be.uclouvain.model;
 
+import static be.uclouvain.utils.DirectiveFactory.parseArguments;
+
 import java.util.regex.Pattern;
 
 public class Location {
@@ -19,7 +21,8 @@ public class Location {
         }
         if (this.path.startsWith("~")) {
             //check if match regex
-            Pattern pattern = Pattern.compile(this.path.substring(1));
+            String regex = this.path.substring(1).strip().replaceAll("^[\"\']|[\"\']$", "");
+            Pattern pattern = Pattern.compile(regex);
             return pattern.matcher(path).find();
         }
         return path.startsWith(this.path) || path.startsWith(path + "/");

@@ -1,3 +1,2 @@
-{phase=2, ifLevel=0, location='/toast/', virtualHost='', lineNum=14, EC=true}	dummy_toast_a153e148-fa27-3061-b0f6-8f08e4a76ee1	()
-{phase=2, ifLevel=0, location='/', virtualHost='*:8000', lineNum=5, EC=true}	dummy_2fb981ba-7647-3352-abef-1f02d24ef27f	()
-{phase=2, ifLevel=0, location='/test', virtualHost='*:8000', lineNum=9, EC=true}	dummy_test_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2	()
+{phase=2, ifLevel=0, location='~ "/(extra|special)/data"', virtualHost='', lineNum=15, EC=true}	dummy_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d	()
+{phase=2, ifLevel=0, location='~ /test/', virtualHost='', lineNum=19, EC=true}	dummy_test_3b52653c-04c7-3929-a3b6-80bc01839e4a	()
