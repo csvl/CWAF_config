@@ -17,7 +17,7 @@ public class Directive implements Comparable<Directive>, Serializable {
 
     private int lineNum;
     private transient Individual resource;
-    private String location = "global";
+    private String location;
     private String virtualHost;
     private int ifLevel = 0;
     private int phase = Constants.DEFAULT_PHASE; 
@@ -105,6 +105,14 @@ public class Directive implements Comparable<Directive>, Serializable {
         return lineNum;
     }
 
+    public Location getLocation() {
+        return new Location(location);
+    }
+
+    public VirtualHost getVirtualHost() {
+        return new VirtualHost(virtualHost);
+    }
+
     public Individual getIndividual() {
         return resource;
     }
@@ -148,5 +156,10 @@ public class Directive implements Comparable<Directive>, Serializable {
 
     public void setPhase(int newPhase) {
         this.phase = newPhase;
+    }
+
+    public void updateContext(CompileContext ctx) {
+        this.location = ctx.getCurrentLocation();
+        this.virtualHost = ctx.getCurrentVirtualHost();
     }
 }

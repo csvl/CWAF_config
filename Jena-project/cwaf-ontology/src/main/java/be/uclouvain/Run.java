@@ -8,7 +8,6 @@ import be.uclouvain.model.Directive;
 import be.uclouvain.service.CompileContext;
 
 import static be.uclouvain.service.Parser.parseConfig;
-import static be.uclouvain.utils.OntUtils.readStreamFromFile;
 
 import java.util.stream.Stream;
 
@@ -17,7 +16,7 @@ import static be.uclouvain.service.Compiler.printStreamDump;
 
 public class Run {
 
-    public static void fullProcess(String[] args) {
+    public static void main(String[] args) {
         OntModel model;
         try {
             model = parseConfig(args[0]);
@@ -34,22 +33,4 @@ public class Run {
             e.printStackTrace();
         }
     }
-    
-    public static void main(String[] args) {
-
-        // fullProcess(args);
-
-        Stream<Directive> order = readStreamFromFile("global_order.ser");
-
-        // order.filter(d -> {
-        //     for (String arg : d.getArgs()) {
-        //         if (arg.contains("var=")) {
-        //             return true;
-        //         }
-        //     }
-        //     return false;
-        // }).forEach(d -> System.out.println(d));
-        order.forEach(d -> System.out.println(d));
-    }
-
 }

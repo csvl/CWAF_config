@@ -308,7 +308,7 @@ public class Compiler {
         String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(args, null);
         if (content.length == 2) {
-            ctx.addVar("~{"+content[0]+"}", content[1]);
+            ctx.addVar("~{"+content[0]+"}", content[1], "DefineStr");
         } else {
             System.err.println("Invalid number of arguments for DefineStr: " + content.length + " in directive " + directiveInd.getLocalName());
         }
@@ -421,6 +421,7 @@ public class Compiler {
 
     private static Stream<Directive> compileDirective(CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
+        directive.updateContext(ctx);
         expandVars(ctx, directive);
         if (directiveInd.hasOntClass(OntCWAF.BEACON)) {
             if (directiveInd.hasOntClass(OntCWAF.IF)) {
@@ -460,7 +461,7 @@ public class Compiler {
 
         Stream<Directive> global_order = compileConfig(ctx, ontExec);
 
-        printStreamDump(ctx, global_order);
-        // writeStreamToFile("global_order.ser", global_order);
+        // printStreamDump(ctx, global_order);
+        writeStreamToFile("global_order.ser", global_order);
     }
 }
