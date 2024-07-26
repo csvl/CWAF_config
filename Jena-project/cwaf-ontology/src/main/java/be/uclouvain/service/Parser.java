@@ -26,6 +26,7 @@ public class Parser {
 
     public static OntModel parseConfig(String filePath) throws IOException {
 
+        // OntModel confModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RDFS_INF);
         OntModel confModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
         
         Individual config = confModel.createIndividual(OntCWAF.NS + "config", OntCWAF.CONFIGURATION);
@@ -36,8 +37,18 @@ public class Parser {
 
         parseConfigFile(filePath, confModel, file_bag);
         cleanPlaceHolders(confModel);
-
+        // populateAllMacroCalls(confModel);
+        
         return confModel;
+    }
+
+    private static void populateAllMacroCalls(OntModel model) {
+        for (Iterator<Individual> i = model.listIndividuals(OntCWAF.MACRO_CALL); i.hasNext();) {
+            Individual call = i.next();
+            Individual macro = model.getIndividual(call.getProperty(OntCWAF.CALL_OF).getObject().asResource().getURI());
+            String solvedParams = call.getProperty(OntCWAF.SOLVED_PARAMS).getObject().asLiteral().getString();
+            populateMacroCall(model, call, macro, solvedParams);
+        }
     }
 
     private static Individual parseConfigFile(String filePath, OntModel model, Bag file_bag) throws IOException{
@@ -273,6 +284,9 @@ public class Parser {
             String macroName = useMatcher.group(1);
             String macroArgs = useMatcher.group(2);
             Individual use = createUse(model, context, line_num, macroArgs == null ? "" : macroArgs, OntUtils.getMacroURI(macroName));
+            if (use == null) {
+               return; 
+            }
             attachDirectiveToOnt(model, context, use, file);
             // System.out.println("Using macro: " + macroName + " with args: " + macroArgs);
             return;

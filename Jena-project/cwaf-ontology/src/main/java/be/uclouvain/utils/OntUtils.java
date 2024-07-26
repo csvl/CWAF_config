@@ -1,18 +1,28 @@
 package be.uclouvain.utils;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import static be.uclouvain.utils.DirectiveFactory.parseArguments;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.*;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.XSD;
+
+import com.github.andrewoma.dexx.collection.Pair;
 
 import be.uclouvain.model.Directive;
 import be.uclouvain.service.DirectiveContext;
@@ -83,6 +93,20 @@ public class OntUtils {
         return OntCWAF.NS + name + "_" + getUUID().toString();
     }
 
+
+    public static String renewURI(String oldURI) {
+        //use regex to replace the UUID after the last _ by a new one
+        String regex = "^(.*_).*?$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(oldURI);
+        if (matcher.matches()) {
+            return matcher.group(1) + getUUID().toString();
+        } else {
+            System.err.println("No UUID found in " + oldURI);
+            return oldURI;
+        }
+    }
+
     public static void saveOntology(String filePath, OntModel model) {
         // Save the ontology to a file
         try (OutputStream out = new FileOutputStream(filePath)) {
@@ -105,7 +129,7 @@ public class OntUtils {
     public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
         if (withSchema) {
             OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-            schema.read("Jena-project/ontCWAF_0.7.ttl", "TTL");
+            schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
             model.add(schema);
         }
         saveOntology(filePath, model, format);
@@ -165,6 +189,129 @@ public class OntUtils {
             e.printStackTrace();
         }
         return data;
+    }
+
+    // public static void expandVarsInIndividual(Individual ind, String[] keys, String[] values) {
+    //     List<Statement> stmts = ind.listProperties().toList();
+    //     for (Statement stmt : stmts) {
+    //         if (stmt.getObject().isLiteral()) {
+    //             String content = stmt.getObject().asLiteral().getString();
+    //             String[] parsed = parseArguments(content, null);
+    //             String[] replaced = StringUtils.replaceContentInArray(keys, values, parsed);
+    //             String newContent = String.join(" ", replaced);
+    //             if (!newContent.equals(content)) {
+    //                 ind.removeProperty(stmt.getPredicate(), stmt.getObject());
+    //                 ind.addProperty(stmt.getPredicate(), newContent);
+    //             }
+    //         } else if (stmt.getObject().canAs(Individual.class) && !stmt.getPredicate().equals(OntCWAF.INSTANCE_OF)) {
+    //             Individual object = stmt.getObject().as(Individual.class);
+    //             expandVarsInIndividual(object, keys, values);
+    //         }
+    //     }
+    // }
+
+    public static void expandVarsInIndividual(Individual ind, String[] keys, String[] values) {
+        Stack<Individual> stack = new Stack<>();
+        Set<Individual> visited = new HashSet<>();
+        stack.push(ind);
+        visited.add(ind);
+
+        while (!stack.isEmpty()) {
+            Individual current = stack.pop();
+            List<Statement> stmts = current.listProperties().toList();
+
+            for (Statement stmt : stmts) {
+                if (stmt.getObject().isLiteral()) {
+                    String content = stmt.getObject().asLiteral().getString();
+                    String[] parsed = parseArguments(content, null);
+                    String[] replaced = StringUtils.replaceContentInArray(keys, values, parsed);
+                    String newContent = String.join(" ", replaced);
+
+                    if (!newContent.equals(content)) {
+                        current.removeProperty(stmt.getPredicate(), stmt.getObject());
+                        current.addProperty(stmt.getPredicate(), newContent);
+                    }
+                } else if (stmt.getObject().canAs(Individual.class) && !stmt.getPredicate().equals(OntCWAF.INSTANCE_OF)) {
+                    Individual object = stmt.getObject().as(Individual.class);
+                    if (!visited.contains(object)) {
+                        stack.push(object);
+                        visited.add(object);
+                    }
+                }
+            }
+        }
+    }
+
+    // public static Individual copyIndividual(Individual ind, OntModel model) {
+    //     String newURI = renewURI(ind.getURI());
+    //     Individual newInd = model.createIndividual(newURI, ind.getOntClass());
+    //     newInd.addProperty(OntCWAF.INSTANCE_OF, ind);
+
+    //     for (Statement stmt : ind.listProperties().toList()) {
+    //         if (stmt.getObject().canAs(Individual.class)) {
+    //             newInd.addProperty(stmt.getPredicate(), copyIndividual(stmt.getObject().as(Individual.class), model));
+    //         } else if (stmt.getObject().isLiteral()) {
+    //             Literal lit = stmt.getObject().asLiteral();
+    //             if (lit.getDatatypeURI().equals(XSD.xstring.getURI())) {
+    //                 newInd.addLiteral(stmt.getPredicate(), new String(lit.getString()));
+    //             } else {
+    //                 // newInd.addLiteral(stmt.getPredicate(), lit.getValue());
+    //                 newInd.addLiteral(stmt.getPredicate(),
+    //                     ResourceFactory.createTypedLiteral(lit.getLexicalForm(), lit.getDatatype()));
+    //             }
+    //         } else {
+    //             newInd.addProperty(stmt.getPredicate(), stmt.getObject());
+    //         }
+    //     }
+    //     return newInd;
+    // }
+
+  public static Individual copyIndividual(Individual ind, OntModel model) {
+        Map<String, Individual> copiedIndividuals = new HashMap<>();
+        Queue<Pair<String, Individual>> queue = new LinkedList<>();
+        queue.add(new Pair<String,Individual>(renewURI(ind.getURI()), ind));
+
+        while (!queue.isEmpty()) {
+            Pair<String, Individual> currentPair = queue.poll();
+            Individual current = currentPair.component2();
+            String currentURI = current.getURI();
+
+            // If already copied, skip this individual
+            if (copiedIndividuals.containsKey(currentURI)) {
+                continue;
+            }
+
+            // Create a new individual
+            String newURI = currentPair.component1();
+            System.err.println("Copying " + currentURI + " to " + newURI);
+            Individual newInd = model.createIndividual(newURI, current.getRDFType());
+            newInd.addProperty(OntCWAF.INSTANCE_OF, current);
+
+            copiedIndividuals.put(currentURI, newInd);
+
+            for (Statement stmt : current.listProperties().toList()) {
+                if (stmt.getObject().canAs(Individual.class)) {
+                    Individual objectInd = stmt.getObject().as(Individual.class);
+                    String objectNewURI = renewURI(objectInd.getURI());
+                    queue.add(new Pair<String,Individual>(objectNewURI, objectInd));
+                    newInd.addProperty(stmt.getPredicate(),
+                            copiedIndividuals.getOrDefault(objectInd.getURI(),
+                                            model.createIndividual(objectNewURI, objectInd.getOntClass()))); 
+                } else if (stmt.getObject().isLiteral()) {
+                    Literal lit = stmt.getObject().asLiteral();
+                    if (lit.getDatatypeURI().equals(XSD.xstring.getURI())) {
+                        newInd.addLiteral(stmt.getPredicate(), new String(lit.getString()));
+                    } else {
+                        newInd.addLiteral(stmt.getPredicate(),
+                            ResourceFactory.createTypedLiteral(lit.getLexicalForm(), lit.getDatatype()));
+                    }
+                } else {
+                    newInd.addProperty(stmt.getPredicate(), stmt.getObject());
+                }
+            }
+        }
+
+        return copiedIndividuals.get(ind.getURI());
     }
 
 }

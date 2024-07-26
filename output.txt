@@ -1,2 +1,23 @@
-{phase=2, ifLevel=0, location='~ "/(extra|special)/data"', virtualHost='', lineNum=15, EC=true}	dummy_cf6d9c8c-eb60-3181-b3f5-6b3fdee9302d	()
-{phase=2, ifLevel=0, location='~ /test/', virtualHost='', lineNum=19, EC=true}	dummy_test_3b52653c-04c7-3929-a3b6-80bc01839e4a	()
+{phase=1, ifLevel=2, location='global', virtualHost='', lineNum=33, EC=("1 == 1" ∧ ¬("1 == 1"))}                           	SecRule_17c59eb5-e336-3971-a6b6-d1cbd464f434                   	(nope phase:1).
+{phase=2, ifLevel=0, location='global', virtualHost='', lineNum=76}                                                        	SecRequestBodyAccess_f4e92216-bca0-39a4-8ce1-d6ace4538efb      	(on).
+{phase=2, ifLevel=0, location='global', virtualHost='', lineNum=77}                                                        	SecStreamInBodyInspection_334151d9-52ff-3481-827a-3a757c6491b9 	(off).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=6}                                              	ErrorLog_3b52653c-04c7-3929-a3b6-80bc01839e4a                  	(~{LogRoot}/error.log).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=7}                                              	LogLevel_8ab6c5c7-fd78-36bc-9d2a-19510cb7b0e2                  	(warn).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=10}                                             	DocumentRoot_685a3936-276f-3b62-ba73-2dd0075e578a              	(~{DocumentRoot}).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=11}                                             	SecAuditLogType_4e1ba2e1-99b1-33b8-a1e9-c1fdc62fdeb0           	(Serial).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=12}                                             	SecAuditLog_4c9bf5a8-b2f8-354d-ac33-73057875911a               	(~{LogRoot}/audit.log).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=27}                                             	MacroIgnoreBadNesting_d614979f-3471-3093-b1c2-ddc2433e9336     	().
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=29}                                             	RewriteEngine_f7e33e8f-3e0f-3a3c-a7b3-64ed622d7053             	(on).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=30}                                             	RewriteOptions_55c41f82-9e90-3a61-8647-772433ac9de9            	(InheritDownBefore).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=37}                                             	SecAuditEngine_03de8f40-729a-3b30-a0b1-4f6ff0564890            	(on).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=38}                                             	SecRuleEngine_68427d69-2044-3f0a-aab6-9211a2dedeba             	(on).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=39}                                             	SecRuleInheritance_a8f7c12d-65a1-36cf-9feb-267b200c65b4        	(on).
+{phase=2, ifLevel=0, location='global', virtualHost='test.com:80', lineNum=43}                                             	RewriteRule_9bad51da-0101-345e-ae19-be6559660e0f               	(^ /robots.txt [L]).
+{phase=2, ifLevel=2, location='global', virtualHost='test.com:80', lineNum=16, EC=("1 == 1" ∧ "1 == 1")}                   	SecResponseBodyAccess_cfe6967e-37b7-3dcf-8f82-e103dd282604     	(on).
+{phase=2, ifLevel=2, location='global', virtualHost='test.com:80', lineNum=18, EC=("1 == 1" ∧ "1 == 1")}                   	SecHashKey_f331938a-b63c-3439-aa07-3633c49a9bdb                	(rand KeyOnly).
+{phase=2, ifLevel=2, location='global', virtualHost='test.com:80', lineNum=21, EC=("1 == 1" ∧ "1 == 1")}                   	AllowOverride_42c202af-fbf6-39a8-9f40-0810c9164fb5             	(none).
+{phase=2, ifLevel=2, location='global', virtualHost='test.com:80', lineNum=22, EC=("1 == 1" ∧ "1 == 1")}                   	Options_2b558f18-0f41-3cbf-a436-7495bf42d172                   	(+FollowSymLinks -SymLinksIfOwnerMatch).
+{phase=2, ifLevel=3, location='global', virtualHost='', lineNum=33, EC=((("1 == 1" ∧ "1 == 1") ∧ ¬("1 == 1")) ∧ "1 == 0")} 	SecRule_8bcc1ad8-e9cc-31f2-a6ec-3560b5bef984                   	(nope hello).
+{phase=3, ifLevel=0, location='/home', virtualHost='', lineNum=33}                                                         	SecRule_2059af19-b05b-3ae7-9329-aa309da505dd                   	(fizz phase:3).
+{phase=4, ifLevel=4, location='global', virtualHost='', lineNum=52, EC=((("1 == 1" ∧ "1 == 1") ∧ "1 == 1") ∧ "1 == 1")}    	SecRule_d8346be4-c74c-3044-8820-897069dd39c9                   	(ENV:var ^/$p1/(.*-ph$p2)/|^.*-ph$p1/(.*-ph$p2)(?:$|/) phase:4,capture,nolog,auditlog,msg:'%{tx.1}%{tx.2}').
+{phase=5, ifLevel=4, location='global', virtualHost='', lineNum=33, EC=((("1 == 1" ∧ "1 == 1") ∧ "1 == 1") ∧ "1 == 1")}    	SecRule_2a6f6c0f-f692-36ff-9a56-ec317440557f                   	(yay phase:5).

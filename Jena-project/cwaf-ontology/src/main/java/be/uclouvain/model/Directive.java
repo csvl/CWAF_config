@@ -16,6 +16,7 @@ import be.uclouvain.vocabulary.OntCWAF;
 public class Directive implements Comparable<Directive>, Serializable {
 
     private int lineNum;
+    private String type;
     private transient Individual resource;
     private String location;
     private String virtualHost;
@@ -28,18 +29,8 @@ public class Directive implements Comparable<Directive>, Serializable {
     public Directive(CompileContext ctx, Individual resource) {
 
         this.lineNum = resource.getPropertyValue(OntCWAF.DIR_LINE_NUM).asLiteral().getInt();
-        // Statement scope = resource.getProperty(OntCWAF.HAS_SCOPE);
-        // if (scope != null) {
-        //     Individual scopeInd = scope.getObject().as(Individual.class);
-        //     Statement location = scopeInd.getProperty(OntCWAF.HAS_LOCATION);
-        //     this.location = location != null ? location.getObject().as(Individual.class)
-        //                             .getPropertyValue(OntCWAF.LOCATION_PATH).asLiteral().getString() : "global";
-        //     Statement virtualHost = scopeInd.getProperty(OntCWAF.HAS_VIRTUAL_HOST);
-        //     this.virtualHost = virtualHost != null ? virtualHost.getObject().as(Individual.class)
-        //                             .getPropertyValue(OntCWAF.V_HOST_NAME).asLiteral().getString() : null;
-        // }
-
         this.name = resource.getLocalName();
+        this.type = resource.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString();
 
         this.location = ctx.getCurrentLocation();
         this.virtualHost = ctx.getCurrentVirtualHost();
@@ -65,21 +56,6 @@ public class Directive implements Comparable<Directive>, Serializable {
         });
         this.resource = resource;
     }
-
-    // public String[] getScope() {
-    //     return new String[] {location, virtualHost};
-    // }
-
-    // public void setScope(String[] scope) {
-    //     if (scope.length != 2) {
-    //         throw new IllegalArgumentException("Scope must have 2 elements");
-    //     }
-    //     this.location = scope[0];
-    //     this.virtualHost = scope[1];
-    //     // if (virtualHost != null || !location.equals("global")) {
-    //     //     System.err.println("Scope set to " + Arrays.toString(scope));
-    //     // }
-    // }
 
     public boolean isBeacon() {
         return resource.hasOntClass(OntCWAF.BEACON);

@@ -146,41 +146,30 @@ public class Compiler {
         return compileFile(ctx, file);//, include.getScope()
     }
 
-    private static Stream<Directive> expandUse(CompileContext ctx, Directive use) {
-        Individual macro = use.getIndividual().getProperty(OntCWAF.USE_MACRO).getObject().as(Individual.class);
-        // if (!ctx.isMacroDefined(macroURI)) {
-        //     System.err.println("Macro not defined: " + macroURI);
-        //     System.err.println("Used in directive: " + use.getIndividual().getURI());
-        //     return Stream.empty();
-        // }
-        // if (macro == null) {
-        //     System.err.println("Macro defined but not found: " + macroURI);
-        //     System.err.println("Used in directive: " + use.getIndividual().getURI());
-        //     return Stream.empty();
-        // }
-        String[] args = use.getArgs();
-        // System.err.println("Using macro: " + macro.getLocalName() + " with args " + Arrays.toString(args));
-        return compileMacroContent(ctx, macro, args); //, use.getScope()
+    private static void addMacroContentToOnt(CompileContext ctx, Individual call, Individual macro, Stream<Directive> res) {
+        // List<Directive> directives = res.collect(Collectors.toList());
+        // res = directives.stream();
+        //FIXME marche pas pcq le stream est fait pour aplatir la structure
     }
 
-    private static Stream<Directive> compileMacroContent(CompileContext ctx, Individual macro, String[] args) { //, String[] use_scope
-        String paramsStr = macro.getPropertyValue(OntCWAF.MACRO_PARAMS).asLiteral().getString();
-        String[] params = parseArguments(paramsStr, null);
-        if (params.length != args.length) {
-            throw new InvalidParameterException("Number of arguments Mismatch for macro " + macro.getLocalName()
-            + ": Expected " + params.length + ", got " + args.length + "\n (" + Arrays.toString(params) + " vs " + Arrays.toString(args) + ")");
+    private static Stream<Directive> expandUse(CompileContext ctx, Directive use) {
+        Individual call = use.getIndividual().getProperty(OntCWAF.CALL).getObject().as(Individual.class);
+        Individual macro = call.getProperty(OntCWAF.CALL_OF).getObject().as(Individual.class);
+        // String[] args = use.getArgs();
+
+        // String paramsStr = macro.getPropertyValue(OntCWAF.MACRO_PARAMS).asLiteral().getString();
+        // String[] params = parseArguments(paramsStr, null);
+        // if (params.length != args.length) {
+        //     throw new InvalidParameterException("Number of arguments Mismatch for macro " + macro.getLocalName()
+        //     + ": Expected " + params.length + ", got " + args.length + "\n (" + Arrays.toString(params) + " vs " + Arrays.toString(args) + ")");
             
-        }
-        for (int i = 0; i < params.length; i++) {
-            ctx.addVar(params[i], args[i], macro.getURI());
-        }
-        Stream<Directive> res = compileContainer(ctx, macro);
-        // .map(d -> {
-        //     d.setScope(use_scope);
-        //     System.err.println("Directive " + d.getIndividual().getLocalName() + " in " + macro.getLocalName() + " with scope " + Arrays.toString(use_scope));
-        //     return d;
-        // });
-        ctx.removeTaggedVar(macro.getURI());
+        // }
+        // for (int i = 0; i < params.length; i++) {
+        //     ctx.addVar(params[i], args[i], macro.getURI());
+        // }
+        Stream<Directive> res = compileContainer(ctx, call);
+        // addMacroContentToOnt(ctx, call, macro, res);
+        // ctx.removeTaggedVar(macro.getURI());
         return res;
     }
 
@@ -419,35 +408,6 @@ public class Compiler {
         return compileContainer(ctx, ifInd);
     }
 
-
-    // private static Stream<Directive> compileGenericContainer(CompileContext ctx, Directive directive){
-    //     Individual ifInd = directive.getIndividual();
-    //     if (ifInd.hasProperty(OntCWAF.DIR_TYPE)) {
-    //         String dirType = ifInd.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString().toLowerCase();
-    //         String args = ifInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
-    //         String[] content = parseArguments(args, null);
-    //         Stream<Directive> res =Stream.empty();
-    //         switch (dirType) {
-    //             case "locationmatch":
-    //                 if (content.length == 1) {
-    //                     System.err.println("LocationMatch: " + content[0]);
-    //                     ctx.setCurrentLocation(content[0]);
-    //                     res = compileContainer(ctx, ifInd);
-    //                     ctx.resetCurrentLocation();
-    //                 } else {
-    //                     System.err.println("Invalid number of arguments for IfDefine: " + content.length);
-    //                 }
-    //                     break;
-    //             default:
-    //                 break;
-    //         }
-    //         return res;
-    //     } else {
-    //         System.err.println("Directive Type not found for directive " + ifInd.getLocalName());
-    //     }
-    //     return compileContainer(ctx, ifInd);
-    // }
-
     private static Stream<Directive> compileDirective(CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
         directive.updateContext(ctx);
@@ -482,7 +442,7 @@ public class Compiler {
         ontFS.read("config.ttl", "TTL");
 
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        schema.read("Jena-project/ontCWAF_0.7.ttl", "TTL");
+        schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
         // ontFS.add(schema);
         // ontFS.write(System.out, "TTL");
         // System.exit(0);
@@ -492,7 +452,7 @@ public class Compiler {
 
         Stream<Directive> global_order = compileConfig(ctx, ontExec);
 
-        // printStreamDump(ctx, global_order);
-        writeStreamToFile("global_order.ser", global_order);
+        printStreamDump(ctx, global_order);
+        // writeStreamToFile("global_order.ser", global_order);
     }
 }

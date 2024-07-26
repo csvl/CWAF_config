@@ -1,9 +1,12 @@
 package be.uclouvain.utils;
 
-import static be.uclouvain.utils.OntUtils.getMacroNameFromURI;
+import static be.uclouvain.utils.OntUtils.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.jena.ontology.*;
-import org.apache.jena.rdf.model.Seq;
+import org.apache.jena.rdf.model.*;
 
 import be.uclouvain.service.DirectiveContext;
 import be.uclouvain.vocabulary.OntCWAF;
@@ -41,6 +44,41 @@ public class DirectiveFactory {
         return args;
     }
 
+    public static void populateClonedContainer(OntModel model, Individual container, Individual clonedContainer, String[] params, String[] args) {
+        if (args.length != params.length) {
+            System.err.println("Error: number of arguments does not match number of parameters for call " + clonedContainer.getLocalName());
+            return;
+        }
+         List<Statement> stmts = model.listStatements(container, OntCWAF.CONTAINS_DIRECTIVE, (RDFNode)null).toList();
+        System.err.println("stmts: " + stmts);
+         for (Statement stmt : stmts) {
+            Individual original = stmt.getObject().as(Individual.class);
+            Individual instance = copyIndividual(original, model);
+            instance.setOntClass(OntCWAF.DIR_INSTANCE);
+            expandVarsInIndividual(instance, params, args);
+            clonedContainer.addProperty(OntCWAF.CONTAINS_INSTANCE, instance);
+        }
+    }
+
+
+    public static void populateMacroCall(OntModel model, Individual call, Individual macro, String useArgs) {
+        String[] args = parseArguments(useArgs, null);
+        String[] params = parseArguments(macro.getPropertyValue(OntCWAF.MACRO_PARAMS).asLiteral().getString(), null);
+        // System.err.println("args: " + Arrays.toString(args));
+        // System.err.println("params: " + Arrays.toString(params));
+        populateClonedContainer(model, macro, call, params, args);
+    }
+
+    public static Individual createMacroCall(OntModel model, Individual macro, String useArgs) {
+        String name = getMacroNameFromURI(macro.getURI());
+        Individual call = model.createIndividual(getURIForName("Call_" + name), OntCWAF.MACRO_CALL);
+        call.addLiteral(OntCWAF.DIR_TYPE, "MacroCall"); //FIXME need of that ?
+        call.addProperty(OntCWAF.CALL_OF, macro);
+        call.addLiteral(OntCWAF.SOLVED_PARAMS, useArgs);
+        // populateMacroCall(model, call, macro, useArgs);
+        return call;
+    }
+
     public static Individual createUse(OntModel model, DirectiveContext context, int line_num, String args,String macroURI) {
         Individual use = createRule(model, context, line_num, "Use", args, OntCWAF.USE);
         // Seq argsInd = parseArguments(args, use);
@@ -49,8 +87,11 @@ public class DirectiveFactory {
         if (macro == null) {
             macro = createMacro(model, context, -1, getMacroNameFromURI(macroURI), "");
             macro.addLiteral(OntCWAF.IS_PLACE_HOLDER, true);
+            // System.err.println("Error: macro " + getMacroNameFromURI(macroURI) + " not found" + "; with URI: " + macroURI);
+            // return null;
         }
-        use.addProperty(OntCWAF.USE_MACRO, macro);
+        Individual call = createMacroCall(model, macro, args);
+        use.addProperty(OntCWAF.CALL, call);
         return use;
     }
 
@@ -80,24 +121,6 @@ public class DirectiveFactory {
 
     private static void initDirective(OntModel model, DirectiveContext context, int line_num, String URI, Individual directiveInd) {
         directiveInd.addLiteral(OntCWAF.DIR_LINE_NUM, line_num);
-        // if (context.currentLocation != "" || context.currentVirtualhost != "" || context.serverName != "") {
-        //     Individual scope = model.createIndividual(URI+"-scope", OntCWAF.SCOPE);
-        //     if (context.currentLocation != "") {
-        //         scope.addProperty(OntCWAF.HAS_LOCATION, model.createIndividual(URI+"-scope-location", OntCWAF.LOCATION)
-        //                 .addLiteral(OntCWAF.LOCATION_PATH, context.currentLocation));
-        //     }
-        //     if (context.currentVirtualhost != "") {
-        //         scope.addProperty(OntCWAF.HAS_VIRTUAL_HOST,
-        //             model.createIndividual(URI+"-scope-vhost", OntCWAF.VIRTUAL_HOST)
-        //             .addLiteral(OntCWAF.V_HOST_NAME, context.currentVirtualhost));
-        //     }
-        //     if (context.serverName != "") {
-        //         scope.addProperty(OntCWAF.HAS_SERVER, model.createIndividual(URI+"-scope-server", OntCWAF.SERVER)
-        //         .addLiteral(OntCWAF.SERVER_NAME, context.serverName)
-        //         .addLiteral(OntCWAF.SERVER_PORT, context.serverPort));
-        //     }
-        //     directiveInd.addProperty(OntCWAF.HAS_SCOPE, scope);
-        // }
     }
 
 
@@ -137,6 +160,7 @@ public class DirectiveFactory {
             macro = model.createIndividual(URI, OntCWAF.MACRO);
         }
         initDirective(model, context, line_num, URI, macro);
+        macro.addLiteral(OntCWAF.DIR_TYPE, "Macro");
         macro.addLiteral(OntCWAF.MACRO_NAME, name);
         macro.addLiteral(OntCWAF.MACRO_PARAMS, paramsString);
         return macro;

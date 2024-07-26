@@ -38,12 +38,12 @@ public class Filter {
     public static void main(String[] args) {
 
         Stream<Directive> order = readStreamFromFile("global_order.ser");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost/test/special/data"))
-                .build();
+        // HttpRequest request = HttpRequest.newBuilder()
+        //         .uri(URI.create("http://localhost/test/special/data"))
+        //         .build();
 
-        Stream<Directive> filtered = filterFromRequest(order, request);
-        filtered.forEach(System.out::println);
-        // order.forEach(System.out::println);
+        // Stream<Directive> filtered = filterFromRequest(order, request);
+        // filtered.forEach(System.out::println);
+        order.forEach(System.out::println);
     }
 }

@@ -77,14 +77,14 @@ public class Main extends Object {
         stack.push(current);
 
         if (current.hasOntClass(OntCWAF.MACRO)) {
-            m.listStatements(null, OntCWAF.USE_MACRO, current).forEach( stmt -> {
-                getNodeContext(m, stmt.getSubject().as(Individual.class).getURI()).forEach( s -> {
-                    Stack<Individual> branch = new Stack<Individual>();
-                    branch.addAll(stack);
-                    branch.addAll(s);
-                    context.add(branch);
-                });
-            });
+            // m.listStatements(null, OntCWAF.USE_MACRO, current).forEach( stmt -> {
+            //     getNodeContext(m, stmt.getSubject().as(Individual.class).getURI()).forEach( s -> {
+            //         Stack<Individual> branch = new Stack<Individual>();
+            //         branch.addAll(stack);
+            //         branch.addAll(s);
+            //         context.add(branch);
+            //     });
+            // });
         } else {
             m.listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, current).forEach( stmt -> {
                 stack.push(stmt.getSubject().as(Individual.class));

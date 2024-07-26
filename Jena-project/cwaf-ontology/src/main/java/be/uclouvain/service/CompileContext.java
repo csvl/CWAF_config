@@ -17,6 +17,7 @@ public class CompileContext{
     private OntModel model;
     private OntModel schema;
     private OntModel infModel;
+    public OntModel compiledModel = ModelFactory.createOntologyModel();
     private Stack<Individual> trace = new Stack<>();
     private List<LocalVar> localVars = new ArrayList<>();
     private Map<String, List<String>> varTag = new HashMap<>();
