@@ -9,9 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import be.uclouvain.model.Condition;
 import be.uclouvain.model.Directive;
 import be.uclouvain.model.LocalVar;
+import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
-import static be.uclouvain.service.Constants.Parser.phasePattern;
+import static be.uclouvain.service.Constants.Parser.*;
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
 import static be.uclouvain.utils.OntUtils.*;
 
@@ -79,6 +80,7 @@ public class Compiler {
     }
 
     private static void solveAllVars(CompileContext ctx) {
+        //FIXME need to detect loops
         Map<Boolean, List<LocalVar>> partitioned = ctx.getLocalVars().stream().collect(Collectors.partitioningBy(var -> var.value.contains("~{")));
         int to_solve = partitioned.get(true).size();
         int last_to_solve = -1;
@@ -263,7 +265,19 @@ public class Compiler {
                     int phase = Integer.parseInt(phaseMatcher.group(1));
                     directiveInd.addLiteral(OntCWAF.PHASE, phase);
                     directive.setPhase(phase);
-                    break;
+                }
+                Matcher idMatcher = idPattern.matcher(arg);
+                if (idMatcher.find()) {
+                    Integer id = Integer.parseInt(idMatcher.group(1));
+                    directiveInd.addLiteral(OntCWAF.RULE_ID, id);
+                    directive.setId(id);
+                }
+                Matcher tagMatcher = tagPattern.matcher(arg);
+                while (tagMatcher.find()) {
+                    String tag = tagMatcher.group(1);
+                    tag = tag.replaceAll("^[\"\']|[\"\']$", "");
+                    directiveInd.addLiteral(OntCWAF.RULE_TAG, tag);
+                    directive.addTag(tag);
                 }
             }
         }
@@ -482,7 +496,7 @@ public class Compiler {
         ontFS.read("config.ttl", "TTL");
 
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        schema.read("Jena-project/ontCWAF_0.7.ttl", "TTL");
+        schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
         // ontFS.add(schema);
         // ontFS.write(System.out, "TTL");
         // System.exit(0);
@@ -492,7 +506,14 @@ public class Compiler {
 
         Stream<Directive> global_order = compileConfig(ctx, ontExec);
 
+        OntModel ontEntity = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
+        List<Directive> orderList = global_order.collect(Collectors.toList());
+        orderList.forEach(d -> {
+            d.toEntityIndividual(ontEntity);
+        });
+        saveOntology("entities.ttl", ontEntity, "TTL");
+
         // printStreamDump(ctx, global_order);
-        writeStreamToFile("global_order.ser", global_order);
+        writeStreamToFile("global_order.ser", orderList.stream());
     }
 }

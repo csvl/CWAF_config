@@ -1,4 +1,4 @@
-package be.uclouvain.service;
+package be.uclouvain.service.context;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -185,6 +185,14 @@ public class CompileContext{
         // copy.addAll(trace);
         // return copy;
         return trace;
+    }
+
+    public Stack<String> getTraceURIs() {
+        Stack<String> uris = new Stack<>();
+        for (Individual ind : trace) {
+            uris.push(ind.getURI());
+        }
+        return uris;
     }
 
     public String getCurrentVirtualHost() {

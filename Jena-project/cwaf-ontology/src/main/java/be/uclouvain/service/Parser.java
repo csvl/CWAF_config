@@ -13,6 +13,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.*;
 
+import be.uclouvain.service.context.DirectiveContext;
 import be.uclouvain.utils.OntUtils;
 
 import be.uclouvain.vocabulary.OntCWAF;
@@ -306,7 +307,19 @@ public class Parser {
             if (phaseMatcher.find()) {
                 phase = Integer.parseInt(phaseMatcher.group(1));
             }
-            Individual modSecRule = createModSecRule(model, context, line_num, name, args, phase);
+            Matcher idMatcher = idPattern.matcher(args);
+            Integer id = null;
+            if (idMatcher.find()) {
+                id = Integer.parseInt(idMatcher.group(1));
+            }
+            Matcher tagMatcher = tagPattern.matcher(args);
+            List<String> tags = new ArrayList<>();
+            while (tagMatcher.find()) {
+                String newTags = tagMatcher.group(1);
+                newTags = newTags.replaceAll("^[\"\']|[\"\']$", "");
+                tags.add(newTags);
+            }
+            Individual modSecRule = createModSecRule(model, context, line_num, name, args, phase, id, tags);
             attachDirectiveToOnt(model, context, modSecRule, file);
             return;
         }

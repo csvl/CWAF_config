@@ -15,7 +15,7 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.*;
 
 import be.uclouvain.model.Directive;
-import be.uclouvain.service.DirectiveContext;
+import be.uclouvain.service.context.DirectiveContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
 public class OntUtils {
@@ -105,7 +105,7 @@ public class OntUtils {
     public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
         if (withSchema) {
             OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-            schema.read("Jena-project/ontCWAF_0.7.ttl", "TTL");
+            schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
             model.add(schema);
         }
         saveOntology(filePath, model, format);

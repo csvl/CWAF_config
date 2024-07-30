@@ -40,6 +40,8 @@ public class Constants {
         public static Pattern listenPattern = Pattern.compile("^[ \\t]*Listen\\s+(\\S+)", Pattern.CASE_INSENSITIVE);
         public static Pattern modSecRulePattern = Pattern.compile("^[ \\t]*(SecRule|SecAction)\\s+(.*)$", Pattern.CASE_INSENSITIVE);
         public static Pattern phasePattern = Pattern.compile("phase:(\\d+)", Pattern.CASE_INSENSITIVE);
+        public static Pattern idPattern = Pattern.compile("id:(\\d+)", Pattern.CASE_INSENSITIVE);
+        public static Pattern tagPattern = Pattern.compile("tag:([^,]+)", Pattern.CASE_INSENSITIVE);
         
     }
 }

@@ -2,10 +2,11 @@ package be.uclouvain.utils;
 
 import static be.uclouvain.utils.OntUtils.getMacroNameFromURI;
 
-import org.apache.jena.ontology.*;
-import org.apache.jena.rdf.model.Seq;
+import java.util.List;
 
-import be.uclouvain.service.DirectiveContext;
+import org.apache.jena.ontology.*;
+
+import be.uclouvain.service.context.DirectiveContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
 public class DirectiveFactory {
@@ -54,9 +55,17 @@ public class DirectiveFactory {
         return use;
     }
 
-    public static Individual createModSecRule(OntModel model, DirectiveContext context, int line_num, String name, String args, int phase) {
+    public static Individual createModSecRule(OntModel model, DirectiveContext context, int line_num, String name, String args, int phase, Integer id, List<String> tags) {
        Individual modSecRuleIndividual = createRule(model, context, line_num, name, args, OntCWAF.MOD_SEC_RULE);
        modSecRuleIndividual.addLiteral(OntCWAF.PHASE, phase);
+         if (id != null) {
+            modSecRuleIndividual.addLiteral(OntCWAF.RULE_ID, id);
+        }
+        if (!tags.isEmpty()) {
+            for (String tag : tags) {
+                modSecRuleIndividual.addLiteral(OntCWAF.RULE_TAG, tag);
+            }
+        }
         return modSecRuleIndividual;
     }
 

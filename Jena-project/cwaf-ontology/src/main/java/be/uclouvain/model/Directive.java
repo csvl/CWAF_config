@@ -1,29 +1,41 @@
 package be.uclouvain.model;
 
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
+import static be.uclouvain.utils.OntUtils.getURIForName;
+import static be.uclouvain.utils.OntUtils.readStreamFromFile;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 
+import org.apache.commons.collections4.set.CompositeSet;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Statement;
 
-import be.uclouvain.service.CompileContext;
 import be.uclouvain.service.Constants;
+import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
 public class Directive implements Comparable<Directive>, Serializable {
 
     private int lineNum;
     private transient Individual resource;
+    private String resourceURI;
     private String location;
     private String virtualHost;
     private int ifLevel = 0;
     private int phase = Constants.DEFAULT_PHASE; 
+    private Integer id;
+    private Set<String> tags = new HashSet<>();
     private String[] args;
     private Condition existance_condition;
     private String name;
+    private Stack<String> trace;
 
     public Directive(CompileContext ctx, Individual resource) {
 
@@ -45,6 +57,14 @@ public class Directive implements Comparable<Directive>, Serializable {
         this.virtualHost = ctx.getCurrentVirtualHost();
 
         if (resource.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
+            if (resource.hasProperty(OntCWAF.RULE_ID)) {
+                this.id = resource.getPropertyValue(OntCWAF.RULE_ID).asLiteral().getInt();
+            }
+            if (resource.hasProperty(OntCWAF.RULE_TAG)) {
+                resource.listProperties(OntCWAF.RULE_TAG).forEachRemaining( tag -> {
+                    tags.add(tag.getObject().asLiteral().getString());
+                });
+            }
             if (resource.hasProperty(OntCWAF.PHASE)) {
                 this.phase = resource.getPropertyValue(OntCWAF.PHASE).asLiteral().getInt();
             } else {
@@ -63,7 +83,11 @@ public class Directive implements Comparable<Directive>, Serializable {
                 ifLevel++;
             }
         });
+
+        this.trace = ctx.getTraceURIs();
+
         this.resource = resource;
+        this.resourceURI = resource.getURI();
     }
 
     // public String[] getScope() {
@@ -150,6 +174,8 @@ public class Directive implements Comparable<Directive>, Serializable {
                 ", location='" + (location == null ? "global" : location) + '\'' +
                 ", virtualHost='" + (virtualHost== null ? "" : virtualHost) + '\'' +
                 ", lineNum=" + lineNum +
+                ", id=" + id +
+                ", tags=" + tags +
                 (EC == "true" ? "" : ", EC=" + existance_condition.getCondition()) +
                 "}\t" + name + "\t(" + String.join(" ", args) + ")";
     }
@@ -158,8 +184,39 @@ public class Directive implements Comparable<Directive>, Serializable {
         this.phase = newPhase;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
+
     public void updateContext(CompileContext ctx) {
         this.location = ctx.getCurrentLocation();
         this.virtualHost = ctx.getCurrentVirtualHost();
+    }
+
+    public Individual toEntityIndividual(OntModel model) {
+        Individual ind = model.createIndividual(getURIForName(name), OntCWAF.DIRECTIVE);
+        ind.addLiteral(OntCWAF.DIR_LINE_NUM, lineNum);
+        ind.addLiteral(OntCWAF.PHASE, phase);
+        if (id != null) {
+            ind.addLiteral(OntCWAF.RULE_ID, id);
+        }
+        if (!tags.isEmpty()) {
+            tags.forEach( tag -> ind.addLiteral(OntCWAF.RULE_TAG, tag));
+        }
+        if (location != null) {
+            ind.addLiteral(OntCWAF.LOCATION_PATH, location);
+        }
+        if (virtualHost != null) {
+            ind.addLiteral(OntCWAF.VIRTUAL_HOST_NAME, virtualHost);
+        }
+        ind.addLiteral(OntCWAF.ARGUMENTS, String.join(" ", args));
+        // ind.addLiteral(OntCWAF.NS + "instanceOf", resourceURI);
+        ind.addComment(resourceURI, "en");
+        ind.addComment(trace.toString(), "en");
+        return ind; 
     }
 }
