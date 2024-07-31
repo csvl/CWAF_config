@@ -6,10 +6,13 @@ import static be.uclouvain.utils.OntUtils.readStreamFromFile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.regex.Matcher;
 
 import org.apache.commons.collections4.set.CompositeSet;
 import org.apache.jena.ontology.Individual;
@@ -21,7 +24,12 @@ import be.uclouvain.service.Constants;
 import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
+import static be.uclouvain.service.Constants.Parser.*;
+
 public class Directive implements Comparable<Directive>, Serializable {
+
+    private static Map<Integer, List<Directive>> idsMap = new HashMap<>();
+    private static Map<String, List<Directive>> tagsMap = new HashMap<>();
 
     private int lineNum;
     private transient Individual resource;
@@ -36,6 +44,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     private Condition existance_condition;
     private String name;
     private Stack<String> trace;
+    private String disabledBy;
 
     public Directive(CompileContext ctx, Individual resource) {
 
@@ -58,17 +67,17 @@ public class Directive implements Comparable<Directive>, Serializable {
 
         if (resource.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
             if (resource.hasProperty(OntCWAF.RULE_ID)) {
-                this.id = resource.getPropertyValue(OntCWAF.RULE_ID).asLiteral().getInt();
+                setId(resource.getPropertyValue(OntCWAF.RULE_ID).asLiteral().getInt());
             }
             if (resource.hasProperty(OntCWAF.RULE_TAG)) {
-                resource.listProperties(OntCWAF.RULE_TAG).forEachRemaining( tag -> {
-                    tags.add(tag.getObject().asLiteral().getString());
+                resource.listProperties(OntCWAF.RULE_TAG).forEachRemaining( stmt -> {
+                    addTag(stmt.getObject().asLiteral().getString());
                 });
             }
             if (resource.hasProperty(OntCWAF.PHASE)) {
                 this.phase = resource.getPropertyValue(OntCWAF.PHASE).asLiteral().getInt();
-            } else {
-                System.err.println("Cannot retrieve phase level for directive " + resource.getLocalName());
+            // } else {
+            //     System.err.println("Cannot retrieve phase level for directive " + resource.getLocalName());
             }
         }
 
@@ -104,6 +113,22 @@ public class Directive implements Comparable<Directive>, Serializable {
     //     //     System.err.println("Scope set to " + Arrays.toString(scope));
     //     // }
     // }
+
+    public static void removeById(int id, String disabledBy) {
+        if (idsMap.containsKey(id)) {
+            idsMap.get(id).forEach( dir -> {
+                dir.disabledBy = disabledBy;
+            });
+        }
+    }
+
+    public static void removeByTag(String tag, String disabledBy) {
+        if (tagsMap.containsKey(tag)) {
+           tagsMap.get(tag).forEach( dir -> {
+                dir.disabledBy = disabledBy;
+           });
+        }
+    }
 
     public boolean isBeacon() {
         return resource.hasOntClass(OntCWAF.BEACON);
@@ -168,7 +193,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     @Override
     public String toString() {
         String EC = existance_condition.getCondition();
-        return "{" +
+        return (disabledBy == null ? "" : "X ") + "{" +
                 "phase=" + phase +
                 ", ifLevel=" + ifLevel +
                 ", location='" + (location == null ? "global" : location) + '\'' +
@@ -177,7 +202,7 @@ public class Directive implements Comparable<Directive>, Serializable {
                 ", id=" + id +
                 ", tags=" + tags +
                 (EC == "true" ? "" : ", EC=" + existance_condition.getCondition()) +
-                "}\t" + name + "\t(" + String.join(" ", args) + ")";
+                "}\t" + name + "\t(" + String.join(" ", args) + ")" + (disabledBy == null ? "" : " disabled by " + disabledBy);
     }
 
     public void setPhase(int newPhase) {
@@ -186,10 +211,20 @@ public class Directive implements Comparable<Directive>, Serializable {
 
     public void setId(int id) {
         this.id = id;
+        if (idsMap.containsKey(id)) {
+            idsMap.get(id).add(this);
+        } else {
+            idsMap.put(id, new ArrayList<>(List.of(this)));
+        }
     }
 
     public void addTag(String tag) {
         tags.add(tag);
+        if (tagsMap.containsKey(tag)) {
+            tagsMap.get(tag).add(this);
+        } else {
+            tagsMap.put(tag, new ArrayList<>(List.of(this)));
+        }
     }
 
     public void updateContext(CompileContext ctx) {

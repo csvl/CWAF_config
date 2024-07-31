@@ -39,6 +39,9 @@ public class Constants {
         public static Pattern servernamePattern = Pattern.compile("^[ \\t]*ServerName\\s+(\\S+)", Pattern.CASE_INSENSITIVE);
         public static Pattern listenPattern = Pattern.compile("^[ \\t]*Listen\\s+(\\S+)", Pattern.CASE_INSENSITIVE);
         public static Pattern modSecRulePattern = Pattern.compile("^[ \\t]*(SecRule|SecAction)\\s+(.*)$", Pattern.CASE_INSENSITIVE);
+        public static Pattern removeByIdPattern = Pattern.compile("^[ \\t]*SecRuleRemoveById\\s+(.*)$", Pattern.CASE_INSENSITIVE);
+        public static Pattern removeById_IDPattern = Pattern.compile("\\d+(-\\d+)?", Pattern.CASE_INSENSITIVE);
+        public static Pattern removeByTagPattern = Pattern.compile("[ \\t]*SecRuleRemoveByTag\\s+(.*)$", Pattern.CASE_INSENSITIVE);
         public static Pattern phasePattern = Pattern.compile("phase:(\\d+)", Pattern.CASE_INSENSITIVE);
         public static Pattern idPattern = Pattern.compile("id:(\\d+)", Pattern.CASE_INSENSITIVE);
         public static Pattern tagPattern = Pattern.compile("tag:([^,]+)", Pattern.CASE_INSENSITIVE);

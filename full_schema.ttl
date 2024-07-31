@@ -2126,6 +2126,12 @@ cwaf:Use_8188e875-8627-306a-ad3a-e13e687f216f
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secrule .
 
+cwaf:ModSecRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef
+        rdf:type         cwaf:ModSecRule;
+        cwaf:arguments   "\"(?i)(?:$tag)\"";
+        cwaf:dirLineNum  "129"^^xsd:long;
+        cwaf:dirType     "ModSecRemoveByTag" .
+
 cwaf:Macro_allownewwindows
         rdf:type                cwaf:Macro;
         cwaf:containsDirective  cwaf:Warning_28b41a11-87eb-3f2a-ae2e-48279cee5c8d;
@@ -2511,6 +2517,12 @@ cwaf:DefineStr_9ed1475d-eb89-3ce6-8843-91e5477cbbec
         cwaf:arguments   "UserNameSyntax    -";
         cwaf:dirLineNum  "430"^^xsd:long;
         cwaf:dirType     "DefineStr" .
+
+cwaf:ModSecRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a
+        rdf:type         cwaf:ModSecRule;
+        cwaf:arguments   "2002920,2002918";
+        cwaf:dirLineNum  "79"^^xsd:long;
+        cwaf:dirType     "ModSecRemoveById" .
 
 cwaf:Use_59427e72-f254-39fe-9c38-1352a1c5dd0d
         rdf:type         cwaf:Use;
@@ -3942,7 +3954,7 @@ cwaf:Use_1a37df1c-ee63-3679-8ee9-8fe8fdaf13ec
 cwaf:IfRule_178f183a-78e3-304d-b22f-6192fbf0bdc4
         rdf:type                cwaf:IfRule;
         cwaf:condition          "security2_module";
-        cwaf:containsDirective  cwaf:SecRuleRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef;
+        cwaf:containsDirective  cwaf:ModSecRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef;
         cwaf:dirLineNum         "128"^^xsd:long;
         cwaf:dirType            "IfRule";
         cwaf:ifType             "Module" .
@@ -5635,7 +5647,7 @@ cwaf:Use_21153866-402b-3ca9-9af2-21009a4dd5a1
 cwaf:IfRule_8794c6e5-0fec-36c8-8b70-333ce2bed005
         rdf:type                cwaf:IfRule;
         cwaf:condition          "!noSecurityRules";
-        cwaf:containsDirective  cwaf:Use_cf7c1f45-41ad-370f-a1af-6820c739d65b , cwaf:SecRuleRemoveByID_86ed571f-dd7d-3367-be2b-95ed810626e9 , cwaf:SecRequestBodyLimit_41acffbb-be39-3b76-af11-2e85a0c6547f;
+        cwaf:containsDirective  cwaf:Use_cf7c1f45-41ad-370f-a1af-6820c739d65b , cwaf:ModSecRemoveById_86ed571f-dd7d-3367-be2b-95ed810626e9 , cwaf:SecRequestBodyLimit_41acffbb-be39-3b76-af11-2e85a0c6547f;
         cwaf:dirLineNum         "86"^^xsd:long;
         cwaf:dirType            "IfRule";
         cwaf:ifType             "Define" .
@@ -6572,7 +6584,7 @@ cwaf:Macro_jwtcheck  rdf:type   cwaf:Macro;
 
 cwaf:Macro_allowcompressedrequest
         rdf:type                cwaf:Macro;
-        cwaf:containsDirective  cwaf:SecRuleRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a , cwaf:SetInputFilter_af36eea3-50eb-36e3-80e8-debf8ee036a0 , cwaf:SetInputFilter_802e729a-983d-3d95-9042-47b73e0d75d6;
+        cwaf:containsDirective  cwaf:ModSecRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a , cwaf:SetInputFilter_af36eea3-50eb-36e3-80e8-debf8ee036a0 , cwaf:SetInputFilter_802e729a-983d-3d95-9042-47b73e0d75d6;
         cwaf:dirLineNum         "76"^^xsd:long;
         cwaf:macroName          "AllowCompressedRequest";
         cwaf:macroParams        "" .
@@ -7064,7 +7076,7 @@ cwaf:Use_e80edd25-b17d-31e4-8fea-3fdaaa7bcb0c
 cwaf:IfRule_a63c48ee-295e-331e-ae7b-c07bbf0e88cd
         rdf:type                cwaf:IfRule;
         cwaf:condition          "security2_module";
-        cwaf:containsDirective  cwaf:SecRuleRemoveByID_661ddd2f-41f7-37cf-b40c-cb910f3c4392;
+        cwaf:containsDirective  cwaf:ModSecRemoveById_661ddd2f-41f7-37cf-b40c-cb910f3c4392;
         cwaf:dirLineNum         "117"^^xsd:long;
         cwaf:dirType            "IfRule";
         cwaf:ifType             "Module" .
@@ -11452,7 +11464,7 @@ cwaf:DefineStr_5b511e09-cf18-35c8-b55d-5765bb5ea7a1
 cwaf:IfRule_21522e4a-9186-3ead-bfe5-35aa35303042
         rdf:type                cwaf:IfRule;
         cwaf:condition          "security2_module";
-        cwaf:containsDirective  cwaf:SecRuleRemoveByID_659ae807-bd14-386d-85d3-5c3c631dd9d7 , cwaf:SecRequestBodyLimitAction_53027e4a-27f5-3b38-a31a-8cd569310dd5 , cwaf:SecRequestBodyLimit_15ee3e23-4a56-32a9-ad85-0773cd858bfd , cwaf:SecRequestBodyAccess_e039aa3f-b8e0-39b2-b7ad-cc86ee6cc66e;
+        cwaf:containsDirective  cwaf:ModSecRemoveById_659ae807-bd14-386d-85d3-5c3c631dd9d7 , cwaf:SecRequestBodyLimitAction_53027e4a-27f5-3b38-a31a-8cd569310dd5 , cwaf:SecRequestBodyLimit_15ee3e23-4a56-32a9-ad85-0773cd858bfd , cwaf:SecRequestBodyAccess_e039aa3f-b8e0-39b2-b7ad-cc86ee6cc66e;
         cwaf:dirLineNum         "99"^^xsd:long;
         cwaf:dirType            "IfRule";
         cwaf:ifType             "Module" .
@@ -12293,12 +12305,6 @@ cwaf:DefineStr_bbfd6724-2373-3790-afb0-0e28ab102b75
         cwaf:arguments   "MimeSOAP            \"(?:application/(?:fastsoap|soap[+]xml))\"";
         cwaf:dirLineNum  "33"^^xsd:long;
         cwaf:dirType     "DefineStr" .
-
-cwaf:SecRuleRemoveByID_661ddd2f-41f7-37cf-b40c-cb910f3c4392
-        rdf:type         cwaf:Rule;
-        cwaf:arguments   "@id";
-        cwaf:dirLineNum  "118"^^xsd:long;
-        cwaf:dirType     "SecRuleRemoveByID" .
 
 cwaf:Use_09d533ce-8de1-3727-80cd-57f6f04fd061
         rdf:type         cwaf:Use;
@@ -15674,6 +15680,12 @@ cwaf:DefineStr_5a9a4eeb-1ac9-3b31-80fd-39a33ff151cb
         cwaf:arguments   "PathToIgnoreRootFiles  \"$^\"";
         cwaf:dirLineNum  "122"^^xsd:long;
         cwaf:dirType     "DefineStr" .
+
+cwaf:ModSecRemoveById_659ae807-bd14-386d-85d3-5c3c631dd9d7
+        rdf:type         cwaf:ModSecRule;
+        cwaf:arguments   "1000109";
+        cwaf:dirLineNum  "104"^^xsd:long;
+        cwaf:dirType     "ModSecRemoveById" .
 
 cwaf:Use_dca14eb3-43a7-39bc-b58b-4db297d4d9c9
         rdf:type         cwaf:Use;
@@ -24161,6 +24173,12 @@ cwaf:Use_4062e9c5-f0b2-305a-8bc9-30a63eb73b7f
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secdisablerulearg .
 
+cwaf:ModSecRemoveById_86ed571f-dd7d-3367-be2b-95ed810626e9
+        rdf:type         cwaf:ModSecRule;
+        cwaf:arguments   "5000402";
+        cwaf:dirLineNum  "89"^^xsd:long;
+        cwaf:dirType     "ModSecRemoveById" .
+
 cwaf:Use_3d0f409c-0aaa-37be-a958-92921bb37d57
         rdf:type         cwaf:Use;
         cwaf:arguments   "ENV:notProxyFE         .               !HTTPS_,Skip=4";
@@ -24422,12 +24440,6 @@ cwaf:Macro_setbasicauthbanner
         cwaf:dirLineNum         "86"^^xsd:long;
         cwaf:macroName          "SetBasicAuthBanner";
         cwaf:macroParams        "$banner" .
-
-cwaf:SecRuleRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a
-        rdf:type         cwaf:Rule;
-        cwaf:arguments   "2002920,2002918";
-        cwaf:dirLineNum  "79"^^xsd:long;
-        cwaf:dirType     "SecRuleRemoveById" .
 
 cwaf:Use_f380b98b-90a1-385b-b356-74ed42b0c4f9
         rdf:type         cwaf:Use;
@@ -31325,6 +31337,12 @@ cwaf:DefineStr_f9384d20-f02e-3414-9e3e-ba07dc9e914f
         cwaf:dirLineNum  "426"^^xsd:long;
         cwaf:dirType     "DefineStr" .
 
+cwaf:ModSecRemoveById_661ddd2f-41f7-37cf-b40c-cb910f3c4392
+        rdf:type         cwaf:ModSecRule;
+        cwaf:arguments   "@id";
+        cwaf:dirLineNum  "118"^^xsd:long;
+        cwaf:dirType     "ModSecRemoveById" .
+
 cwaf:Use_7b766e38-0818-321f-9adc-81b37552ed82
         rdf:type         cwaf:Use;
         cwaf:arguments   "style-src \"'unsafe-inline'\"";
@@ -32623,24 +32641,12 @@ cwaf:Macro_beginsslvhostnoname
         cwaf:macroName          "BeginSSLVhostNoName";
         cwaf:macroParams        "@ip_port" .
 
-cwaf:SecRuleRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef
-        rdf:type         cwaf:Rule;
-        cwaf:arguments   "\"(?i)(?:$tag)\"";
-        cwaf:dirLineNum  "129"^^xsd:long;
-        cwaf:dirType     "SecRuleRemoveByTag" .
-
 cwaf:Use_823893d4-62de-358b-b0c1-3e3eb848dda0
         rdf:type         cwaf:Use;
         cwaf:arguments   "@rate REQUEST_HEADERS:User-Agent @ua @rate";
         cwaf:dirLineNum  "34"^^xsd:long;
         cwaf:dirType     "Use";
         cwaf:useMacro    cwaf:Macro_secreqmaxrateext .
-
-cwaf:SecRuleRemoveByID_659ae807-bd14-386d-85d3-5c3c631dd9d7
-        rdf:type         cwaf:Rule;
-        cwaf:arguments   "1000109";
-        cwaf:dirLineNum  "104"^^xsd:long;
-        cwaf:dirType     "SecRuleRemoveByID" .
 
 cwaf:Macro_parseurl_  rdf:type  cwaf:Macro;
         cwaf:containsDirective  cwaf:Use_b0d188de-bc77-3434-8b82-14a7787f2c99 , cwaf:Use_69425516-4c9e-3ce9-96c4-08c6d22d231f , cwaf:Use_ef48ffef-4860-3c42-8b30-6f421f717c2c;
@@ -33163,12 +33169,6 @@ cwaf:IfRule_327cd9b9-6683-3c18-afc3-caf099d04279
         cwaf:dirLineNum         "157"^^xsd:long;
         cwaf:dirType            "IfRule";
         cwaf:ifType             "Define" .
-
-cwaf:SecRuleRemoveByID_86ed571f-dd7d-3367-be2b-95ed810626e9
-        rdf:type         cwaf:Rule;
-        cwaf:arguments   "5000402";
-        cwaf:dirLineNum  "89"^^xsd:long;
-        cwaf:dirType     "SecRuleRemoveByID" .
 
 cwaf:IfRule_8beae4c9-26db-3db5-a755-33f7ed57e41c
         rdf:type                cwaf:IfRule;

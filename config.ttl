@@ -3233,6 +3233,15 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/useMacro>
                 <http://visualdataweb.org/ontCWAF/Macro_secrule> .
 
+<http://visualdataweb.org/ontCWAF/ModSecRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef>
+        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "\"(?i)(?:$tag)\"";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "129"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "ModSecRemoveByTag" .
+
 <http://visualdataweb.org/ontCWAF/Macro_allownewwindows>
         rdf:type  <http://visualdataweb.org/ontCWAF/Macro>;
         <http://visualdataweb.org/ontCWAF/containsDirective>
@@ -3821,6 +3830,15 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
                 "430"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
                 "DefineStr" .
+
+<http://visualdataweb.org/ontCWAF/ModSecRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a>
+        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "2002920,2002918";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "79"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "ModSecRemoveById" .
 
 <http://visualdataweb.org/ontCWAF/Use_59427e72-f254-39fe-9c38-1352a1c5dd0d>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
@@ -6020,7 +6038,7 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/condition>
                 "security2_module";
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/SecRuleRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef>;
+                <http://visualdataweb.org/ontCWAF/ModSecRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "128"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
@@ -8604,7 +8622,7 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/condition>
                 "!noSecurityRules";
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/Use_cf7c1f45-41ad-370f-a1af-6820c739d65b> , <http://visualdataweb.org/ontCWAF/SecRuleRemoveByID_86ed571f-dd7d-3367-be2b-95ed810626e9> , <http://visualdataweb.org/ontCWAF/SecRequestBodyLimit_41acffbb-be39-3b76-af11-2e85a0c6547f>;
+                <http://visualdataweb.org/ontCWAF/Use_cf7c1f45-41ad-370f-a1af-6820c739d65b> , <http://visualdataweb.org/ontCWAF/ModSecRemoveById_86ed571f-dd7d-3367-be2b-95ed810626e9> , <http://visualdataweb.org/ontCWAF/SecRequestBodyLimit_41acffbb-be39-3b76-af11-2e85a0c6547f>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "86"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
@@ -10045,7 +10063,7 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 <http://visualdataweb.org/ontCWAF/Macro_allowcompressedrequest>
         rdf:type  <http://visualdataweb.org/ontCWAF/Macro>;
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/SecRuleRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a> , <http://visualdataweb.org/ontCWAF/SetInputFilter_af36eea3-50eb-36e3-80e8-debf8ee036a0> , <http://visualdataweb.org/ontCWAF/SetInputFilter_802e729a-983d-3d95-9042-47b73e0d75d6>;
+                <http://visualdataweb.org/ontCWAF/ModSecRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a> , <http://visualdataweb.org/ontCWAF/SetInputFilter_af36eea3-50eb-36e3-80e8-debf8ee036a0> , <http://visualdataweb.org/ontCWAF/SetInputFilter_802e729a-983d-3d95-9042-47b73e0d75d6>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "76"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/macroName>
@@ -10808,7 +10826,7 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/condition>
                 "security2_module";
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/SecRuleRemoveByID_661ddd2f-41f7-37cf-b40c-cb910f3c4392>;
+                <http://visualdataweb.org/ontCWAF/ModSecRemoveById_661ddd2f-41f7-37cf-b40c-cb910f3c4392>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "117"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
@@ -17497,7 +17515,7 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/condition>
                 "security2_module";
         <http://visualdataweb.org/ontCWAF/containsDirective>
-                <http://visualdataweb.org/ontCWAF/SecRuleRemoveByID_659ae807-bd14-386d-85d3-5c3c631dd9d7> , <http://visualdataweb.org/ontCWAF/SecRequestBodyLimitAction_53027e4a-27f5-3b38-a31a-8cd569310dd5> , <http://visualdataweb.org/ontCWAF/SecRequestBodyLimit_15ee3e23-4a56-32a9-ad85-0773cd858bfd> , <http://visualdataweb.org/ontCWAF/SecRequestBodyAccess_e039aa3f-b8e0-39b2-b7ad-cc86ee6cc66e>;
+                <http://visualdataweb.org/ontCWAF/ModSecRemoveById_659ae807-bd14-386d-85d3-5c3c631dd9d7> , <http://visualdataweb.org/ontCWAF/SecRequestBodyLimitAction_53027e4a-27f5-3b38-a31a-8cd569310dd5> , <http://visualdataweb.org/ontCWAF/SecRequestBodyLimit_15ee3e23-4a56-32a9-ad85-0773cd858bfd> , <http://visualdataweb.org/ontCWAF/SecRequestBodyAccess_e039aa3f-b8e0-39b2-b7ad-cc86ee6cc66e>;
         <http://visualdataweb.org/ontCWAF/dirLineNum>
                 "99"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
@@ -18781,15 +18799,6 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
                 "33"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
                 "DefineStr" .
-
-<http://visualdataweb.org/ontCWAF/SecRuleRemoveByID_661ddd2f-41f7-37cf-b40c-cb910f3c4392>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/arguments>
-                "@id";
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "118"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "SecRuleRemoveByID" .
 
 <http://visualdataweb.org/ontCWAF/Use_09d533ce-8de1-3727-80cd-57f6f04fd061>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
@@ -24021,6 +24030,15 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
                 "122"^^xsd:long;
         <http://visualdataweb.org/ontCWAF/dirType>
                 "DefineStr" .
+
+<http://visualdataweb.org/ontCWAF/ModSecRemoveById_659ae807-bd14-386d-85d3-5c3c631dd9d7>
+        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "1000109";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "104"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "ModSecRemoveById" .
 
 <http://visualdataweb.org/ontCWAF/Use_dca14eb3-43a7-39bc-b58b-4db297d4d9c9>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
@@ -37081,6 +37099,15 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/useMacro>
                 <http://visualdataweb.org/ontCWAF/Macro_secdisablerulearg> .
 
+<http://visualdataweb.org/ontCWAF/ModSecRemoveById_86ed571f-dd7d-3367-be2b-95ed810626e9>
+        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "5000402";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "89"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "ModSecRemoveById" .
+
 <http://visualdataweb.org/ontCWAF/Use_3d0f409c-0aaa-37be-a958-92921bb37d57>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
         <http://visualdataweb.org/ontCWAF/arguments>
@@ -37469,15 +37496,6 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
                 "SetBasicAuthBanner";
         <http://visualdataweb.org/ontCWAF/macroParams>
                 "$banner" .
-
-<http://visualdataweb.org/ontCWAF/SecRuleRemoveById_f8e7fcfe-5040-31d1-b746-0fa2ea3a6c2a>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/arguments>
-                "2002920,2002918";
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "79"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "SecRuleRemoveById" .
 
 <http://visualdataweb.org/ontCWAF/Use_f380b98b-90a1-385b-b356-74ed42b0c4f9>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
@@ -48092,6 +48110,15 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/dirType>
                 "DefineStr" .
 
+<http://visualdataweb.org/ontCWAF/ModSecRemoveById_661ddd2f-41f7-37cf-b40c-cb910f3c4392>
+        rdf:type  <http://visualdataweb.org/ontCWAF/ModSecRule>;
+        <http://visualdataweb.org/ontCWAF/arguments>
+                "@id";
+        <http://visualdataweb.org/ontCWAF/dirLineNum>
+                "118"^^xsd:long;
+        <http://visualdataweb.org/ontCWAF/dirType>
+                "ModSecRemoveById" .
+
 <http://visualdataweb.org/ontCWAF/Use_7b766e38-0818-321f-9adc-81b37552ed82>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
         <http://visualdataweb.org/ontCWAF/arguments>
@@ -50093,15 +50120,6 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
         <http://visualdataweb.org/ontCWAF/macroParams>
                 "@ip_port" .
 
-<http://visualdataweb.org/ontCWAF/SecRuleRemoveByTag_6535e900-0350-3e3f-9e9e-c715b6abbbef>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/arguments>
-                "\"(?i)(?:$tag)\"";
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "129"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "SecRuleRemoveByTag" .
-
 <http://visualdataweb.org/ontCWAF/Use_823893d4-62de-358b-b0c1-3e3eb848dda0>
         rdf:type  <http://visualdataweb.org/ontCWAF/Use>;
         <http://visualdataweb.org/ontCWAF/arguments>
@@ -50112,15 +50130,6 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
                 "Use";
         <http://visualdataweb.org/ontCWAF/useMacro>
                 <http://visualdataweb.org/ontCWAF/Macro_secreqmaxrateext> .
-
-<http://visualdataweb.org/ontCWAF/SecRuleRemoveByID_659ae807-bd14-386d-85d3-5c3c631dd9d7>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/arguments>
-                "1000109";
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "104"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "SecRuleRemoveByID" .
 
 <http://visualdataweb.org/ontCWAF/Macro_parseurl_>
         rdf:type  <http://visualdataweb.org/ontCWAF/Macro>;
@@ -50916,15 +50925,6 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
                 "IfRule";
         <http://visualdataweb.org/ontCWAF/ifType>
                 "Define" .
-
-<http://visualdataweb.org/ontCWAF/SecRuleRemoveByID_86ed571f-dd7d-3367-be2b-95ed810626e9>
-        rdf:type  <http://visualdataweb.org/ontCWAF/Rule>;
-        <http://visualdataweb.org/ontCWAF/arguments>
-                "5000402";
-        <http://visualdataweb.org/ontCWAF/dirLineNum>
-                "89"^^xsd:long;
-        <http://visualdataweb.org/ontCWAF/dirType>
-                "SecRuleRemoveByID" .
 
 <http://visualdataweb.org/ontCWAF/IfRule_8beae4c9-26db-3db5-a755-33f7ed57e41c>
         rdf:type  <http://visualdataweb.org/ontCWAF/IfRule>;

@@ -324,6 +324,22 @@ public class Parser {
             return;
         }
 
+        Matcher removeByIdMatcher = removeByIdPattern.matcher(line);
+        if (removeByIdMatcher.find()) {
+            String args = removeByIdMatcher.group(1);
+            Individual removeById = createRemoveById(model, context, line_num, args);
+            attachDirectiveToOnt(model, context, removeById, file);
+            return;
+        }
+
+        Matcher removeByTagMatcher = removeByTagPattern.matcher(line);
+        if (removeByTagMatcher.find()) {
+            String tag = removeByTagMatcher.group(1);
+            Individual removeByTag = createRemoveByTag(model, context, line_num, tag);
+            attachDirectiveToOnt(model, context, removeByTag, file);
+            return;
+        }
+
         Matcher generalRuleMatcher = genericRulePattern.matcher(line);
         if (generalRuleMatcher.find()) {
             String ruleKeyword = generalRuleMatcher.group(1);

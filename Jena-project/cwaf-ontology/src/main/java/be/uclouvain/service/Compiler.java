@@ -11,6 +11,7 @@ import be.uclouvain.model.Directive;
 import be.uclouvain.model.LocalVar;
 import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
+import net.bytebuddy.dynamic.loading.ClassReloadingStrategy.Strategy;
 
 import static be.uclouvain.service.Constants.Parser.*;
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
@@ -354,6 +355,37 @@ public class Compiler {
         return Stream.empty();
     }
 
+    private static Stream<Directive> applyRemoveById(CompileContext ctx, Directive directive){
+        Individual directiveInd = directive.getIndividual();
+        // String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
+        // String[] content = parseArguments(args, null);
+        String[] content = directive.getArgs();
+        for (String arg : content) {
+            if (arg.contains("-")) {
+                String[] range = arg.split("-");
+                int start = Integer.parseInt(range[0]);
+                int end = Integer.parseInt(range[1]);
+                for (int i = start; i <= end; i++) {
+                    Directive.removeById(i, directiveInd.getURI());
+                }
+            } else {
+                int id = Integer.parseInt(arg);
+                Directive.removeById(id, directiveInd.getURI());
+            }
+        }
+        return Stream.empty();
+    }
+
+    private static Stream<Directive> applyRemoveByTag(CompileContext ctx, Directive directive) {
+        String[] args = directive.getArgs();
+        if (args.length != 1) {
+            System.err.println("Invalid number of arguments for RemoveByTag: " + args);
+            return Stream.of(directive);
+        }
+        Directive.removeByTag(args[0], directive.getIndividual().getURI());
+        return Stream.empty();
+    }
+
     private static Stream<Directive> compileGenericRule(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         if (directiveInd.hasProperty(OntCWAF.DIR_TYPE)) {
@@ -368,6 +400,10 @@ public class Compiler {
                     return compileUndefMacro(ctx, directive);
                 case "undefine":
                     return compileUndefine(ctx, directive);
+                case "modsecremovebyid":
+                    return applyRemoveById(ctx, directive);
+                case "modsecremovebytag":
+                    return applyRemoveByTag(ctx, directive);
                 case "secdefaultaction":
                     return Stream.of(directive); //TODO
                 default:

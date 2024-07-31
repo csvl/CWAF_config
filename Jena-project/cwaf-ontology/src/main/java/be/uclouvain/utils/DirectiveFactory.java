@@ -69,6 +69,16 @@ public class DirectiveFactory {
         return modSecRuleIndividual;
     }
 
+    public static Individual createRemoveById(OntModel model, DirectiveContext context, int line_num, String args) {
+        Individual removeById = createRule(model, context, line_num, "ModSecRemoveById", args, OntCWAF.MOD_SEC_RULE);
+        return removeById;
+    }
+
+    public static Individual createRemoveByTag(OntModel model, DirectiveContext context, int line_num, String tag) {
+        Individual removeByTag = createRule(model, context, line_num, "ModSecRemoveByTag", tag, OntCWAF.MOD_SEC_RULE);
+        return removeByTag;
+    }
+
     public static Individual createInclude(OntModel model, DirectiveContext context, String name, int line_num, Individual parsedFile) {
         Individual include = createRule(model, context, line_num, name, "", OntCWAF.INCLUDE);
         include.addProperty(OntCWAF.INCLUDE_FILE, parsedFile);
