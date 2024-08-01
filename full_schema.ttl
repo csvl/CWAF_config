@@ -11469,6 +11469,11 @@ cwaf:IfRule_21522e4a-9186-3ead-bfe5-35aa35303042
         cwaf:dirType            "IfRule";
         cwaf:ifType             "Module" .
 
+cwaf:instanceOf  rdf:type   owl:IrreflexiveProperty , owl:FunctionalProperty , rdf:Property , rdfs:Resource , owl:ObjectProperty;
+        rdfs:domain         cwaf:Directive , owl:Thing , rdfs:Resource;
+        rdfs:range          cwaf:Directive , owl:Thing , rdfs:Resource;
+        rdfs:subPropertyOf  cwaf:instanceOf .
+
 cwaf:Use_64cd369d-2604-3de0-8570-e22cca14471a
         rdf:type         cwaf:Use;
         cwaf:arguments   "\" {2,}\"   \" \"";
@@ -11555,6 +11560,9 @@ cwaf:DefineStr_47ea1e7a-fb53-3bff-ab7e-9baa66a2fb49
         cwaf:arguments   "deny          \"~{warn},skipAfter:VeryLastRule,severity:ERROR,tag:security\"";
         cwaf:dirLineNum  "90"^^xsd:long;
         cwaf:dirType     "DefineStr" .
+
+owl:IrreflexiveProperty
+        rdf:type  rdfs:Resource , rdfs:Class .
 
 cwaf:Use_2c1988ea-3fdb-3793-abce-a808a0c1eaed
         rdf:type         cwaf:Use;
@@ -26459,7 +26467,7 @@ cwaf:Use_f0773e45-2a4e-3f25-aa45-28f13ed720b3
         cwaf:useMacro    cwaf:Macro_secrule .
 
 owl:onProperty  rdf:type    rdfs:Resource , rdf:Property;
-        rdfs:domain         rdfs:Class , owl:Class , rdfs:Resource , owl:Restriction;
+        rdfs:domain         rdfs:Class , rdfs:Resource , owl:Class , owl:Restriction;
         rdfs:range          rdfs:Resource , owl:Property;
         rdfs:subPropertyOf  owl:onProperty .
 
@@ -26696,6 +26704,9 @@ cwaf:EndLocation_4a05c385-9436-3984-b6c9-a15bcce44888
         cwaf:dirLineNum        "311"^^xsd:long;
         cwaf:dirType           "EndLocation";
         cwaf:isEndingLocation  cwaf:Location_48ab61e0-9e8b-3437-be04-37db175a8d98 .
+
+owl:topDataProperty  rdf:type  rdfs:Resource , rdf:Property;
+        rdfs:subPropertyOf  owl:topDataProperty .
 
 cwaf:Use_fd6f1d8d-5838-3488-8b18-66065237b8f7
         rdf:type         cwaf:Use;
@@ -32620,6 +32631,11 @@ cwaf:DefineStr_fec34c44-526b-3b58-95e1-c9239c85a6b3
         cwaf:arguments   "_dotnetArgs_     \"^__(?:event(?:argument|target|validation)|request(digest|verificationtoken)|s_ria|viewstate)\"";
         cwaf:dirLineNum  "5"^^xsd:long;
         cwaf:dirType     "DefineStr" .
+
+cwaf:stackTrace  rdf:type   rdf:Property , owl:DatatypeProperty , rdfs:Resource;
+        rdfs:domain         rdfs:Resource , cwaf:Directive , owl:Thing;
+        rdfs:range          xsd:string , rdfs:Resource;
+        rdfs:subPropertyOf  owl:topDataProperty , cwaf:stackTrace .
 
 cwaf:Use_5fbb3bda-c00c-3627-844c-9a2df1175df4
         rdf:type         cwaf:Use;

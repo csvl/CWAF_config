@@ -76,6 +76,14 @@ cwaf:includeFile rdf:type owl:ObjectProperty ,
                  rdfs:label "includeFile"@en .
 
 
+###  http://visualdataweb.org/ontCWAF/instanceOf
+cwaf:instanceOf rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain cwaf:Directive ;
+                rdfs:range cwaf:Directive .
+
+
 ###  http://visualdataweb.org/ontCWAF/isEndingLocation
 cwaf:isEndingLocation rdf:type owl:ObjectProperty ,
                                owl:FunctionalProperty ,
@@ -227,6 +235,13 @@ cwaf:serverName rdf:type owl:DatatypeProperty ,
                 rdfs:range xsd:string ;
                 rdfs:label "serverName"@en ,
                            "serverName"@iri-based .
+
+
+###  http://visualdataweb.org/ontCWAF/stackTrace
+cwaf:stackTrace rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdfs:domain cwaf:Directive ;
+                rdfs:range xsd:string .
 
 
 ###  http://visualdataweb.org/ontCWAF/useArgs

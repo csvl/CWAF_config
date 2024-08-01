@@ -218,6 +218,21 @@ public class Directive implements Comparable<Directive>, Serializable {
         }
     }
 
+    public void replaceTag(String oldTag, String newTag) {
+        if (tags.contains(oldTag)) {
+            tags.remove(oldTag);
+            tags.add(newTag);
+            tagsMap.get(oldTag).remove(this);
+            if (tagsMap.containsKey(newTag)) {
+                tagsMap.get(newTag).add(this);
+            } else {
+                tagsMap.put(newTag, new ArrayList<>(List.of(this)));
+            }
+        } else {
+            System.err.println("Tag " + oldTag + " not found in directive " + name + "; cannot replace it by " + newTag);
+        }
+    }
+
     public void addTag(String tag) {
         tags.add(tag);
         if (tagsMap.containsKey(tag)) {
@@ -249,9 +264,8 @@ public class Directive implements Comparable<Directive>, Serializable {
             ind.addLiteral(OntCWAF.VIRTUAL_HOST_NAME, virtualHost);
         }
         ind.addLiteral(OntCWAF.ARGUMENTS, String.join(" ", args));
-        // ind.addLiteral(OntCWAF.NS + "instanceOf", resourceURI);
-        ind.addComment(resourceURI, "en");
-        ind.addComment(trace.toString(), "en");
+        ind.addProperty(OntCWAF.INSTANCE_OF, resource);
+        ind.addLiteral(OntCWAF.STACK_TRACE, trace.toString());
         return ind; 
     }
 }

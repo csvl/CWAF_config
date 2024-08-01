@@ -276,8 +276,8 @@ public class Compiler {
                 Matcher tagMatcher = tagPattern.matcher(arg);
                 while (tagMatcher.find()) {
                     String tag = tagMatcher.group(1);
+                    // System.out.println(directiveInd.getLocalName() + " Arg: " + arg + " Tag: " + tag);
                     tag = tag.replaceAll("^[\"\']|[\"\']$", "");
-                    directiveInd.addLiteral(OntCWAF.RULE_TAG, tag);
                     directive.addTag(tag);
                 }
             }
@@ -373,7 +373,7 @@ public class Compiler {
                 Directive.removeById(id, directiveInd.getURI());
             }
         }
-        return Stream.empty();
+        return Stream.of(directive);
     }
 
     private static Stream<Directive> applyRemoveByTag(CompileContext ctx, Directive directive) {
@@ -383,7 +383,7 @@ public class Compiler {
             return Stream.of(directive);
         }
         Directive.removeByTag(args[0], directive.getIndividual().getURI());
-        return Stream.empty();
+        return Stream.of(directive);
     }
 
     private static Stream<Directive> compileGenericRule(CompileContext ctx, Directive directive){
