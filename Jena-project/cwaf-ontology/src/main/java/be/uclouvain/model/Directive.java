@@ -248,7 +248,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     }
 
     public Individual toEntityIndividual(OntModel model) {
-        Individual ind = model.createIndividual(getURIForName(name), OntCWAF.DIRECTIVE);
+        Individual ind = model.createIndividual(getURIForName(name), resource.getOntClass());
         ind.addLiteral(OntCWAF.DIR_LINE_NUM, lineNum);
         ind.addLiteral(OntCWAF.PHASE, phase);
         if (id != null) {
