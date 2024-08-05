@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections4.set.CompositeSet;
 import org.apache.jena.ontology.Individual;
@@ -123,11 +124,15 @@ public class Directive implements Comparable<Directive>, Serializable {
     }
 
     public static void removeByTag(String tag, String disabledBy) {
-        if (tagsMap.containsKey(tag)) {
-           tagsMap.get(tag).forEach( dir -> {
-                dir.disabledBy = disabledBy;
-           });
-        }
+        Pattern pattern = Pattern.compile(tag);
+        tagsMap.keySet().forEach( key -> {
+            Matcher matcher = pattern.matcher(key);
+            if (matcher.find()) {
+                tagsMap.get(key).forEach( dir -> {
+                    dir.disabledBy = disabledBy;
+                });
+            }
+        });
     }
 
     public boolean isBeacon() {
