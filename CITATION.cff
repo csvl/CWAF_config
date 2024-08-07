@@ -1,0 +1,31 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: DOG-WAF
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Bastien
+    family-names: Wiaux
+    email: bastien.wiaux@uclouvain.be
+    affiliation: UCLouvain
+    orcid: 'https://orcid.org/0009-0002-9268-9943'
+  - given-names: 'Charles-Henry '
+    family-names: Bertrand Van Ouytsel
+    email: charles-henry.bertrand@uclouvain.be
+    affiliation: UCLouvain
+    orcid: 'https://orcid.org/0000-0001-5720-6569'
+  - given-names: Marc
+    family-names: Stern
+    affiliation: Approach Cyber
+  - given-names: Axel
+    family-names: Legay
+    email: axel.legay@uclouvain.be
+    affiliation: UCLouvain
+    orcid: 'https://orcid.org/0000-0003-2287-8925'
+repository-code: 'https://github.com/csvl/CWAF_config'
+license: MIT
+
