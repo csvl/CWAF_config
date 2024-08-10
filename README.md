@@ -12,7 +12,6 @@ Configuring and maintaining a WAF, especially in large-scale environments, prese
 - **Ontology-Based Representation**: Leverages ontology to model WAF configurations, enabling better traceability, transparency, and management.
 - **Easy Navigation**: Facilitates the exploration of large rule sets, macros, and configurations through an intuitive interface.
 - **Real-World Application**: Tested on extensive real-world configurations, demonstrating its effectiveness in diagnosing and resolving WAF configuration issues.
-- **Commercial Integration**: WAF-GUARD is set to be included in the commercial solution of Company Y, extending its practical applications.
 
 ## Getting Started
 
