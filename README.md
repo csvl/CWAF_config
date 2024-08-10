@@ -40,6 +40,7 @@ WAF-GUARD is released under the [MIT License](LICENSE).
 ## Acknowledgements
 
 This project is supported by Approach Cyber.
+This study has been conducted as part of the COODEVIIS project (agreement no. 8887), funded by the Wallonia Public Service (SPW) under the framework of the region’s recovery plan. It was in part supported by the CyberExcellence project (RW, Convention 2110186).
 
 ## Contact
 
