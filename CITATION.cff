@@ -8,24 +8,50 @@ message: >-
   metadata from this file.
 type: software
 authors:
-  - given-names: Bastien
-    family-names: Wiaux
-    email: bastien.wiaux@uclouvain.be
-    affiliation: UCLouvain
-    orcid: 'https://orcid.org/0009-0002-9268-9943'
   - given-names: 'Charles-Henry '
     family-names: Bertrand Van Ouytsel
     email: charles-henry.bertrand@uclouvain.be
     affiliation: UCLouvain
     orcid: 'https://orcid.org/0000-0001-5720-6569'
-  - given-names: Marc
-    family-names: Stern
-    affiliation: Approach Cyber
   - given-names: Axel
     family-names: Legay
     email: axel.legay@uclouvain.be
     affiliation: UCLouvain
     orcid: 'https://orcid.org/0000-0003-2287-8925'
+  - given-names: Marc
+    family-names: Stern
+    affiliation: Approach Cyber
+  - given-names: Bastien
+    family-names: Wiaux
+    email: bastien.wiaux@uclouvain.be
+    affiliation: UCLouvain
+    orcid: 'https://orcid.org/0009-0002-9268-9943'
 repository-code: 'https://github.com/csvl/CWAF_config'
+abstract: >-
+  Web application firewalls are essential tools for
+  protecting web applications. However, the configuration
+  and maintenance of such systems, particularly in
+  large-scale environments, can prove challenging due to the
+  significant number of interconnected rules and directives
+  that must be managed. This complexity often leads to
+  difficulties in troubleshooting and optimising
+  configurations. In order to address these issues, we
+  present WAF-GUARD, a novel tool that leverages an
+  ontological representation of WAF configurations as a
+  means of assisting in the resolution of potential
+  problems. WAF-GUARD allows experts to navigate complex
+  configurations while maintaining clear links to the file
+  system structure. The ontology allows exploration of the
+  relationships between rules, macros, and files, thereby
+  enhancing the usability of WAF management. We have applied
+  our tool on large-size configurations developed within
+  Approach Cyber, showing the capabilities of the tool in
+  real-world context.
+keywords:
+  - Web Application Firewall
+  - Ontology
+  - Troubleshooting
 license: MIT
-
+commit: aedda936b394b137ecf6e4ae2c6a82b51eb01d2b
+version: v1.0
+date-released: '2024-08-10'
