@@ -108,7 +108,7 @@ public class OntUtils {
     public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
         if (withSchema) {
-            schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
+            schema.read("ontCWAF_1.0.ttl", "TTL");
             model.add(schema);
         }
         saveOntology(filePath, model, format);

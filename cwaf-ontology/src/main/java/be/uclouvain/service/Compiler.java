@@ -478,7 +478,7 @@ public class Compiler {
         ontFS.read("config.ttl", "TTL");
 
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
+        schema.read("ontCWAF_1.0.ttl", "TTL");
         
         CompileContext ctx = new CompileContext(ontFS, schema);
 
