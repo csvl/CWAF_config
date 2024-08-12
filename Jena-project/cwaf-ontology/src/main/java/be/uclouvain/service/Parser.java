@@ -23,8 +23,6 @@ import static be.uclouvain.service.Constants.Parser.*;
 
 public class Parser {
 
-    // static String pwd = null;
-
     public static OntModel parseConfig(String filePath) throws IOException {
 
         OntModel confModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
@@ -44,10 +42,7 @@ public class Parser {
     private static Individual parseConfigFile(String filePath, OntModel model, Bag file_bag) throws IOException{
         //TODO handle "\" for multiline directives
 
-        // System.out.println("Including file: " + filePath);
-
         //Check if file is already in the bag
-        //TODO optimize ?
         for (Iterator<RDFNode> i = file_bag.iterator(); i.hasNext();) {
             RDFNode file = i.next();
             if (file.asResource().getURI().equals(filePath)) {
@@ -249,7 +244,6 @@ public class Parser {
             String includedFile = includeMatcher.group(1);
             if (includedFile.contains("*")) {
                 List<Path> expanded = expandPath(includedFile);
-                // System.out.println("Expanded: " + expanded.toString() + " from " + includedFile);
                 expanded.forEach(path -> {
                     try {
                         Individual parsedFile = parseConfigFile(path.toString(), model, model.getBag(OntCWAF.NS + Constants.FILE_BAG_NAME));
@@ -275,7 +269,6 @@ public class Parser {
             String macroArgs = useMatcher.group(2);
             Individual use = createUse(model, context, line_num, macroArgs == null ? "" : macroArgs, OntUtils.getMacroURI(macroName));
             attachDirectiveToOnt(model, context, use, file);
-            // System.out.println("Using macro: " + macroName + " with args: " + macroArgs);
             return;
         }
 
@@ -339,9 +332,7 @@ public class Parser {
         if (generalRuleMatcher.find()) {
             String ruleKeyword = generalRuleMatcher.group(1);
             String args = generalRuleMatcher.group(2);
-            // System.out.println("Rule: " + ruleKeyword + " with args: " + args);
-            Individual directiveInd = createRule(model, context, line_num, ruleKeyword, args);//createGeneralDirective(model, context, ruleKeyword, line_num);
-            // System.out.println("Adding directive: " + ruleKeyword + " at line " + line_num + " in file " + file.getURI());
+            Individual directiveInd = createRule(model, context, line_num, ruleKeyword, args);
             if (directiveInd != null) 
                 attachDirectiveToOnt(model, context, directiveInd, file);
             return;
@@ -355,8 +346,7 @@ public class Parser {
     public static void main(String[] args) {
         try {
             OntModel model = parseConfig(args[0]);
-            // OntUtils.print_bag(model.getBag(Constants.FILE_BAG_NAME));
-            // OntUtils.print_all_statements(model);
+
             saveOntology("config.ttl", model, "TTL");
             saveOntology("full_schema.ttl", model, "TTL", true);
         } catch (IOException e) {

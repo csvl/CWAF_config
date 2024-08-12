@@ -19,7 +19,6 @@ public class CompileContext{
     private OntModel infModel;
     private Stack<Individual> trace = new Stack<>();
     private List<LocalVar> localVars = new ArrayList<>();
-    private Map<String, List<String>> varTag = new HashMap<>();
     private Stack<Condition> existance_conditions = new Stack<>();
     private Scope scope = new Scope();
     private List<String> definedMacros = new ArrayList<>();
@@ -47,10 +46,6 @@ public class CompileContext{
 
         trace.addAll(other.trace);
         localVars.addAll(other.localVars);
-        for (Map.Entry<String, List<String>> entry : other.varTag.entrySet()) {
-            List<String> copy = new ArrayList<>(entry.getValue());
-            varTag.put(entry.getKey(), copy);
-        }
         existance_conditions.addAll(other.existance_conditions);
     }
 
@@ -123,13 +118,6 @@ public class CompileContext{
 
     public void removeTaggedVar(String tag) {
         localVars.removeIf(v -> v.tag.equals(tag));
-        // List<String> taggedVars = varTag.get(tag);
-        // if (taggedVars == null) {
-        //     return;
-        // }
-        // for (String var : taggedVars) {
-        //     localVars.remove(var);
-        // }
     }
 
     public void addEC(String condition) {
@@ -181,9 +169,6 @@ public class CompileContext{
     }
 
     public Stack<Individual> getTrace() {
-        // Stack<Individual> copy = new Stack<>();
-        // copy.addAll(trace);
-        // return copy;
         return trace;
     }
 
@@ -224,7 +209,6 @@ public class CompileContext{
         return "CompileContext{" +
                 ", trace=" + Arrays.toString(trace.toArray()) +
                 ", localVars=" + localVars +
-                ", varTag=" + varTag +
                 ", existance_conditions=" + Arrays.toString(existance_conditions.toArray()) +
                 ", currentVirtualHost='" + scope.currentVirtualHost + '\'' +
                 ", currentLocation='" + scope.currentLocation + '\'' +

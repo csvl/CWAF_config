@@ -8,7 +8,6 @@ public class DirectiveContext {
     public String currentLocation = "";
     public Stack<String> beaconStack = new Stack<>();
     public String lastIf = "";
-    // public Integer currentInstructionNumber = null;
     public String serverName = "";
     public String serverPort = "0";
     

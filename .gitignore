@@ -1,1 +1,6 @@
 **/.vscode/*
+conf/*
+*.ser
+*.ttl
+**/catalog-v001.xml
+output.txt

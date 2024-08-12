@@ -1,8 +1,7 @@
 package be.uclouvain.model;
 
-import static be.uclouvain.utils.DirectiveFactory.parseArguments;
-
 import java.util.regex.Pattern;
+
 
 public class Location {
 

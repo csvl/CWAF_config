@@ -2,7 +2,6 @@ package be.uclouvain.model;
 
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
 import static be.uclouvain.utils.OntUtils.getURIForName;
-import static be.uclouvain.utils.OntUtils.readStreamFromFile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,17 +14,14 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections4.set.CompositeSet;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Statement;
 
 import be.uclouvain.service.Constants;
 import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
 
-import static be.uclouvain.service.Constants.Parser.*;
 
 public class Directive implements Comparable<Directive>, Serializable {
 
@@ -50,16 +46,6 @@ public class Directive implements Comparable<Directive>, Serializable {
     public Directive(CompileContext ctx, Individual resource) {
 
         this.lineNum = resource.getPropertyValue(OntCWAF.DIR_LINE_NUM).asLiteral().getInt();
-        // Statement scope = resource.getProperty(OntCWAF.HAS_SCOPE);
-        // if (scope != null) {
-        //     Individual scopeInd = scope.getObject().as(Individual.class);
-        //     Statement location = scopeInd.getProperty(OntCWAF.HAS_LOCATION);
-        //     this.location = location != null ? location.getObject().as(Individual.class)
-        //                             .getPropertyValue(OntCWAF.LOCATION_PATH).asLiteral().getString() : "global";
-        //     Statement virtualHost = scopeInd.getProperty(OntCWAF.HAS_VIRTUAL_HOST);
-        //     this.virtualHost = virtualHost != null ? virtualHost.getObject().as(Individual.class)
-        //                             .getPropertyValue(OntCWAF.V_HOST_NAME).asLiteral().getString() : null;
-        // }
 
         this.name = resource.getLocalName();
 
@@ -99,21 +85,6 @@ public class Directive implements Comparable<Directive>, Serializable {
         this.resource = resource;
         this.resourceURI = resource.getURI();
     }
-
-    // public String[] getScope() {
-    //     return new String[] {location, virtualHost};
-    // }
-
-    // public void setScope(String[] scope) {
-    //     if (scope.length != 2) {
-    //         throw new IllegalArgumentException("Scope must have 2 elements");
-    //     }
-    //     this.location = scope[0];
-    //     this.virtualHost = scope[1];
-    //     // if (virtualHost != null || !location.equals("global")) {
-    //     //     System.err.println("Scope set to " + Arrays.toString(scope));
-    //     // }
-    // }
 
     public static void removeById(int id, String disabledBy) {
         if (idsMap.containsKey(id)) {

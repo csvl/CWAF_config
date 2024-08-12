@@ -11,41 +11,20 @@ import be.uclouvain.vocabulary.OntCWAF;
 
 public class DirectiveFactory {
     
-    public static Individual createGeneralDirective(OntModel model, DirectiveContext context, String name, int line_num) {
-        if (context.beaconStack.size() > 0) {
-            // return createMacro(model, context);
-            //TODO
-            return null;
-        } else {
-            return createDirective(model, context, line_num, name, OntCWAF.RULE);
-        }
-    }
-
     public static String[] parseArguments(String macroArgs, Individual use) {
         if (macroArgs == null || macroArgs.length() == 0) {
             return new String[0];
         }
         String[] args = macroArgs.split(" +(?:(?=(?:[^\"\']*(?:(\"[^\"]*\")|(\'[^\']*\')))*[^\"\']*$))");
         for (int i = 0; i < args.length; i++) {
-            // if (!args[i].contains(" ")) {
                 args[i] = args[i].replaceAll("^[\"\']|[\"\']$", "");
-                // if (args[i].contains(" ") || args[i].length() == 0) {
-                //     args[i] = "'" + args[i] + "'";
-                // }
-            // }
         }
-        // Seq argsInd = use.getModel().createSeq(use.getURI()+"_argsSeq"); //TODO change URI
-        // for (String arg : args) {
-        //     argsInd.add(arg);
-        // }
-        // return argsInd;
         return args;
     }
 
     public static Individual createUse(OntModel model, DirectiveContext context, int line_num, String args,String macroURI) {
         Individual use = createRule(model, context, line_num, "Use", args, OntCWAF.USE);
-        // Seq argsInd = parseArguments(args, use);
-        // use.addProperty(OntCWAF.USE_PARAMS, argsInd);
+
         Individual macro = model.getIndividual(macroURI);
         if (macro == null) {
             macro = createMacro(model, context, -1, getMacroNameFromURI(macroURI), "");
@@ -99,24 +78,6 @@ public class DirectiveFactory {
 
     private static void initDirective(OntModel model, DirectiveContext context, int line_num, String URI, Individual directiveInd) {
         directiveInd.addLiteral(OntCWAF.DIR_LINE_NUM, line_num);
-        // if (context.currentLocation != "" || context.currentVirtualhost != "" || context.serverName != "") {
-        //     Individual scope = model.createIndividual(URI+"-scope", OntCWAF.SCOPE);
-        //     if (context.currentLocation != "") {
-        //         scope.addProperty(OntCWAF.HAS_LOCATION, model.createIndividual(URI+"-scope-location", OntCWAF.LOCATION)
-        //                 .addLiteral(OntCWAF.LOCATION_PATH, context.currentLocation));
-        //     }
-        //     if (context.currentVirtualhost != "") {
-        //         scope.addProperty(OntCWAF.HAS_VIRTUAL_HOST,
-        //             model.createIndividual(URI+"-scope-vhost", OntCWAF.VIRTUAL_HOST)
-        //             .addLiteral(OntCWAF.V_HOST_NAME, context.currentVirtualhost));
-        //     }
-        //     if (context.serverName != "") {
-        //         scope.addProperty(OntCWAF.HAS_SERVER, model.createIndividual(URI+"-scope-server", OntCWAF.SERVER)
-        //         .addLiteral(OntCWAF.SERVER_NAME, context.serverName)
-        //         .addLiteral(OntCWAF.SERVER_PORT, context.serverPort));
-        //     }
-        //     directiveInd.addProperty(OntCWAF.HAS_SCOPE, scope);
-        // }
     }
 
 

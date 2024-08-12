@@ -2,26 +2,16 @@ package be.uclouvain.service;
 
 import org.apache.jena.rdf.model.*;
 
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import be.uclouvain.model.Condition;
 import be.uclouvain.model.Directive;
 import be.uclouvain.model.LocalVar;
 import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
-import net.bytebuddy.dynamic.loading.ClassReloadingStrategy.Strategy;
 
 import static be.uclouvain.service.Constants.Parser.*;
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
 import static be.uclouvain.utils.OntUtils.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -29,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,7 +34,6 @@ public class Compiler {
         dump.forEach( dir -> {
             System.out.print(dir);
             StmtIterator stmts = ontFS.listStatements(dir.getIndividual(), OntCWAF.CONTAINED_IN, (RDFNode)null);
-            // stmts.forEach(System.out::println);
             stmts.forEach( stmt -> {
                 if (stmt.getSubject().as(Individual.class).hasProperty(OntCWAF.FILE_PATH)) {
                     System.out.print(" in " + stmt.getSubject().as(Individual.class).getPropertyValue(OntCWAF.FILE_PATH).asLiteral().getString() + ":" + dir.getLineNum());
@@ -81,7 +69,6 @@ public class Compiler {
     }
 
     private static void solveAllVars(CompileContext ctx) {
-        //FIXME need to detect loops
         Map<Boolean, List<LocalVar>> partitioned = ctx.getLocalVars().stream().collect(Collectors.partitioningBy(var -> var.value.contains("~{")));
         int to_solve = partitioned.get(true).size();
         int last_to_solve = -1;
@@ -109,14 +96,6 @@ public class Compiler {
             String URI = stmt.getObject().as(Individual.class).getURI();
             directives.add(new Directive(ctx, ctx.getModel().getIndividual(URI)));
         });
-        // container.listProperties(OntCWAF.CONTAINS_DIRECTIVE).forEach(stmt -> {
-        //     Individual directive = stmt.getObject().as(Individual.class);
-        //     directives.add(new Directive(ctx, directive));
-        // });
-        // System.out.println("Directives in " + container.getLocalName() + ": " + directives.size());
-        // for (Directive directive : directives) {
-        //     System.out.println("\t- " + directive);
-        // }
         return directives.stream().sorted((d1, d2) -> Integer.compare(d1.getLineNum(), d2.getLineNum()));
     }
 
@@ -136,7 +115,6 @@ public class Compiler {
     public static Stream<Directive> compileFile(CompileContext ctx, Individual file, String[] scope) {
         if (scope != null) {
             return compileContainer(ctx, file).map(d -> {
-                // d.setScope(scope);
                 System.err.println("Scope set to " + Arrays.toString(scope) + " for directive " + d.getIndividual().getLocalName());
                 return d;
             });
@@ -182,11 +160,6 @@ public class Compiler {
             ctx.addVar(params[i], args[i], macro.getURI());
         }
         Stream<Directive> res = compileContainer(ctx, macro);
-        // .map(d -> {
-        //     d.setScope(use_scope);
-        //     System.err.println("Directive " + d.getIndividual().getLocalName() + " in " + macro.getLocalName() + " with scope " + Arrays.toString(use_scope));
-        //     return d;
-        // });
         ctx.removeTaggedVar(macro.getURI());
         return res;
     }
@@ -200,7 +173,7 @@ public class Compiler {
         if (ifInd.hasProperty(OntCWAF.IF_CHAIN)) {
             Individual ifBlock = ifInd.getProperty(OntCWAF.IF_CHAIN).getObject().as(Individual.class);
             ctx.addEC(condition.not());
-            if (ifBlock.hasProperty(OntCWAF.CONDITION)) { //= is ELSE_IF //TODO faute du graph ?
+            if (ifBlock.hasProperty(OntCWAF.CONDITION)) { 
                 res = Stream.concat(res, compileIf(ctx, ifBlock));
             } else {
                 res = Stream.concat(res, compileContainer(ctx, ifBlock));
@@ -280,7 +253,6 @@ public class Compiler {
                 Matcher tagMatcher = tagPattern.matcher(arg);
                 while (tagMatcher.find()) {
                     String tag = tagMatcher.group(1);
-                    // System.out.println(directiveInd.getLocalName() + " Arg: " + arg + " Tag: " + tag);
                     tag = tag.replaceAll("^[\"\']|[\"\']$", "");
                     directive.addTag(tag);
                 }
@@ -361,8 +333,6 @@ public class Compiler {
 
     private static Stream<Directive> applyRemoveById(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
-        // String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
-        // String[] content = parseArguments(args, null);
         String[] content = directive.getArgs();
         for (String args : content) {
             for (String arg : args.split("\\s*,\\s*")) {
@@ -401,7 +371,6 @@ public class Compiler {
                     return compileDefine(ctx, directive);
                 case "definestr":
                     return Stream.empty();
-                //     return compileDefineStr(ctx, directive);
                 case "undefmacro":
                     return compileUndefMacro(ctx, directive);
                 case "undefine":
@@ -475,35 +444,6 @@ public class Compiler {
         return compileContainer(ctx, ifInd);
     }
 
-
-    // private static Stream<Directive> compileGenericContainer(CompileContext ctx, Directive directive){
-    //     Individual ifInd = directive.getIndividual();
-    //     if (ifInd.hasProperty(OntCWAF.DIR_TYPE)) {
-    //         String dirType = ifInd.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString().toLowerCase();
-    //         String args = ifInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
-    //         String[] content = parseArguments(args, null);
-    //         Stream<Directive> res =Stream.empty();
-    //         switch (dirType) {
-    //             case "locationmatch":
-    //                 if (content.length == 1) {
-    //                     System.err.println("LocationMatch: " + content[0]);
-    //                     ctx.setCurrentLocation(content[0]);
-    //                     res = compileContainer(ctx, ifInd);
-    //                     ctx.resetCurrentLocation();
-    //                 } else {
-    //                     System.err.println("Invalid number of arguments for IfDefine: " + content.length);
-    //                 }
-    //                     break;
-    //             default:
-    //                 break;
-    //         }
-    //         return res;
-    //     } else {
-    //         System.err.println("Directive Type not found for directive " + ifInd.getLocalName());
-    //     }
-    //     return compileContainer(ctx, ifInd);
-    // }
-
     private static Stream<Directive> compileDirective(CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
         directive.updateContext(ctx);
@@ -539,9 +479,7 @@ public class Compiler {
 
         OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
         schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
-        // ontFS.add(schema);
-        // ontFS.write(System.out, "TTL");
-        // System.exit(0);
+        
         CompileContext ctx = new CompileContext(ontFS, schema);
 
         OntModel ontExec = ModelFactory.createOntologyModel();

@@ -38,7 +38,6 @@ public class OntUtils {
             Property  predicate = stmt.getPredicate();   // get the predicate
             RDFNode   object    = stmt.getObject();      // get the object
 
-            // System.out.print(stmt.toString() + " ");
             System.out.print(subject.getLocalName());
             System.out.print(" " + predicate.getLocalName() + " ");
             if (object instanceof Resource) {
@@ -85,8 +84,10 @@ public class OntUtils {
 
     public static void saveOntology(String filePath, OntModel model) {
         // Save the ontology to a file
-        try (OutputStream out = new FileOutputStream(filePath)) {
+        try {
+            OutputStream out = new FileOutputStream(filePath);
             model.write(out);
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,8 +95,10 @@ public class OntUtils {
 
     public static void saveOntology(String filePath, OntModel model, String format) {
         // Save the ontology to a file
-        try (OutputStream out = new FileOutputStream(filePath)) {
+        try {
+            OutputStream out = new FileOutputStream(filePath);
             model.write(out, format);
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,12 +106,13 @@ public class OntUtils {
 
 
     public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
+        OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
         if (withSchema) {
-            OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
             schema.read("Jena-project/ontCWAF_1.0.ttl", "TTL");
             model.add(schema);
         }
         saveOntology(filePath, model, format);
+        schema.close();
     }
 
     public static Resource findFileContaining(OntModel model, Individual directive) {
