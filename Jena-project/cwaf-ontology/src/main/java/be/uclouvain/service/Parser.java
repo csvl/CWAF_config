@@ -289,12 +289,7 @@ public class Parser {
         Matcher listenMatcher = listenPattern.matcher(line);
         if (listenMatcher.find()) {
             String listen = listenMatcher.group(1);
-            //TODO handle macros arguments
-            try {
-                context.serverPort = Integer.parseInt(listen);
-            } catch (NumberFormatException e) {
-                System.err.println("Error: " + listen + " is not yet handled for Listen.");
-            }
+            context.serverPort = listen;
             return;
         }
 

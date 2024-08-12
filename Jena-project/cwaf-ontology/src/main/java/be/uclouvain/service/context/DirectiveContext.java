@@ -10,6 +10,6 @@ public class DirectiveContext {
     public String lastIf = "";
     // public Integer currentInstructionNumber = null;
     public String serverName = "";
-    public int serverPort = 0;
+    public String serverPort = "0";
     
 }

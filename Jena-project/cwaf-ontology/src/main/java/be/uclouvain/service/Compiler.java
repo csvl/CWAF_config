@@ -150,6 +150,10 @@ public class Compiler {
     }
 
     private static Stream<Directive> expandUse(CompileContext ctx, Directive use) {
+        if (!use.getIndividual().hasProperty(OntCWAF.USE_MACRO)) {
+            System.err.println("Macro not found in Use directive: " + use.getIndividual().getLocalName());
+            return Stream.empty();
+        }
         Individual macro = use.getIndividual().getProperty(OntCWAF.USE_MACRO).getObject().as(Individual.class);
         // if (!ctx.isMacroDefined(macroURI)) {
         //     System.err.println("Macro not defined: " + macroURI);
@@ -170,9 +174,9 @@ public class Compiler {
         String paramsStr = macro.getPropertyValue(OntCWAF.MACRO_PARAMS).asLiteral().getString();
         String[] params = parseArguments(paramsStr, null);
         if (params.length != args.length) {
-            throw new InvalidParameterException("Number of arguments Mismatch for macro " + macro.getLocalName()
+            System.err.println("Number of arguments Mismatch for macro " + macro.getLocalName()
             + ": Expected " + params.length + ", got " + args.length + "\n (" + Arrays.toString(params) + " vs " + Arrays.toString(args) + ")");
-            
+            return Stream.empty();
         }
         for (int i = 0; i < params.length; i++) {
             ctx.addVar(params[i], args[i], macro.getURI());
@@ -360,17 +364,19 @@ public class Compiler {
         // String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         // String[] content = parseArguments(args, null);
         String[] content = directive.getArgs();
-        for (String arg : content) {
-            if (arg.contains("-")) {
-                String[] range = arg.split("-");
-                int start = Integer.parseInt(range[0]);
-                int end = Integer.parseInt(range[1]);
-                for (int i = start; i <= end; i++) {
-                    Directive.removeById(i, directiveInd.getURI());
+        for (String args : content) {
+            for (String arg : args.split("\\s*,\\s*")) {
+                if (arg.contains("-")) {
+                    String[] range = arg.split("-");
+                    int start = Integer.parseInt(range[0]);
+                    int end = Integer.parseInt(range[1]);
+                    for (int i = start; i <= end; i++) {
+                        Directive.removeById(i, directiveInd.getURI());
+                    }
+                } else {
+                    int id = Integer.parseInt(arg);
+                    Directive.removeById(id, directiveInd.getURI());
                 }
-            } else {
-                int id = Integer.parseInt(arg);
-                Directive.removeById(id, directiveInd.getURI());
             }
         }
         return Stream.of(directive);
@@ -548,6 +554,7 @@ public class Compiler {
             d.toEntityIndividual(ontEntity);
         });
         saveOntology("entities.ttl", ontEntity, "TTL");
+        saveOntology("full_entities.ttl", ontEntity, "TTL", true);
 
         // printStreamDump(ctx, global_order);
         writeStreamToFile("global_order.ser", orderList.stream());
