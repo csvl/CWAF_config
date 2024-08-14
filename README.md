@@ -25,12 +25,18 @@ Configuring and maintaining a WAF, especially in large-scale environments, prese
 1. Clone the repository:
    ```bash
    git clone https://github.com/csvl/CWAF_config.git
-   cd CWAF_config/Jena-project/cwaf-ontology
+   cd CWAF_config/cwaf-ontology
    ```
 
 2. Build the project using Maven:
    ```bash
-   mvn clean install
+   mvn clean package
+   ```
+3. Run the different classes:
+   ```bash
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Parser conf/httpd.conf
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Compiler 
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Filter > output
    ```
 
 ## License
