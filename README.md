@@ -48,9 +48,9 @@ Run the different classes:
    Will produce `entities.ttl` and `full_entities.ttl`. The `full_entities.ttl` is designed to be explored manually, while `entities.ttl` can be imported into the `full_schema.ttl` for a complete overview of the configuration.
  
    ```bash
-   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Filter > output
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Filter <host> <location> [-p <specific port>] > output.txt
    ```
-   Will output the directives information in the same order Apache would applie them.
+   Will output the directives information in the same order Apache would applie them. Those directives are filtered based on the host, location, and optionally the port. If you don't want to filter the directives, you can pass the `-a` or `--all` option.
 
 
 ## License
