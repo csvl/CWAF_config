@@ -15,13 +15,13 @@ Configuring and maintaining a WAF, especially in large-scale environments, prese
 
 ## Getting Started
 
-### Prerequisites
-
-- **Java 8+**: WAF-GUARD is built using Java, so ensure you have Java 8 or higher installed.
-- **Protege**: For ontology editing and visualization, you will need to install [Protege](https://protege.stanford.edu/).
-
 ### Installation
+#### Prerequisites
 
+- **Java 17+**: WAF-GUARD is built using Java, and has been tested with Java 17.
+- **Maven**: is used to build the java project. It has been tested with [maven](https://maven.apache.org/) 3.9.6
+
+#### Build from source
 1. Clone the repository:
    ```bash
    git clone https://github.com/csvl/CWAF_config.git
@@ -32,12 +32,26 @@ Configuring and maintaining a WAF, especially in large-scale environments, prese
    ```bash
    mvn clean package
    ```
-3. Run the different classes:
+### Usage
+
+For ontology editing and visualization, we strongly advice to use [Protege](https://protege.stanford.edu/).
+
+Run the different classes:
    ```bash
    java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Parser conf/httpd.conf
+   ```
+   Will produce `config.ttl` and `full_schema.ttl`. The `full_schema.ttl` is designed to be explored manually, while `config.ttl` is provided for the compiler.
+
+   ```bash
    java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Compiler 
+   ```
+   Will produce `entities.ttl` and `full_entities.ttl`. The `full_entities.ttl` is designed to be explored manually, while `entities.ttl` can be imported into the `full_schema.ttl` for a complete overview of the configuration.
+ 
+   ```bash
    java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Filter > output
    ```
+   Will output the directives information in the same order Apache would applie them.
+
 
 ## License
 
