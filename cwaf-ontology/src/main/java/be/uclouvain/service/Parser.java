@@ -1,4 +1,5 @@
 package be.uclouvain.service;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -358,7 +359,17 @@ public class Parser {
 
     //ChatGPT - Code Snippet
     public static List<Path> expandPath(String pattern) throws IOException {
-        Path basePath = Paths.get(pattern).getParent();
+
+        // Extract the directory portion from the pattern
+        int lastSeparatorIndex = pattern.lastIndexOf(File.separator);
+        
+        // Determine the base path based on the last occurrence of the separator
+        Path basePath;
+        if (lastSeparatorIndex != -1) {
+            basePath = Paths.get(pattern.substring(0, lastSeparatorIndex));
+        } else {
+            basePath = Paths.get(".");
+        }
         String globPattern = "glob:" + pattern;
         
         if (basePath == null) {
