@@ -5,6 +5,7 @@ import static be.uclouvain.utils.OntUtils.getURIForName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -168,6 +169,13 @@ public class Directive implements Comparable<Directive>, Serializable {
 
     @Override
     public String toString() {
+        String[] formatted = Arrays.stream(args).map( arg -> {
+            if (arg.contains(" ")) {
+                arg = "\"" + arg + "\"";
+            }
+            return arg;
+        }).toArray(String[]::new);
+        String argsString = String.join(" ", formatted);
         String EC = existance_condition.getCondition();
         return (disabledBy == null ? "" : "X ") + "{" +
                 "phase=" + phase +
@@ -177,8 +185,8 @@ public class Directive implements Comparable<Directive>, Serializable {
                 ", lineNum=" + lineNum +
                 ", id=" + id +
                 ", tags=" + tags +
-                (EC == "true" ? "" : ", EC=" + existance_condition.getCondition()) +
-                "}\t" + name + "\t(" + String.join(" ", args) + ")" + (disabledBy == null ? "" : " disabled by " + disabledBy);
+                (EC == "true" ? "" : ", EC=" + EC) +
+                "}\t\t" + name + "\t\t(" + argsString + ")" + (disabledBy == null ? "" : " disabled by " + disabledBy);
     }
 
     public void setPhase(int newPhase) {
