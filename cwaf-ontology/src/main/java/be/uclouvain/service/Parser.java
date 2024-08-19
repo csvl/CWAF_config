@@ -14,6 +14,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.*;
 
+import be.uclouvain.model.MultiLineResult;
 import be.uclouvain.service.context.DirectiveContext;
 import be.uclouvain.utils.OntUtils;
 
@@ -63,6 +64,12 @@ public class Parser {
         for (int line_num = 1; line_num < lines.size()+1; line_num++){
             String line = lines.get(line_num-1);
 
+            if (multiLinePattern.matcher(line).find()) {
+                MultiLineResult multiLineResult = handle_multiline(line, lines, line_num);
+                line = multiLineResult.getMultiline();
+                line_num += multiLineResult.getLinesRead()-1;
+            }
+
             if (commentPattern.matcher(line).find()) {
                 continue;
             }
@@ -78,6 +85,16 @@ public class Parser {
         }
 
         return file;
+    }
+
+    private static MultiLineResult handle_multiline(String line, List<String> lines, int line_num) {
+        String multiline = line;
+        int i = line_num;
+        while (multiline.strip().endsWith("\\")) {
+            multiline += lines.get(i++);
+        }
+        multiline = multiline.replaceAll("(?=\s*)\\\\(?=\s*)", " ");
+        return new MultiLineResult(multiline, i-line_num+1);
     }
 
     public static void parseBeacon(OntModel model, DirectiveContext context, String line, int line_num, Individual file) {

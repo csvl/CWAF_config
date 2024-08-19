@@ -7,6 +7,7 @@ public class Constants {
     public static final int DEFAULT_PHASE = 2; //Default phase from ModSecurity
 
     public class Parser {
+        public static Pattern multiLinePattern = Pattern.compile("^(.*)\\\\\\s*$");
         public static Pattern beaconPattern = Pattern.compile("^[ \\t]*<(.*?)>");
         public static Pattern commentPattern = Pattern.compile("^[ \\t]*#");
 
