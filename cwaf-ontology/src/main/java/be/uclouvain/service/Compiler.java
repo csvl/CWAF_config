@@ -292,7 +292,7 @@ public class Compiler {
         } else {
             System.err.println("Invalid number of arguments for Define: " + content.length);
         }
-        return Stream.empty();
+        return Stream.of(directive);
     }
 
     private static Stream<Directive> compileDefineStr(CompileContext ctx, Individual directiveInd){
