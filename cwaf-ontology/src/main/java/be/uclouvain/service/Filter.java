@@ -43,8 +43,11 @@ public class Filter {
         });
     }
 
-    private static void run(String location, String host, int port, boolean all) {
+    private static void run(String location, String host, int port, boolean all, boolean SecRuleOnly) {
         Stream<Directive> order = readStreamFromFile("global_order.ser");
+        if (SecRuleOnly) {
+            order = order.filter(d -> d.getType().equals("SecRule") || d.getType().equals("SecAction"));
+        }
         if (all) {
             order.forEach(System.out::println);
         } else {
@@ -58,6 +61,7 @@ public class Filter {
             Options options = new Options();
             options.addOption("h", "help", false, "print this message");
             options.addOption("a", "all", false, "print all directives, ignore location and host if present");
+            options.addOption("s", "SecRuleOnly", false, "print only SecRule and SecAction directives");
             options.addOption("p", "port", true, "port");
 
             CommandLineParser parser = new DefaultParser();
@@ -79,7 +83,7 @@ public class Filter {
                 if (cmd.hasOption("h")) {
                     formatter.printHelp("Filter <host> <location>", options);
                 } else if (cmd.hasOption("a")) {
-                    run("", "", 80, true);
+                    run("", "", 80, true, cmd.hasOption("s"));
                 } else {
                     // Handle the positional argument
                     String[] remainingArgs = cmd.getArgs();
@@ -91,7 +95,7 @@ public class Filter {
 
                     String host = remainingArgs[0];
                     String location = remainingArgs[1];
-                    run(location, host, port, false);
+                    run(location, host, port, false, cmd.hasOption("s"));
                 }
 
             } catch (ParseException e) {

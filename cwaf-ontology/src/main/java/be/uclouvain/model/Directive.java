@@ -43,6 +43,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     private String name;
     private Stack<String> trace;
     private String disabledBy;
+    private String type;
 
     public Directive(CompileContext ctx, Individual resource) {
 
@@ -52,6 +53,10 @@ public class Directive implements Comparable<Directive>, Serializable {
 
         this.location = ctx.getCurrentLocation();
         this.virtualHost = ctx.getCurrentVirtualHost();
+
+        if (resource.hasProperty(OntCWAF.DIR_TYPE)) {
+            this.type = resource.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString();
+        }
 
         if (resource.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
             if (resource.hasProperty(OntCWAF.RULE_ID)) {
@@ -141,6 +146,10 @@ public class Directive implements Comparable<Directive>, Serializable {
 
     public Individual getIndividual() {
         return resource;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
