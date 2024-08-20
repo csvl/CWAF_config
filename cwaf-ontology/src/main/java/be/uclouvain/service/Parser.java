@@ -42,7 +42,6 @@ public class Parser {
     }
 
     private static Individual parseConfigFile(String filePath, OntModel model, Bag file_bag) throws IOException{
-        //TODO handle "\" for multiline directives
 
         //Check if file is already in the bag
         for (Iterator<RDFNode> i = file_bag.iterator(); i.hasNext();) {

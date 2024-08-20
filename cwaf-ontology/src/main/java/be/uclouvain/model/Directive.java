@@ -44,6 +44,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     private Stack<String> trace;
     private String disabledBy;
     private String type;
+    private String fileURI;
 
     public Directive(CompileContext ctx, Individual resource) {
 
@@ -57,6 +58,13 @@ public class Directive implements Comparable<Directive>, Serializable {
         if (resource.hasProperty(OntCWAF.DIR_TYPE)) {
             this.type = resource.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString();
         }
+
+        // Retrieve the directive's file
+        ctx.getInfModel().listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, resource).forEachRemaining( stmt -> {
+            if (stmt.getSubject().hasProperty(OntCWAF.FILE_PATH)) {
+                this.fileURI = stmt.getSubject().getURI();
+            }
+        });
 
         if (resource.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
             if (resource.hasProperty(OntCWAF.RULE_ID)) {
@@ -191,9 +199,9 @@ public class Directive implements Comparable<Directive>, Serializable {
                 ", ifLevel=" + ifLevel +
                 ", location='" + (location == null ? "global" : location) + '\'' +
                 ", virtualHost='" + (virtualHost== null ? "" : virtualHost) + '\'' +
-                ", lineNum=" + lineNum +
                 ", id=" + id +
                 ", tags=" + tags +
+                ", in " + fileURI + ":" + lineNum +
                 (EC == "true" ? "" : ", EC=" + EC) +
                 "}\t\t" + name + "\t\t(" + argsString + ")" + (disabledBy == null ? "" : " disabled by " + disabledBy);
     }
@@ -259,6 +267,7 @@ public class Directive implements Comparable<Directive>, Serializable {
         ind.addLiteral(OntCWAF.ARGUMENTS, String.join(" ", args));
         ind.addProperty(OntCWAF.INSTANCE_OF, resource);
         ind.addLiteral(OntCWAF.STACK_TRACE, trace.toString());
+        ind.addProperty(OntCWAF.CONTAINED_IN, fileURI);
         return ind; 
     }
 }
