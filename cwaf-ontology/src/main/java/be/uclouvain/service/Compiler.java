@@ -100,11 +100,11 @@ public class Compiler {
     }
 
     public static Stream<Directive> compileContainer(CompileContext ctx, Individual container) {
-        ctx.push(container);
+        ctx.stackTracePush(container);
         Stream<Directive> directives = getOrderedDirectives(ctx, container);
         CompileContext ctx_copy = new CompileContext(ctx);
         Stream<Directive> res = directives.flatMap( dir -> compileDirective(ctx_copy, dir));
-        ctx.pop();
+        ctx.stackTracePop();
         return res;
     }
 
@@ -124,7 +124,10 @@ public class Compiler {
 
     private static Stream<Directive> expandInclude(CompileContext ctx, Directive include) {
         Individual file = include.getIndividual().getProperty(OntCWAF.INCLUDE_FILE).getObject().as(Individual.class);
-        return compileFile(ctx, file);//, include.getScope()
+        ctx.callTracePush(include, file);
+        Stream<Directive> res = compileFile(ctx, file);
+        ctx.callTracePop();
+        return res;//, include.getScope()
     }
 
     private static Stream<Directive> expandUse(CompileContext ctx, Directive use) {
@@ -145,7 +148,11 @@ public class Compiler {
         // }
         String[] args = use.getArgs();
         // System.err.println("Using macro: " + macro.getLocalName() + " with args " + Arrays.toString(args));
-        return compileMacroContent(ctx, macro, args); //, use.getScope()
+
+        ctx.callTracePush(use, macro);
+        Stream<Directive> res = compileMacroContent(ctx, macro, args);
+        ctx.callTracePop();
+        return res; //, use.getScope()
     }
 
     private static Stream<Directive> compileMacroContent(CompileContext ctx, Individual macro, String[] args) { //, String[] use_scope

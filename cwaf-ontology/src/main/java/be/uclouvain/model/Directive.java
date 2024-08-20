@@ -45,6 +45,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     private String disabledBy;
     private String type;
     private String fileURI;
+    private String entityURI;
 
     public Directive(CompileContext ctx, Individual resource) {
 
@@ -94,10 +95,11 @@ public class Directive implements Comparable<Directive>, Serializable {
             }
         });
 
-        this.trace = ctx.getTraceURIs();
+        this.trace = ctx.getCallTrace();
 
         this.resource = resource;
         this.resourceURI = resource.getURI();
+        this.entityURI = getURIForName(name);
     }
 
     public static void removeById(int id, String disabledBy) {
@@ -118,6 +120,10 @@ public class Directive implements Comparable<Directive>, Serializable {
                 });
             }
         });
+    }
+
+    public String getEntityURI() {
+        return entityURI;
     }
 
     public boolean isBeacon() {
@@ -158,6 +164,10 @@ public class Directive implements Comparable<Directive>, Serializable {
 
     public String getType() {
         return type;
+    }
+
+    public String getFileURI() {
+        return fileURI;
     }
 
     @Override
@@ -249,7 +259,7 @@ public class Directive implements Comparable<Directive>, Serializable {
     }
 
     public Individual toEntityIndividual(OntModel model) {
-        Individual ind = model.createIndividual(getURIForName(name), resource.getOntClass());
+        Individual ind = model.createIndividual(entityURI, resource.getOntClass());
         ind.addLiteral(OntCWAF.DIR_LINE_NUM, lineNum);
         ind.addLiteral(OntCWAF.PHASE, phase);
         if (id != null) {

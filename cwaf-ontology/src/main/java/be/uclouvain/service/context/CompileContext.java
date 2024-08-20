@@ -9,6 +9,7 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
 
 import be.uclouvain.model.Condition;
+import be.uclouvain.model.Directive;
 import be.uclouvain.model.LocalVar;
 import be.uclouvain.model.Scope;
 
@@ -18,6 +19,7 @@ public class CompileContext{
     private OntModel schema;
     private OntModel infModel;
     private Stack<Individual> trace = new Stack<>();
+    private Stack<CallTraceElem> callTrace = new Stack<>();
     private List<LocalVar> localVars = new ArrayList<>();
     private Stack<Condition> existance_conditions = new Stack<>();
     private Scope scope = new Scope();
@@ -45,6 +47,7 @@ public class CompileContext{
         definedMacros.addAll(other.definedMacros);
 
         trace.addAll(other.trace);
+        callTrace.addAll(other.callTrace);
         localVars.addAll(other.localVars);
         existance_conditions.addAll(other.existance_conditions);
     }
@@ -72,12 +75,25 @@ public class CompileContext{
         this.infModel.add(schema);
     }
 
-    public void push(Individual directive) {
+    public void stackTracePush(Individual directive) {
         trace.push(directive);
     }
 
-    public Individual pop() {
+    public Individual stackTracePop() {
         return trace.pop();
+    }
+
+    public void callTracePush(Directive directive, Individual called) {
+        CallTraceElem elem = new CallTraceElem(directive, called);
+        callTrace.push(elem);
+    }
+
+    public void callTracePush(CallTraceElem elem) {
+        callTrace.push(elem);
+    }
+
+    public CallTraceElem callTracePop() {
+        return callTrace.pop();
     }
 
     public void addVar(String name, String value){
@@ -172,12 +188,12 @@ public class CompileContext{
         return trace;
     }
 
-    public Stack<String> getTraceURIs() {
-        Stack<String> uris = new Stack<>();
-        for (Individual ind : trace) {
-            uris.push(ind.getURI());
+    public Stack<String> getCallTrace() {
+        Stack<String> trace = new Stack<>();
+        for (CallTraceElem elem : callTrace) {
+            trace.push(elem.toString());
         }
-        return uris;
+        return trace;
     }
 
     public String getCurrentVirtualHost() {
