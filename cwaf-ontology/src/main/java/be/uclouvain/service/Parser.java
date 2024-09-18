@@ -54,7 +54,7 @@ public class Parser {
 
         List<String> lines = Files.readAllLines(Paths.get(filePath));
 
-        Individual file = model.createIndividual(OntCWAF.NS + filePath, OntCWAF.FILE);
+        Individual file = model.createIndividual(OntCWAF.NS + filePath.replace("\\", "/"), OntCWAF.FILE);
         file.addLiteral(OntCWAF.FILE_PATH, filePath);
         file_bag.add(file);
 
