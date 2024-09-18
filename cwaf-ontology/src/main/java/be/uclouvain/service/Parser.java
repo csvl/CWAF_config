@@ -377,7 +377,7 @@ public class Parser {
     public static List<Path> expandPath(String pattern) throws IOException {
 
         // Extract the directory portion from the pattern
-        int lastSeparatorIndex = pattern.lastIndexOf(File.separator);
+        int lastSeparatorIndex = pattern.lastIndexOf("/");
         
         // Determine the base path based on the last occurrence of the separator
         Path basePath;
