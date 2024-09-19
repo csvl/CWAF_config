@@ -41,7 +41,9 @@ public class Parser {
         return confModel;
     }
 
-    private static Individual parseConfigFile(String filePath, OntModel model, Bag file_bag) throws IOException{
+    private static Individual parseConfigFile(String rawFilePath, OntModel model, Bag file_bag) throws IOException{
+
+        String filePath = rawFilePath.replaceAll("^[\"\']|[\"\']$", "");
 
         //Check if file is already in the bag
         for (Iterator<RDFNode> i = file_bag.iterator(); i.hasNext();) {
