@@ -32,7 +32,7 @@ public class Parser {
         Individual config = confModel.createIndividual(OntCWAF.NS + "config", OntCWAF.CONFIGURATION);
         config.addProperty(OntCWAF.CONFIG_NAME, "first conf");
         
-        Bag file_bag = confModel.createBag(OntCWAF.NS + Constants.FILE_BAG_NAME);
+        Seq file_bag = confModel.createSeq(OntCWAF.NS + Constants.FILE_BAG_NAME);
         config.addProperty(OntCWAF.CONTAINS_FILE, file_bag);
 
         parseConfigFile(filePath, confModel, file_bag);
@@ -41,7 +41,7 @@ public class Parser {
         return confModel;
     }
 
-    private static Individual parseConfigFile(String rawFilePath, OntModel model, Bag file_bag) throws IOException{
+    private static Individual parseConfigFile(String rawFilePath, OntModel model, Seq file_bag) throws IOException{
 
         String filePath = rawFilePath.replaceAll("^[\"\']|[\"\']$", "");
 
@@ -265,7 +265,7 @@ public class Parser {
                 List<Path> expanded = expandPath(includedFile);
                 expanded.forEach(path -> {
                     try {
-                        Individual parsedFile = parseConfigFile(path.toString(), model, model.getBag(OntCWAF.NS + Constants.FILE_BAG_NAME));
+                        Individual parsedFile = parseConfigFile(path.toString(), model, model.getSeq(OntCWAF.NS + Constants.FILE_BAG_NAME));
                         Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                         attachDirectiveToOnt(model, context, include, file);
                     } catch (NoSuchFileException e) {
@@ -275,7 +275,7 @@ public class Parser {
                     }
                 });
             } else {
-                Individual parsedFile = parseConfigFile(includedFile, model, model.getBag(OntCWAF.NS + Constants.FILE_BAG_NAME));
+                Individual parsedFile = parseConfigFile(includedFile, model, model.getSeq(OntCWAF.NS + Constants.FILE_BAG_NAME));
                 Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                 attachDirectiveToOnt(model, context, include, file);
             }

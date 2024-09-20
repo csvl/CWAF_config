@@ -22,6 +22,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import be.uclouvain.service.Constants;
 import be.uclouvain.service.context.CompileContext;
 import be.uclouvain.vocabulary.OntCWAF;
+import org.apache.jena.vocabulary.RDF;
 
 
 public class Directive implements Comparable<Directive>, Serializable {
@@ -67,7 +68,13 @@ public class Directive implements Comparable<Directive>, Serializable {
             }
         });
 
-        if (resource.hasOntClass(OntCWAF.MOD_SEC_RULE)) {
+        boolean isSecRule = resource.hasOntClass(OntCWAF.MOD_SEC_RULE);
+//        boolean isSecRule = resource.hasOntClass(OntCWAF.MOD_SEC_RULE, true);
+//        boolean isSecRule = ctx.getModel().listStatements(resource, RDF.type, OntCWAF.MOD_SEC_RULE).hasNext();
+//        boolean isSecRule = resource.hasProperty(RDF.type, OntCWAF.MOD_SEC_RULE);
+//        boolean isSecRule = resource.getRDFType() == OntCWAF.MOD_SEC_RULE;
+//
+        if (isSecRule) {
             if (resource.hasProperty(OntCWAF.RULE_ID)) {
                 setId(resource.getPropertyValue(OntCWAF.RULE_ID).asLiteral().getInt());
             }
@@ -78,11 +85,10 @@ public class Directive implements Comparable<Directive>, Serializable {
             }
             if (resource.hasProperty(OntCWAF.PHASE)) {
                 this.phase = resource.getPropertyValue(OntCWAF.PHASE).asLiteral().getInt();
-            // } else {
-            //     System.err.println("Cannot retrieve phase level for directive " + resource.getLocalName());
             }
         }
 
+        
         RDFNode argNode = resource.getPropertyValue(OntCWAF.ARGUMENTS);
         String argsString = argNode != null ? argNode.asLiteral().getString() : "";
         this.args = parseArguments(argsString, null);

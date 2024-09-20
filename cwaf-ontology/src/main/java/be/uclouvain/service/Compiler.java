@@ -12,6 +12,7 @@ import static be.uclouvain.service.Constants.Parser.*;
 import static be.uclouvain.utils.DirectiveFactory.parseArguments;
 import static be.uclouvain.utils.OntUtils.*;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -28,27 +29,13 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 
 public class Compiler {
-
-    public static void printStreamDump(CompileContext ctx, Stream<Directive> dump) {
-        OntModel ontFS = ctx.getInfModel();
-        dump.forEach( dir -> {
-            System.out.print(dir);
-            StmtIterator stmts = ontFS.listStatements(dir.getIndividual(), OntCWAF.CONTAINED_IN, (RDFNode)null);
-            stmts.forEach( stmt -> {
-                if (stmt.getSubject().as(Individual.class).hasProperty(OntCWAF.FILE_PATH)) {
-                    System.out.print(" in " + stmt.getSubject().as(Individual.class).getPropertyValue(OntCWAF.FILE_PATH).asLiteral().getString() + ":" + dir.getLineNum());
-                }
-            });
-            System.out.println(".");
-        });
-    }
     
-    public static Stream<Directive> compileConfig(CompileContext ctx, OntModel ontExec) {
+    public static List<Directive> compileConfig(CompileContext ctx, OntModel ontExec) {
         defineStrPass(ctx);
         Individual config = ctx.getModel().getIndividual(OntCWAF.NS + "config");
-        Bag file_bag = config.getProperty(OntCWAF.CONTAINS_FILE).getObject().as(Bag.class);
-        Individual first_file = file_bag.iterator().next().as(Individual.class);
-        Stream<Directive> global_order = compileFile(ctx, first_file).sorted();
+        Seq file_bag = config.getProperty(OntCWAF.CONTAINS_FILE).getObject().as(Seq.class);
+        Individual first_file = file_bag.getResource(1).as(Individual.class);
+        List<Directive> global_order = compileFile(ctx, first_file).stream().sorted().toList();
         return global_order;
     }
 
@@ -89,51 +76,45 @@ public class Compiler {
         }
     }
 
-    private static Stream<Directive> getOrderedDirectives(CompileContext ctx, Individual container) {
+    private static List<Directive> getOrderedDirectives(CompileContext ctx, Individual container) {
         OntModel m = ctx.getModel();
         List<Directive> directives = new ArrayList<>();
-        m.listStatements(container, OntCWAF.CONTAINS_DIRECTIVE, (RDFNode) null).forEach(stmt -> {
+        StmtIterator tmp = m.listStatements(container, OntCWAF.CONTAINS_DIRECTIVE, (RDFNode) null);
+        tmp.forEach(stmt -> {
             String URI = stmt.getObject().as(Individual.class).getURI();
             directives.add(new Directive(ctx, ctx.getModel().getIndividual(URI)));
         });
-        return directives.stream().sorted((d1, d2) -> Integer.compare(d1.getLineNum(), d2.getLineNum()));
+        return directives.stream().sorted((d1, d2) -> Integer.compare(d1.getLineNum(), d2.getLineNum())).collect(Collectors.toList());
     }
 
-    public static Stream<Directive> compileContainer(CompileContext ctx, Individual container) {
+    public static List<Directive> compileContainer(CompileContext ctx, Individual container) {
         ctx.stackTracePush(container);
-        Stream<Directive> directives = getOrderedDirectives(ctx, container);
-        CompileContext ctx_copy = new CompileContext(ctx);
-        Stream<Directive> res = directives.flatMap( dir -> compileDirective(ctx_copy, dir));
+        List<Directive> directives = getOrderedDirectives(ctx, container);
+        List<Directive> res = new ArrayList<>();
+        for (Directive directive : directives) {
+            res.addAll(compileDirective(ctx, directive));
+        }
         ctx.stackTracePop();
         return res;
     }
 
-    public static Stream<Directive> compileFile(CompileContext ctx, Individual file) {
+    public static List<Directive> compileFile(CompileContext ctx, Individual file) {
         return compileContainer(ctx, file);
     }
 
-    public static Stream<Directive> compileFile(CompileContext ctx, Individual file, String[] scope) {
-        if (scope != null) {
-            return compileContainer(ctx, file).map(d -> {
-                System.err.println("Scope set to " + Arrays.toString(scope) + " for directive " + d.getIndividual().getLocalName());
-                return d;
-            });
-        }
-        return compileContainer(ctx, file);
-    }
 
-    private static Stream<Directive> expandInclude(CompileContext ctx, Directive include) {
+    private static List<Directive> expandInclude(CompileContext ctx, Directive include) {
         Individual file = include.getIndividual().getProperty(OntCWAF.INCLUDE_FILE).getObject().as(Individual.class);
         ctx.callTracePush(include, file);
-        Stream<Directive> res = compileFile(ctx, file);
+        List<Directive> res = compileFile(ctx, file);
         ctx.callTracePop();
         return res;//, include.getScope()
     }
 
-    private static Stream<Directive> expandUse(CompileContext ctx, Directive use) {
+    private static List<Directive> expandUse(CompileContext ctx, Directive use) {
         if (!use.getIndividual().hasProperty(OntCWAF.USE_MACRO)) {
             System.err.println("Macro not found in Use directive: " + use.getIndividual().getLocalName());
-            return Stream.empty();
+            return new ArrayList<>();
         }
         Individual macro = use.getIndividual().getProperty(OntCWAF.USE_MACRO).getObject().as(Individual.class);
         // if (!ctx.isMacroDefined(macroURI)) {
@@ -150,40 +131,41 @@ public class Compiler {
         // System.err.println("Using macro: " + macro.getLocalName() + " with args " + Arrays.toString(args));
 
         ctx.callTracePush(use, macro);
-        Stream<Directive> res = compileMacroContent(ctx, macro, args);
+        List<Directive> res = compileMacroContent(ctx, macro, args);
         ctx.callTracePop();
         return res; //, use.getScope()
     }
 
-    private static Stream<Directive> compileMacroContent(CompileContext ctx, Individual macro, String[] args) { //, String[] use_scope
+    private static List<Directive> compileMacroContent(CompileContext ctx, Individual macro, String[] args) { //, String[] use_scope
         String paramsStr = macro.getPropertyValue(OntCWAF.MACRO_PARAMS).asLiteral().getString();
         String[] params = parseArguments(paramsStr, null);
         if (params.length != args.length) {
             System.err.println("Number of arguments Mismatch for macro " + macro.getLocalName()
             + ": Expected " + params.length + ", got " + args.length + "\n (" + Arrays.toString(params) + " vs " + Arrays.toString(args) + ")");
-            return Stream.empty();
+            return new ArrayList<>();
         }
         for (int i = 0; i < params.length; i++) {
             ctx.addVar(params[i], args[i], macro.getURI());
         }
-        Stream<Directive> res = compileContainer(ctx, macro);
+        List<Directive> res = compileContainer(ctx, macro);
         ctx.removeTaggedVar(macro.getURI());
         return res;
     }
 
-    private static Stream<Directive> compileIf(CompileContext ctx, Individual ifInd) {
+    private static List<Directive> compileIf(CompileContext ctx, Individual ifInd) {
         String conditionStr = ifInd.getPropertyValue(OntCWAF.CONDITION).asLiteral().getString();
         Condition condition = new Condition(conditionStr);
         ctx.addEC(condition);
-        Stream<Directive> res = compileContainer(ctx, ifInd);
+        List<Directive> res = compileContainer(ctx, ifInd);
         ctx.popEC();
         if (ifInd.hasProperty(OntCWAF.IF_CHAIN)) {
             Individual ifBlock = ifInd.getProperty(OntCWAF.IF_CHAIN).getObject().as(Individual.class);
             ctx.addEC(condition.not());
             if (ifBlock.hasProperty(OntCWAF.CONDITION)) { 
-                res = Stream.concat(res, compileIf(ctx, ifBlock));
+                res = Stream.concat(res.stream(), compileIf(ctx, ifBlock).stream()).collect(Collectors.toList());
             } else {
-                res = Stream.concat(res, compileContainer(ctx, ifBlock));
+                res = Stream.concat(res.stream(), compileContainer(ctx, ifBlock).stream()).collect(Collectors.toList());
+                res = Stream.concat(res.stream(), compileContainer(ctx, ifBlock).stream()).collect(Collectors.toList());
             }
             ctx.popEC();
         }
@@ -236,7 +218,7 @@ public class Compiler {
                 }
             }
         } else {
-            System.err.println("Directive " + directiveInd.getLocalName() + " is not a rule or beacon");
+            System.err.println("Directive " + directiveInd.getLocalName() + " is not a rule nor beacon");
         }
     }
 
@@ -267,7 +249,7 @@ public class Compiler {
         }
     }
 
-    private static Stream<Directive> compileScopeRule(CompileContext ctx, Directive directive){
+    private static List<Directive> compileScopeRule(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         if (directiveInd.hasOntClass(OntCWAF.VIRTUAL_HOST)) {
             String vhost = directiveInd.getPropertyValue(OntCWAF.VIRTUAL_HOST_NAME).asLiteral().getString();
@@ -282,15 +264,15 @@ public class Compiler {
         } else {
             System.err.println("Unknown Scope Rule: " + directiveInd.getLocalName());
         }
-        return Stream.empty();
+            return new ArrayList<>();
     }
 
-    private static Stream<Directive> compileDefine(CompileContext ctx, Directive directive){
+    private static List<Directive> compileDefine(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(args, null);
         if (content.length != 0 && ctx.getLocalVar("${"+content[0]+"}") != null) { //TODO create "contains var"
-            return Stream.empty();
+            return new ArrayList<>();
         }
         if (content.length == 1) {
             ctx.addVar("${"+content[0]+"}", null);
@@ -299,10 +281,10 @@ public class Compiler {
         } else {
             System.err.println("Invalid number of arguments for Define: " + content.length);
         }
-        return Stream.of(directive);
+        return List.of(directive);
     }
 
-    private static Stream<Directive> compileDefineStr(CompileContext ctx, Individual directiveInd){
+    private static List<Directive> compileDefineStr(CompileContext ctx, Individual directiveInd){
         String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(args, null);
         if (content.length == 2) {
@@ -310,10 +292,10 @@ public class Compiler {
         } else {
             System.err.println("Invalid number of arguments for DefineStr: " + content.length + " in directive " + directiveInd.getLocalName());
         }
-        return Stream.empty();
+        return new ArrayList<>();
     }
 
-    private static Stream<Directive> compileUndefine(CompileContext ctx, Directive directive){
+    private static List<Directive> compileUndefine(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         String args = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(args, null);
@@ -322,10 +304,10 @@ public class Compiler {
         } else {
             System.err.println("Invalid number of arguments for Undefine: " + content.length);
         }
-        return Stream.empty();
+        return new ArrayList<>();
     }
 
-    private static Stream<Directive> compileUndefMacro(CompileContext ctx, Directive directive){
+    private static List<Directive> compileUndefMacro(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         String arg = directiveInd.getPropertyValue(OntCWAF.ARGUMENTS).asLiteral().getString();
         String[] content = parseArguments(arg, null);
@@ -335,10 +317,10 @@ public class Compiler {
         } else {
             System.err.println("Invalid number of arguments for UndefMacro: " + content.length);
         }
-        return Stream.empty();
+        return new ArrayList<>();
     }
 
-    private static Stream<Directive> applyRemoveById(CompileContext ctx, Directive directive){
+    private static List<Directive> applyRemoveById(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         String[] content = directive.getArgs();
         for (String args : content) {
@@ -356,20 +338,20 @@ public class Compiler {
                 }
             }
         }
-        return Stream.of(directive);
+        return List.of(directive);
     }
 
-    private static Stream<Directive> applyRemoveByTag(CompileContext ctx, Directive directive) {
+    private static List<Directive> applyRemoveByTag(CompileContext ctx, Directive directive) {
         String[] args = directive.getArgs();
         if (args.length != 1) {
             System.err.println("Invalid number of arguments for RemoveByTag: " + args);
-            return Stream.of(directive);
+            return List.of(directive);
         }
         Directive.removeByTag(args[0], directive.getIndividual().getURI());
-        return Stream.of(directive);
+        return List.of(directive);
     }
 
-    private static Stream<Directive> compileGenericRule(CompileContext ctx, Directive directive){
+    private static List<Directive> compileGenericRule(CompileContext ctx, Directive directive){
         Individual directiveInd = directive.getIndividual();
         if (directiveInd.hasProperty(OntCWAF.DIR_TYPE)) {
             String ruleType = directiveInd.getPropertyValue(OntCWAF.DIR_TYPE).asLiteral().getString().toLowerCase();
@@ -377,7 +359,7 @@ public class Compiler {
                 case "define":
                     return compileDefine(ctx, directive);
                 case "definestr":
-                    return Stream.empty();
+                    return new ArrayList<>();
                 case "undefmacro":
                     return compileUndefMacro(ctx, directive);
                 case "undefine":
@@ -387,23 +369,23 @@ public class Compiler {
                 case "modsecremovebytag":
                     return applyRemoveByTag(ctx, directive);
                 case "secdefaultaction":
-                    return Stream.of(directive); //TODO
+                    return List.of(directive); //TODO
                 default:
-                    return Stream.of(directive);
+                    return List.of(directive);
             }
         } else {
             System.err.println("Rule Type not found for directive " + directiveInd.getLocalName());
         }
-        return Stream.empty();
+        return new ArrayList<>();
     }
 
-    private static Stream<Directive> compileDefineMacro(CompileContext ctx, Individual directiveInd){
+    private static List<Directive> compileDefineMacro(CompileContext ctx, Individual directiveInd){
         String macroURI = directiveInd.getURI();
         ctx.defineMacro(macroURI);
-        return Stream.empty();
+        return new ArrayList<>();
     }
 
-    private static Stream<Directive> compileGenericIf(CompileContext ctx, Directive directive){
+    private static List<Directive> compileGenericIf(CompileContext ctx, Directive directive){
         Individual ifInd = directive.getIndividual();
         if (ifInd.hasProperty(OntCWAF.IF_TYPE)) {
             String dirType = ifInd.getPropertyValue(OntCWAF.IF_TYPE).asLiteral().getString().toLowerCase();
@@ -420,7 +402,7 @@ public class Compiler {
                         }
                     } else {
                         System.err.println("Invalid number of arguments for IfDefine: " + content.length);
-                        return Stream.empty();
+                        return new ArrayList<>();
                     }
                         break;
                 case "module":
@@ -432,7 +414,7 @@ public class Compiler {
                         }
                     } else {
                         System.err.println("Invalid number of arguments for IfModule: " + content.length);
-                        return Stream.empty();
+                        return new ArrayList<>();
                     }
                     break;
                 default:
@@ -442,7 +424,7 @@ public class Compiler {
                 return compileContainer(ctx, ifInd);
             }
             ctx.addEC(condition);
-            Stream<Directive> res = compileContainer(ctx, ifInd);
+            List<Directive> res = compileContainer(ctx, ifInd);
             ctx.popEC();
             return res;
         } else {
@@ -451,7 +433,7 @@ public class Compiler {
         return compileContainer(ctx, ifInd);
     }
 
-    private static Stream<Directive> compileDirective(CompileContext ctx, Directive directive) {
+    private static List<Directive> compileDirective(CompileContext ctx, Directive directive) {
         Individual directiveInd = directive.getIndividual();
         directive.updateContext(ctx);
         expandVars(ctx, directive);
@@ -476,7 +458,7 @@ public class Compiler {
         } else if (directiveInd.hasProperty(OntCWAF.DIR_TYPE)) {
             return compileGenericRule(ctx, directive);
         } else {
-            return Stream.of(directive);
+            return List.of(directive);
         }
     }
 
@@ -491,17 +473,16 @@ public class Compiler {
 
         OntModel ontExec = ModelFactory.createOntologyModel();
 
-        Stream<Directive> global_order = compileConfig(ctx, ontExec);
+        List<Directive> global_order = compileConfig(ctx, ontExec);
 
         OntModel ontEntity = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        List<Directive> orderList = global_order.collect(Collectors.toList());
-        orderList.forEach(d -> {
+        global_order.forEach(d -> {
             d.toEntityIndividual(ontEntity);
         });
         saveOntology("entities.ttl", ontEntity, "TTL");
         saveOntology("full_entities.ttl", ontEntity, "TTL", true);
 
         // printStreamDump(ctx, global_order);
-        writeStreamToFile("global_order.ser", orderList.stream());
+        writeStreamToFile("global_order.ser", global_order.stream());
     }
 }

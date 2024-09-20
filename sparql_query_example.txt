@@ -8,7 +8,7 @@ PREFIX vs:   <http://www.w3.org/2003/06/sw-vocab-status/ns#>
 PREFIX wot:  <http://xmlns.com/wot/0.1/>
 PREFIX xml:  <http://www.w3.org/XML/1998/namespace>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
-SELECT ?s
+SELECT ?t
 WHERE {
-    ?s rdf:type cwaf:Macro .
+    cwaf:Include_bf4b71bd-d6cd-3ea8-bb96-72e80901a62a rdf:type ?t .
 }
