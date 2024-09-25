@@ -63,7 +63,7 @@ To run SPARQL queries onto an ontology, you can use the [Querier class](https://
 To be used in a scripts, the query can also be passed as a string trough the `-q` argument.
 
    ```bash
-   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Querier full_schema.ttl -q "SELECT ?x WHERE {?x  <http://visualdataweb.org/ontCWAF/includedIn>  <http://visualdataweb.org/ontCWAF/a/file/path>}"
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Querier full_schema.ttl -q "SELECT ?x WHERE {<http://visualdataweb.org/ontCWAF/path/to/file> <http://visualdataweb.org/ontCWAF/containsDirective> ?x }"
    ```
 
 
