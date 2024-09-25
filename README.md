@@ -52,6 +52,20 @@ Run the different classes:
    ```
    Will output the directives information in the same order Apache would applie them. Those directives are filtered based on the host, location, and optionally the port. If you don't want to filter the directives, you can pass the `-a` or `--all` option.
 
+#### Queries
+
+To run SPARQL queries onto an ontology, you can use the [Querier class](https://github.com/csvl/CWAF_config/blob/develop/cwaf-ontology/src/main/java/be/uclouvain/service/Querier.java) by giving it the path to the Ontology model (in *.owl* or *.ttl*) and the query (a text file) as arguments.
+
+   ```bash
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Querier full_schema.ttl sparql_query_example.txt
+   ```
+
+To be used in a scripts, the query can also be passed as a string trough the `-q` argument.
+
+   ```bash
+   java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Querier full_schema.ttl -q "SELECT ?x WHERE {?x  <http://visualdataweb.org/ontCWAF/includedIn>  <http://visualdataweb.org/ontCWAF/a/file/path>}"
+   ```
+
 
 ## License
 
