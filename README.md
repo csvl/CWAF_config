@@ -65,6 +65,8 @@ To be used in a scripts, the query can also be passed as a string trough the `-q
    ```bash
    java -cp cwaf-ontology/target/cwaf-ontology-1.0-SNAPSHOT.jar be.uclouvain.service.Querier full_schema.ttl -q "SELECT ?x WHERE {<http://visualdataweb.org/ontCWAF/path/to/file> <http://visualdataweb.org/ontCWAF/containsDirective> ?x }"
    ```
+The classes and relations between them are illustrated below:
+![ontology_graph](ontCWAF_1.0.png)
 
 
 ## License
