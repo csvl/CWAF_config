@@ -1,6 +1,7 @@
 package be.uclouvain.service;
-import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.regex.Matcher;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import org.apache.commons.cli.*;
 import org.apache.jena.ontology.*;
 import org.apache.jena.rdf.model.*;
 
@@ -25,7 +27,7 @@ import static be.uclouvain.service.Constants.Parser.*;
 
 public class Parser {
 
-    public static OntModel parseConfig(String filePath) throws IOException {
+    public static OntModel parseConfig(String filePath, URL url) throws IOException {
 
         OntModel confModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
         
@@ -35,13 +37,13 @@ public class Parser {
         Seq file_bag = confModel.createSeq(OntCWAF.NS + Constants.FILE_BAG_NAME);
         config.addProperty(OntCWAF.CONTAINS_FILE, file_bag);
 
-        parseConfigFile(filePath, confModel, file_bag);
+        parseConfigFile(filePath, confModel, file_bag, url);
         cleanPlaceHolders(confModel);
 
         return confModel;
     }
 
-    private static Individual parseConfigFile(String rawFilePath, OntModel model, Seq file_bag) throws IOException{
+    private static Individual parseConfigFile(String rawFilePath, OntModel model, Seq file_bag, URL url) throws IOException{
 
         String filePath = rawFilePath.replaceAll("^[\"\']|[\"\']$", "");
 
@@ -60,7 +62,7 @@ public class Parser {
         file.addLiteral(OntCWAF.FILE_PATH, filePath);
         file_bag.add(file);
 
-        DirectiveContext context = new DirectiveContext();
+        DirectiveContext context = new DirectiveContext(url);
 
         for (int line_num = 1; line_num < lines.size()+1; line_num++){
             String line = lines.get(line_num-1);
@@ -116,6 +118,37 @@ public class Parser {
             Individual evh = createEndVirtualHost(model, context, line_num, context.currentVirtualhost);
             context.currentVirtualhost = "";
             attachDirectiveToOnt(model, context, evh, file);
+            return;
+        }
+
+        Matcher locationMatcher = locationPattern.matcher(line);
+        if (locationMatcher.find()) {
+            String location = locationMatcher.group(1);
+            Individual loc = createLocation(model, context, line_num, location);
+            context.currentLocation = loc.getURI();
+            attachDirectiveToOnt(model, context, loc, file);
+            return;
+        }
+
+        Matcher locationEndMatcher = locationEndPattern.matcher(line);
+        Matcher locationMatchEndMatcher = locationMatchEndPattern.matcher(line);
+        if (locationEndMatcher.find() || locationMatchEndMatcher.find()) {
+            Individual eloc = createEndLocation(model, context, line_num, context.currentLocation);
+            context.currentLocation = "";
+            attachDirectiveToOnt(model, context, eloc, file);
+            return;
+        }
+
+        Matcher locationMatchMatcher = locationMatchPattern.matcher(line);
+        if (locationMatchMatcher.find()) {
+            String location = locationMatchMatcher.group(1);
+            Individual loc = createLocation(model, context, line_num, "~ "+location);
+            context.currentLocation = loc.getURI();
+            attachDirectiveToOnt(model, context, loc, file);
+            return;
+        }
+
+        if (!context.isMatchingURL()) {
             return;
         }
 
@@ -202,33 +235,6 @@ public class Parser {
             return;
         }
 
-        Matcher locationMatcher = locationPattern.matcher(line);
-        if (locationMatcher.find()) {
-            String location = locationMatcher.group(1);
-            Individual loc = createLocation(model, context, line_num, location);
-            context.currentLocation = loc.getURI();
-            attachDirectiveToOnt(model, context, loc, file);
-            return;
-        }
-
-        Matcher locationEndMatcher = locationEndPattern.matcher(line);
-        Matcher locationMatchEndMatcher = locationMatchEndPattern.matcher(line);
-        if (locationEndMatcher.find() || locationMatchEndMatcher.find()) {
-            Individual eloc = createEndLocation(model, context, line_num, context.currentLocation);
-            context.currentLocation = "";
-            attachDirectiveToOnt(model, context, eloc, file);
-            return;
-        }
-
-        Matcher locationMatchMatcher = locationMatchPattern.matcher(line);
-        if (locationMatchMatcher.find()) {
-            String location = locationMatchMatcher.group(1);
-            Individual loc = createLocation(model, context, line_num, "~ "+location);
-            context.currentLocation = loc.getURI();
-            attachDirectiveToOnt(model, context, loc, file);
-            return;
-        }
-
         Matcher genericMatcher = genericPattern.matcher(line);
         if (genericMatcher.find()) {
             String name = genericMatcher.group(1);
@@ -258,6 +264,27 @@ public class Parser {
         // else and if cannot be separated by a directive
         context.lastIf = "";
 
+        // Directives influencing the context
+        Matcher servernameMatcher = servernamePattern.matcher(line); //TODO
+        if (servernameMatcher.find()) {
+            String serverName = servernameMatcher.group(1);
+            context.serverName = serverName;
+            return;
+        }
+
+        Matcher listenMatcher = listenPattern.matcher(line);
+        if (listenMatcher.find()) {
+            String listen = listenMatcher.group(1);
+            context.serverPort = listen;
+            return;
+        }
+
+        //checking context
+        if (!context.isMatchingURL()) {
+            return;
+        }
+
+        //Others
         Matcher includeMatcher = includePattern.matcher(line);
         if (includeMatcher.find()) {
             String includedFile = includeMatcher.group(1);
@@ -265,7 +292,7 @@ public class Parser {
                 List<Path> expanded = expandPath(includedFile);
                 expanded.forEach(path -> {
                     try {
-                        Individual parsedFile = parseConfigFile(path.toString(), model, model.getSeq(OntCWAF.NS + Constants.FILE_BAG_NAME));
+                        Individual parsedFile = parseConfigFile(path.toString(), model, model.getSeq(OntCWAF.NS + Constants.FILE_BAG_NAME), context.url);
                         Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                         attachDirectiveToOnt(model, context, include, file);
                     } catch (NoSuchFileException e) {
@@ -275,7 +302,7 @@ public class Parser {
                     }
                 });
             } else {
-                Individual parsedFile = parseConfigFile(includedFile, model, model.getSeq(OntCWAF.NS + Constants.FILE_BAG_NAME));
+                Individual parsedFile = parseConfigFile(includedFile, model, model.getSeq(OntCWAF.NS + Constants.FILE_BAG_NAME), context.url);
                 Individual include = createInclude(model, context, "Include", line_num, parsedFile);
                 attachDirectiveToOnt(model, context, include, file);
             }
@@ -288,20 +315,6 @@ public class Parser {
             String macroArgs = useMatcher.group(2);
             Individual use = createUse(model, context, line_num, macroArgs == null ? "" : macroArgs, OntUtils.getMacroURI(macroName));
             attachDirectiveToOnt(model, context, use, file);
-            return;
-        }
-
-        Matcher servernameMatcher = servernamePattern.matcher(line); //TODO
-        if (servernameMatcher.find()) {
-            String serverName = servernameMatcher.group(1);
-            context.serverName = serverName;
-            return;
-        }
-
-        Matcher listenMatcher = listenPattern.matcher(line);
-        if (listenMatcher.find()) {
-            String listen = listenMatcher.group(1);
-            context.serverPort = listen;
             return;
         }
 
@@ -362,9 +375,25 @@ public class Parser {
 
     }
 
-    public static void main(String[] args) {
+    public static void run(String filePath, String url) {
+        
+        URL urlObj = null;
+        if (url != null) {
+            try {
+                urlObj = new URL(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return;
+            }
+    }
+        // String host = urlObj.getHost();
+        // int port = urlObj.getPort();
+        // String location = urlObj.getPath();
+
+        // port = port == -1 ? (urlObj.getProtocol().equals("https") ? 443 : 80) : port;
+
         try {
-            OntModel model = parseConfig(args[0]);
+            OntModel model = parseConfig(filePath, urlObj);
 
             saveOntology("config.ttl", model, "TTL");
             saveOntology("full_schema.ttl", model, "TTL", true);
@@ -373,6 +402,38 @@ public class Parser {
     }
 
 }
+
+    public static void main(String[] args) {
+
+        Options options = new Options();
+        options.addOption("h", "help", false, "print this message");
+        options.addOption("a", "all", false, "print all directives, ignore location and host if present");
+
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        try {
+            CommandLine cmd = parser.parse(options, args);
+
+            if (cmd.hasOption("h")) {
+                formatter.printHelp("Parser <filePath> <url>", options);
+            } else {
+                // Handle the positional argument
+                String[] remainingArgs = cmd.getArgs();
+
+                String filePath = remainingArgs[0];
+                if (cmd.hasOption("a")) {
+                    run(filePath, null);
+                } else {
+                    run(filePath, remainingArgs[1]);
+                }
+            }
+
+        } catch (ParseException e) {
+            System.err.println("Parsing failed.  Reason: " + e.getMessage());
+            formatter.printHelp("Parser <filePath> <url>", options);
+            System.exit(1);
+        }
+    }
 
 
     //ChatGPT - Code Snippet
