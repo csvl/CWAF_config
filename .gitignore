@@ -1,6 +1,6 @@
 **/.vscode/*
 **/.idea/*
-conf/*
+conf*
 *.ser
 *.ttl
 **/catalog-v001.xml

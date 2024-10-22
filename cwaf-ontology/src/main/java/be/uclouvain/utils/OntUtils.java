@@ -106,9 +106,9 @@ public class OntUtils {
 
 
     public static void saveOntology(String filePath, OntModel model, String format, boolean withSchema) {
-        OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
+        OntModel schema = ModelFactory.createOntologyModel();
         if (withSchema) {
-            schema.read("ontCWAF_1.0.ttl", "TTL");
+            schema.read("ontCWAF_1.1.ttl", "TTL");
             model.add(schema);
         }
         saveOntology(filePath, model, format);
@@ -145,10 +145,11 @@ public class OntUtils {
         }
         else if (context.beaconStack.size() > 0){
            Resource beacon = model.getResource(context.beaconStack.peek()); 
-           beacon.addProperty(OntCWAF.CONTAINS_DIRECTIVE, directive);
+           beacon.addProperty(OntCWAF.DIRECT_CONTAINS_DIRECTIVE, directive);
         } else {
-            file.addProperty(OntCWAF.CONTAINS_DIRECTIVE, directive);
+            file.addProperty(OntCWAF.DIRECT_CONTAINS_DIRECTIVE, directive);
         }
+        file.addProperty(OntCWAF.INDIRECT_CONTAINS_DIRECTIVE, directive);
     }
 
     public static void writeStreamToFile(String filename, Stream<Directive> strm) {

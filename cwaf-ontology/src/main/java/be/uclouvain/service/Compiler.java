@@ -79,7 +79,7 @@ public class Compiler {
     private static List<Directive> getOrderedDirectives(CompileContext ctx, Individual container) {
         OntModel m = ctx.getModel();
         List<Directive> directives = new ArrayList<>();
-        StmtIterator tmp = m.listStatements(container, OntCWAF.CONTAINS_DIRECTIVE, (RDFNode) null);
+        StmtIterator tmp = m.listStatements(container, OntCWAF.DIRECT_CONTAINS_DIRECTIVE, (RDFNode) null);
         tmp.forEach(stmt -> {
             String URI = stmt.getObject().as(Individual.class).getURI();
             directives.add(new Directive(ctx, ctx.getModel().getIndividual(URI)));
@@ -463,11 +463,11 @@ public class Compiler {
     }
 
     public static void main(String[] args) {
-        OntModel ontFS = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
+        OntModel ontFS = ModelFactory.createOntologyModel();
         ontFS.read("config.ttl", "TTL");
 
-        OntModel schema = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        schema.read("ontCWAF_1.0.ttl", "TTL");
+        OntModel schema = ModelFactory.createOntologyModel();
+        schema.read("ontCWAF_1.1.ttl", "TTL");
         
         CompileContext ctx = new CompileContext(ontFS, schema);
 
@@ -475,7 +475,7 @@ public class Compiler {
 
         List<Directive> global_order = compileConfig(ctx, ontExec);
 
-        OntModel ontEntity = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
+        OntModel ontEntity = ModelFactory.createOntologyModel();
         global_order.forEach(d -> {
             d.toEntityIndividual(ontEntity);
         });

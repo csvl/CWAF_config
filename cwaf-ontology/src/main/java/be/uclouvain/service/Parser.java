@@ -27,7 +27,7 @@ public class Parser {
 
     public static OntModel parseConfig(String filePath) throws IOException {
 
-        OntModel confModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
+        OntModel confModel = ModelFactory.createOntologyModel();
         
         Individual config = confModel.createIndividual(OntCWAF.NS + "config", OntCWAF.CONFIGURATION);
         config.addProperty(OntCWAF.CONFIG_NAME, "first conf");

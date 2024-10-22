@@ -62,7 +62,7 @@ public class Directive implements Comparable<Directive>, Serializable {
         }
 
         // Retrieve the directive's file
-        ctx.getInfModel().listStatements(null, OntCWAF.CONTAINS_DIRECTIVE, resource).forEachRemaining( stmt -> {
+        ctx.getModel().listStatements(null, OntCWAF.INDIRECT_CONTAINS_DIRECTIVE, resource).forEachRemaining( stmt -> {
             if (stmt.getSubject().hasProperty(OntCWAF.FILE_PATH)) {
                 this.fileURI = stmt.getSubject().getURI();
             }

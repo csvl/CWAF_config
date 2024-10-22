@@ -17,7 +17,6 @@ public class CompileContext{
 
     private OntModel model;
     private OntModel schema;
-    private OntModel infModel;
     private Stack<Individual> trace = new Stack<>();
     private Stack<CallTraceElem> callTrace = new Stack<>();
     private List<LocalVar> localVars = new ArrayList<>();
@@ -33,15 +32,11 @@ public class CompileContext{
         this.model.add(model);
         this.model.add(schema);
         this.schema = schema;
-        this.infModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        this.infModel.add(model);
-        this.infModel.add(schema);
     }
 
     public CompileContext(CompileContext other){
         model = other.model;
         schema = other.schema;
-        infModel = other.infModel;
 
         scope = other.scope;
         definedMacros.addAll(other.definedMacros);
@@ -60,19 +55,12 @@ public class CompileContext{
         return schema;
     }
 
-    public OntModel getInfModel() {
-        return infModel;
-    }
-
     public void setModel(OntModel model) {
         this.model = model;
     }
 
     public void setSchema(OntModel schema) {
         this.schema = schema;
-        this.infModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF);
-        this.infModel.add(model);
-        this.infModel.add(schema);
     }
 
     public void stackTracePush(Individual directive) {
